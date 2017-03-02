@@ -5,31 +5,82 @@
 
 <struts>
 
-    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
-    <constant name="struts.devMode" value="true" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
 
-    <package name="default" namespace="/" extends="struts-default">
+	<package name="default" namespace="/" extends="struts-default">
 
-        <default-action-ref name="index" />
+		<default-action-ref name="index" />
 
-        <global-results>
-            <result name="error">/WEB-INF/jsp/error.jsp</result>
-        </global-results>
+		<global-results>
+			<result name="error">/WEB-INF/jsp/error.jsp</result>
+		</global-results>
 
-        <global-exception-mappings>
-            <exception-mapping exception="java.lang.Exception" result="error"/>
-        </global-exception-mappings>
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="error" />
+		</global-exception-mappings>
 
-        <action name="index">
-            <result type="redirectAction">
-                <param name="actionName">HelloWorld</param>
-                <param name="namespace">/example</param>
-            </result>
-        </action>
-    </package>
+		<action name="index">
+			<result type="redirectAction">
+				<param name="actionName">HelloWorld</param>
+				<param name="namespace">/example</param>
+			</result>
+		</action>
 
-    <include file="example.xml"/>
+		<action name="getAllClaims" class="vn.fpt.ec.actions.Claims"
+			method="getAllClaims">
+			<result name="SUCCESS">/student/claim/ListClaims.jsp</result>
+		</action>
+		<action name="addClaim" class="vn.fpt.ec.actions.Claims"
+			method="add">
+			<result name="SUCCESS">/student/claim/AddClaim.jsp</result>
+		</action>
+		<action name="saveaddclaim" class="vn.fpt.ec.actions.Claims"
+			method="addClaim">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">5097152</param>
 
-    <!-- Add packages here -->
+				<param name="allowedTypes">
+					image/png,image/gif,image/jpeg,image/pjpeg
+				</param>
+				<param name="allowedTypes"> application/pdf</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+
+			<result name="input">/student/claim/AddClaim.jsp</result>
+			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
+		</action>
+		<action name="updateClaim" class="vn.fpt.ec.actions.Claims"
+			method="update">
+			<result name="SUCCESS">/student/claim/AddClaim.jsp</result>
+		</action>
+		<action name="saveupdateclaim" class="vn.fpt.ec.actions.Claims"
+			method="updateClaim">
+			<result name="input">/student/claim/UpdateClaim.jsp</result>
+			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
+		</action>
+		<action name="deleteClaim" class="vn.fpt.ec.actions.Claims"
+			method="deleteClaim">
+			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
+		</action>
+
+
+		<action name="login">
+			<result>login.jsp</result>
+		</action>
+
+		<action name="loginprocess" class="vn.fpt.ec.actions.Login"
+			method="loginUser">
+			<result name="ADMIN">loginadmin.jsp</result>
+			<result name="EC">loginsuccess.jsp</result>
+			<result name="STUDENT">index.html</result>
+			<result name="error">loginerror.jsp</result>
+		</action>
+	</package>
+
+	<include file="example.xml" />
+
+	<!-- Add packages here -->
 
 </struts>
