@@ -76,6 +76,7 @@
 			<result name="EC">loginsuccess.jsp</result>
 			<result name="STUDENT">index.html</result>
 			<result name="error">loginerror.jsp</result>
+			<result name="LOGINERROR">loginnull.jsp</result>
 		</action>
 	</package>
 
