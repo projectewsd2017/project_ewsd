@@ -1,16 +1,12 @@
 package vn.fpt.ec.actions;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
-
 import vn.fpt.ec.dao.ClaimsDAO;
-
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
 
@@ -21,6 +17,8 @@ public class Claims extends ActionSupport implements ValidationAware {
 	 */
 	private static final long serialVersionUID = -4954629570486141056L;
 	private int id;
+	private String title;
+	private String content;
 	private int studentId;
 	private int facultyId;
 	private int ecCoordinatorID;
@@ -30,9 +28,9 @@ public class Claims extends ActionSupport implements ValidationAware {
 	private List<Claims> listClaims;
 	private Students student;
 	private ECCoordinator coordinator;
-	private File userImage;
-	private String userImageContentType;
-	private String userImageFileName;
+	private File pathEvidence;
+	private String pathEvidenceContentType;
+	private String pathEvidenceFileName;
 
 	public String getAllClaims() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
@@ -44,7 +42,7 @@ public class Claims extends ActionSupport implements ValidationAware {
 		return "SUCCESS";
 	}
 
-	public String addClaim() throws IOException {
+	public String addClaim() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
 		Date today = new Date(System.currentTimeMillis());
 		// SimpleDateFormat timeFormat= new
@@ -58,25 +56,84 @@ public class Claims extends ActionSupport implements ValidationAware {
 		dueDate = c2.getTime();
 		status = false;
 		// --------------------------------------
-		String filePath = "C://Temp//file"; 
-		File fileToCreate = new File(filePath, userImageFileName);
+		// String filePath = "C://Temp//file";
+		// File fileToCreate = new File(filePath, userImageFileName);
+		// try {
+		// FileUtils.copyFile(userImage, fileToCreate);
+		// } catch (IOException e1) {
+		// // TODO Auto-generated catch block
+		// e1.printStackTrace();
+		// }
+		// ....................................
+
 		try {
-			FileUtils.copyFile(userImage, fileToCreate);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+
+			String filePath = ServletActionContext.getServletContext()
+					.getRealPath("/").concat("evidence");
+
+			System.out.println("Image Location:" + filePath);// see the server
+																// console for
+																// actual
+																// location
+			File fileToCreate = new File(filePath, pathEvidenceFileName);
+			FileUtils.copyFile(pathEvidence, fileToCreate);// copying source
+															// file to new file
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			addActionError(e.getMessage());
+			return INPUT;
 		}
-		//....................................
-		
+
+		// ....................................
 
 		claimsDAO.insert(this);
+		return "SUCCESS";
+	}
+	
+	public String update() {
 		return "SUCCESS";
 	}
 
 	
 	
-	
-	
+	public String updateClaim() {
+		ClaimsDAO claimsDAO = new ClaimsDAO();
+		Date today = new Date(System.currentTimeMillis());
+		// SimpleDateFormat timeFormat= new
+		// SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.setTime(today);
+		c2.setTime(today);
+		c2.roll(Calendar.DATE, 14);
+		createDate = c1.getTime();
+		dueDate = c2.getTime();
+		status = false;
+		try {
+
+			String filePath = ServletActionContext.getServletContext()
+					.getRealPath("/").concat("evidence");
+
+			System.out.println("Image Location:" + filePath);// see the server
+																// console for
+																// actual
+																// location
+			File fileToCreate = new File(filePath, pathEvidenceFileName);
+			FileUtils.copyFile(pathEvidence, fileToCreate);// copying source
+															// file to new file
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			addActionError(e.getMessage());
+			return INPUT;
+		}
+
+		// ....................................
+
+		claimsDAO.update(this);
+		return "SUCCESS";
+	}
 	/*--------------getter & setter & constructor-----------*/
 	public Claims() {
 		// TODO Auto-generated constructor stub
@@ -154,28 +211,46 @@ public class Claims extends ActionSupport implements ValidationAware {
 		this.student = student;
 	}
 
-	public File getUserImage() {
-		return userImage;
+	
+
+	public String getTitle() {
+		return title;
 	}
 
-	public void setUserImage(File userImage) {
-		this.userImage = userImage;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getUserImageContentType() {
-		return userImageContentType;
+	public String getContent() {
+		return content;
 	}
 
-	public void setUserImageContentType(String userImageContentType) {
-		this.userImageContentType = userImageContentType;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
-	public String getUserImageFileName() {
-		return userImageFileName;
+	public File getPathEvidence() {
+		return pathEvidence;
 	}
 
-	public void setUserImageFileName(String userImageFileName) {
-		this.userImageFileName = userImageFileName;
+	public void setPathEvidence(File pathEvidence) {
+		this.pathEvidence = pathEvidence;
+	}
+
+	public String getPathEvidenceContentType() {
+		return pathEvidenceContentType;
+	}
+
+	public void setPathEvidenceContentType(String pathEvidenceContentType) {
+		this.pathEvidenceContentType = pathEvidenceContentType;
+	}
+
+	public String getPathEvidenceFileName() {
+		return pathEvidenceFileName;
+	}
+
+	public void setPathEvidenceFileName(String pathEvidenceFileName) {
+		this.pathEvidenceFileName = pathEvidenceFileName;
 	}
 
 	public ECCoordinator getCoordinator() {
@@ -186,5 +261,4 @@ public class Claims extends ActionSupport implements ValidationAware {
 		this.coordinator = coordinator;
 	}
 
-	
 }

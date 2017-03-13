@@ -15,5 +15,10 @@
 	<s:property value="name" />
 	<s:property value="password" />
 	<s:property value="email" />
+	<div class="container">
+		<div style="text-align: right">
+			<a href="login">login</a>| <a href="logout">logout</a>| <a
+				href="profile">profile</a>
+		</div>
 </body>
 </html>

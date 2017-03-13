@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
@@ -25,7 +25,8 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
-								<s:form action="saveaddclaim" class="form-horizontal" enctype="multipart/form-data">
+								<s:form action="saveaddclaim" class="form-horizontal"
+									enctype="multipart/form-data">
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="studentid">Student
 											ID:</label>
@@ -36,20 +37,30 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="facultyID">Faculty
-											ID:</label>
+										<label class="control-label col-sm-2" for="title">Title
+											:</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="facultyID"
-												name="facultyId" placeholder="Enter Faculty ID">
+											<input type="text" class="form-control" id="title"
+												name="title" placeholder="Enter Title">
 										</div>
 
 									</div>
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="file1">Attach
+										<label class="control-label col-sm-2" for="content">Content
+											:</label>
+										<div class="col-sm-10">
+											<textarea class="form-control" rows="5" id="content"
+												name="content" placeholder="Enter Content"></textarea>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="pathEvidence">Attach
 											supporting evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="file1"
-												name="userImage">
+											<input type="file" class="form-control" id="pathEvidence"
+												name="pathEvidence">
 										</div>
 
 									</div>

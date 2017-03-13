@@ -9,7 +9,6 @@ public class Students extends ActionSupport {
 	 */
 	private static final long serialVersionUID = -871025309049738154L;
 	private int id;
-	private int studentID;
 	private String studentName;
 	private String email;
 	private String address;
@@ -20,11 +19,10 @@ public class Students extends ActionSupport {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Students(int id, int studentID, String studentName, String email,
+	public Students(int id, String studentName, String email,
 			String address, int facultyId) {
 		super();
 		this.id = id;
-		this.studentID = studentID;
 		this.studentName = studentName;
 		this.email = email;
 		this.address = address;
@@ -39,13 +37,6 @@ public class Students extends ActionSupport {
 		this.id = id;
 	}
 
-	public int getStudentID() {
-		return studentID;
-	}
-
-	public void setStudentID(int studentID) {
-		this.studentID = studentID;
-	}
 
 	public String getStudentName() {
 		return studentName;

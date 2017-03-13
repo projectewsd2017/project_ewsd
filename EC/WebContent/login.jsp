@@ -29,6 +29,10 @@
 </head>
 <body>
 	<div class="container">
+		<div style="text-align: right">
+			<a href="login">login</a>| <a href="logout">logout</a>| <a
+				href="profile">profile</a>
+		</div>
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<div class="login-panel panel panel-default">
@@ -49,9 +53,9 @@
 								</div>
 
 								<div class="form-group">
-									
-										<button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
-									
+
+									<button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+
 								</div>
 						</s:form>
 					</div>

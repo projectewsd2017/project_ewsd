@@ -42,24 +42,27 @@
 				<param name="maximumSize">5097152</param>
 
 				<param name="allowedTypes">
-					image/png,image/gif,image/jpeg,image/pjpeg
+					image/png,image/gif,image/jpeg,image/pjpeg,application/pdf
 				</param>
-				<param name="allowedTypes"> application/pdf</param>
+
 			</interceptor-ref>
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 
 			<result name="input">/student/claim/AddClaim.jsp</result>
 			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
 		</action>
+
 		<action name="updateClaim" class="vn.fpt.ec.actions.Claims"
 			method="update">
-			<result name="SUCCESS">/student/claim/AddClaim.jsp</result>
+			<result name="SUCCESS">/student/claim/UpdateClaim.jsp</result>
 		</action>
+
 		<action name="saveupdateclaim" class="vn.fpt.ec.actions.Claims"
 			method="updateClaim">
 			<result name="input">/student/claim/UpdateClaim.jsp</result>
 			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
 		</action>
+
 		<action name="deleteClaim" class="vn.fpt.ec.actions.Claims"
 			method="deleteClaim">
 			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
@@ -77,6 +80,14 @@
 			<result name="STUDENT">index.html</result>
 			<result name="error">loginerror.jsp</result>
 			<result name="LOGINERROR">loginnull.jsp</result>
+		</action>
+		<action name="logout" class="vn.fpt.ec.actions.Login" method="logout">
+			<result name="SUCCESS">login.jsp</result>
+		</action>
+
+		<action name="profile" class="vn.fpt.ec.actions.Profile">
+			<result name="success">profilesuccess.jsp</result>
+			<result name="error">profileerror.jsp</result>
 		</action>
 	</package>
 

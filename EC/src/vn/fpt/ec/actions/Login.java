@@ -3,12 +3,14 @@ package vn.fpt.ec.actions;
 import java.util.Map;
 
 import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
 
 import vn.fpt.ec.dao.LoginDAO;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class Login extends ActionSupport {
+public class Login extends ActionSupport implements SessionAware {
 
 	/**
 	 * 
@@ -17,7 +19,7 @@ public class Login extends ActionSupport {
 	private String username;
 	private String pass;
 	private int roleId;
-	SessionMap<String, String> sessionmap;
+	private SessionMap<String, Object> sessionmap;
 
 	public String login() {
 		return SUCCESS;
@@ -26,8 +28,13 @@ public class Login extends ActionSupport {
 	public String loginUser() {
 		Login login = new Login();
 		LoginDAO loginDAO = new LoginDAO();
-		if (!username.isEmpty() && username != null && !pass.isEmpty() && pass != null) {
+		if (!username.isEmpty() && username != null && !pass.isEmpty()
+				&& pass != null) {
 			login = loginDAO.login(username, pass);
+			sessionmap.put("login", "true");
+			sessionmap.put("username", username);
+			sessionmap.put("role", login.getRoleId());
+			sessionmap.put("pass", pass);
 			if (login.getRoleId() == 1) {
 				return "ADMIN";
 			} else if (login.getRoleId() == 2) {
@@ -37,10 +44,14 @@ public class Login extends ActionSupport {
 			} else {
 				return "ERROR";
 			}
-		}else{
+		} else {
 			return "LOGINERROR";
 		}
-		
+	}
+
+	public String logout() {
+		sessionmap.invalidate();
+		return "SUCCESS";
 	}
 
 	public Login() {
@@ -78,7 +89,7 @@ public class Login extends ActionSupport {
 		this.roleId = roleId;
 	}
 
-	public SessionMap<String, String> getSessionmap() {
+	public SessionMap<String, Object> getSessionmap() {
 		return sessionmap;
 	}
 
