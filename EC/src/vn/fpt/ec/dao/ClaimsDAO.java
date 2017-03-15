@@ -146,4 +146,31 @@ public class ClaimsDAO {
 		}
 
 	}
+	
+	public Claims findById(int id){
+		Connection conn = DBConnection.open();
+		String findByIdString = "Select * From Claims Where id = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Claims claim = new Claims();
+		try {
+			pstmt = conn.prepareStatement(findByIdString);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			rs.next();
+			claim.setId(rs.getInt("id"));
+			claim.setStudentId(rs.getInt("studentID"));
+			claim.setTitle(rs.getString("title"));
+			claim.setContent(rs.getString("_content"));
+			claim.setPathEvidenceFileName(rs.getString("pathEvidence"));
+			claim.setCreateDate(rs.getDate("createDate"));
+			claim.setDueDate(rs.getDate("dueDate"));
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return claim;
+		
+	}
 }

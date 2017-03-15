@@ -53,6 +53,16 @@
 											<s:param name="id">
 												<s:property value="id" />
 											</s:param>
+											<s:param name="student.id">
+												<s:property value="student.id" />
+											</s:param>
+											<s:param name="title">
+												<s:property value="title" />
+											</s:param>
+											<s:param name="content">
+												<s:property value="content" />
+											</s:param>
+
 										</s:url>
 										<td style="text-align: center"><s:a href="%{updateid}">Update</s:a></td>
 										<s:url action="deleteClaim" var="deleteid">
@@ -61,45 +71,20 @@
 											</s:param>
 										</s:url>
 										<td style="text-align: center"><s:a href="%{deleteid}">Delete</s:a></td>
-										<td><a data-toggle="modal" data-target="#myModal">View</a></td>
+										<s:url action="searchById" var="searchById">
+											<s:param name="id">
+												<s:property value="id" />
+											</s:param>
+										</s:url>
+										<td><s:a href="%{searchById}">View</s:a></td>
+
 									</tr>
 								</s:iterator>
 							</table>
 						</div>
 
 
-						<div id="myModal" class="modal fade" role="dialog">
-							<div class="modal-dialog">
-
-								<!-- Modal content-->
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">&times;</button>
-										<h4 class="modal-title">Detail Evidence</h4>
-									</div>
-									<div class="modal-body">
-									
-									
-									
-									<div class="form-group">
-										<p>Student ID: <s:property value="student.id" /></p>
-										
-											
-										
-									</div>
-									
-										
-										
-										
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default"
-											data-dismiss="modal">Close</button>
-									</div>
-								</div>
-
-							</div>
-						</div>
+						
 
 
 
@@ -111,6 +96,6 @@
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

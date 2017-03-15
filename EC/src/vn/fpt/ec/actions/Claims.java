@@ -4,13 +4,23 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.dispatcher.SessionMap;
+import org.apache.struts2.interceptor.SessionAware;
+
 import vn.fpt.ec.dao.ClaimsDAO;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
 
-public class Claims extends ActionSupport implements ValidationAware {
+public class Claims extends ActionSupport implements ValidationAware,
+		SessionAware {
 
 	/**
 	 * 
@@ -31,10 +41,13 @@ public class Claims extends ActionSupport implements ValidationAware {
 	private File pathEvidence;
 	private String pathEvidenceContentType;
 	private String pathEvidenceFileName;
+	private SessionMap<String, Object> sessionmap;
+	
 
 	public String getAllClaims() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
 		listClaims = claimsDAO.getAllClaims();
+
 		return "SUCCESS";
 	}
 
@@ -90,14 +103,14 @@ public class Claims extends ActionSupport implements ValidationAware {
 		claimsDAO.insert(this);
 		return "SUCCESS";
 	}
-	
+
 	public String update() {
+
 		return "SUCCESS";
 	}
 
-	
-	
 	public String updateClaim() {
+
 		ClaimsDAO claimsDAO = new ClaimsDAO();
 		Date today = new Date(System.currentTimeMillis());
 		// SimpleDateFormat timeFormat= new
@@ -115,13 +128,16 @@ public class Claims extends ActionSupport implements ValidationAware {
 			String filePath = ServletActionContext.getServletContext()
 					.getRealPath("/").concat("evidence");
 
-			System.out.println("Image Location:" + filePath);// see the server
-																// console for
+			System.out.println("Image Location:" + filePath);// see the
+																// server
+																// console
+																// for
 																// actual
 																// location
 			File fileToCreate = new File(filePath, pathEvidenceFileName);
 			FileUtils.copyFile(pathEvidence, fileToCreate);// copying source
-															// file to new file
+															// file to new
+															// file
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -130,10 +146,30 @@ public class Claims extends ActionSupport implements ValidationAware {
 		}
 
 		// ....................................
-
 		claimsDAO.update(this);
 		return "SUCCESS";
 	}
+	
+	public String search(){
+		searchById();
+		return "SUCCESS";
+	}
+	
+	public Claims searchById(){
+		ClaimsDAO claimsDAO = new ClaimsDAO();
+		Claims claim = new Claims();
+		claim = claimsDAO.findById(id);
+		title = claim.getTitle();
+		student = claim.getStudent();
+		studentId = claim.getStudentId();
+		content = claim.getContent();
+		status = claim.isStatus();
+		createDate = claim.getCreateDate();
+		dueDate = claim.getDueDate();
+		pathEvidenceFileName = claim.getPathEvidenceFileName();
+		return claim;
+	}
+
 	/*--------------getter & setter & constructor-----------*/
 	public Claims() {
 		// TODO Auto-generated constructor stub
@@ -211,8 +247,6 @@ public class Claims extends ActionSupport implements ValidationAware {
 		this.student = student;
 	}
 
-	
-
 	public String getTitle() {
 		return title;
 	}
@@ -259,6 +293,15 @@ public class Claims extends ActionSupport implements ValidationAware {
 
 	public void setCoordinator(ECCoordinator coordinator) {
 		this.coordinator = coordinator;
+	}
+
+	public SessionMap<String, Object> getSessionmap() {
+		return sessionmap;
+	}
+
+	public void setSession(Map map) {
+		sessionmap = (SessionMap) map;
+
 	}
 
 }

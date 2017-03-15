@@ -67,7 +67,10 @@
 			method="deleteClaim">
 			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
 		</action>
-
+		<action name="searchById" class="vn.fpt.ec.actions.Claims"
+			method="search">
+			<result name="SUCCESS">/student/claim/show.jsp</result>
+		</action>
 
 		<action name="login">
 			<result>login.jsp</result>
