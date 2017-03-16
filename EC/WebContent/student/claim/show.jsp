@@ -13,7 +13,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					
+
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
@@ -25,7 +25,7 @@
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="studentid"
 												name="studentId" placeholder="Enter Student ID"
-												value="${studentId}">
+												value="${studentId}" readonly="readonly">
 										</div>
 									</div>
 
@@ -34,7 +34,7 @@
 											:</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="title"
-												name="title" placeholder="Enter Title" value="${title }">
+												name="title" placeholder="Enter Title" value="${title }" readonly="readonly">
 
 										</div>
 
@@ -44,27 +44,37 @@
 										<label class="control-label col-sm-2" for="content">Content
 											:</label>
 										<div class="col-sm-10">
-											<textarea class="form-control" rows="5" id="content"
+											<textarea class="form-control" rows="5" id="content" readonly="readonly"
 												name="content" placeholder="Enter Content">${content}</textarea>
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="createDate">Created Date
-											:</label>
+										<label class="control-label col-sm-2" for="createDate">Created
+											Date :</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="createDate"
-												name="createDate" placeholder="Enter Title" value="${createDate }">
+												name="createDate" placeholder="Enter Title"
+												value="${createDate }" readonly="readonly">
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="dueDate">Due Date
+										<label class="control-label col-sm-2" for="dueDate">Due
+											Date :</label>
+										<div class="col-sm-10">
+
+											<s:property value="dueDate" />
+
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="status">status
 											:</label>
 										<div class="col-sm-10">
-											
-												<s:property value="dueDate"/>
+
+											<s:property value="statusContent" />
 
 										</div>
 									</div>
@@ -72,13 +82,31 @@
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-10">
-											<a
-											href="evidence/<s:property value="pathEvidenceFileName"/>"
-											download>download file</a>
+											<a href="evidence/<s:property value="pathEvidenceFileName"/>"
+												download>download file</a>
 										</div>
 
 									</div>
 							</div>
+							<s:url action="updateClaim" var="updateid">
+								<s:param name="id">
+									<s:property value="id" />
+								</s:param>
+								<s:param name="studentId">
+									<s:property value="studentId" />
+								</s:param>
+								<s:param name="title">
+									<s:property value="title" />
+								</s:param>
+								<s:param name="content">
+									<s:property value="content" />
+								</s:param>
+
+							</s:url>
+							<button>
+								<s:a href="%{updateid}">Update</s:a>
+							</button>
+
 							</s:form>
 						</div>
 					</div>

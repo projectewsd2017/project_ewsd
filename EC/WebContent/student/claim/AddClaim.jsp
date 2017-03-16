@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="/struts-dojo-tags" prefix="d"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<d:head />
 </head>
 <body>
 	<div id="wrapper">
@@ -32,7 +34,9 @@
 											ID:</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="studentid"
-												name="studentId" placeholder="Enter Student ID">
+												name="studentId" placeholder="Enter Student ID" required="true"
+												maxlength="10">
+										
 										</div>
 									</div>
 
@@ -41,7 +45,8 @@
 											:</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="title"
-												name="title" placeholder="Enter Title">
+												name="title" placeholder="Enter Title" required="true"
+												maxlength="30">
 										</div>
 
 									</div>
@@ -50,8 +55,8 @@
 										<label class="control-label col-sm-2" for="content">Content
 											:</label>
 										<div class="col-sm-10">
-											<textarea class="form-control" rows="5" id="content"
-												name="content" placeholder="Enter Content"></textarea>
+											<textarea class="form-control" rows="5" id="content" maxlength="300"
+												name="content" placeholder="Enter Content" required="true"></textarea>
 										</div>
 									</div>
 
@@ -60,7 +65,7 @@
 											supporting evidence:</label>
 										<div class="col-sm-10">
 											<input type="file" class="form-control" id="pathEvidence"
-												name="pathEvidence">
+												name="pathEvidence" required="true">
 										</div>
 
 									</div>

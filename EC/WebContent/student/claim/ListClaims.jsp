@@ -29,7 +29,6 @@
 									<th>Student ID</th>
 									<th>Student Name</th>
 									<th>Title</th>
-									<th>Content</th>
 									<th>Status</th>
 									<th>Created Date</th>
 									<th>Due Date</th>
@@ -42,29 +41,14 @@
 										<td><s:property value="student.id" /></td>
 										<td><s:property value="student.studentName" /></td>
 										<td><s:property value="title" /></td>
-										<td><s:property value="content" /></td>
+
 										<td><s:property value="status" /></td>
 										<td><s:property value="createDate" /></td>
 										<td><s:property value="dueDate" /></td>
 										<td><a
 											href="evidence/<s:property value="pathEvidenceFileName"/>"
 											download>download file</a></td>
-										<s:url action="updateClaim" var="updateid">
-											<s:param name="id">
-												<s:property value="id" />
-											</s:param>
-											<s:param name="student.id">
-												<s:property value="student.id" />
-											</s:param>
-											<s:param name="title">
-												<s:property value="title" />
-											</s:param>
-											<s:param name="content">
-												<s:property value="content" />
-											</s:param>
 
-										</s:url>
-										<td style="text-align: center"><s:a href="%{updateid}">Update</s:a></td>
 										<s:url action="deleteClaim" var="deleteid">
 											<s:param name="id">
 												<s:property value="id" />
@@ -84,7 +68,7 @@
 						</div>
 
 
-						
+
 
 
 

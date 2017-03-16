@@ -165,6 +165,7 @@ public class ClaimsDAO {
 			claim.setPathEvidenceFileName(rs.getString("pathEvidence"));
 			claim.setCreateDate(rs.getDate("createDate"));
 			claim.setDueDate(rs.getDate("dueDate"));
+			claim.setStatus(rs.getBoolean("status"));
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

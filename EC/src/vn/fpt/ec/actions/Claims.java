@@ -42,7 +42,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private String pathEvidenceContentType;
 	private String pathEvidenceFileName;
 	private SessionMap<String, Object> sessionmap;
-	
+	private String statusContent;
 
 	public String getAllClaims() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
@@ -68,30 +68,15 @@ public class Claims extends ActionSupport implements ValidationAware,
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
 		status = false;
-		// --------------------------------------
-		// String filePath = "C://Temp//file";
-		// File fileToCreate = new File(filePath, userImageFileName);
-		// try {
-		// FileUtils.copyFile(userImage, fileToCreate);
-		// } catch (IOException e1) {
-		// // TODO Auto-generated catch block
-		// e1.printStackTrace();
-		// }
-		// ....................................
 
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
 					.getRealPath("/").concat("evidence");
 
-			System.out.println("Image Location:" + filePath);// see the server
-																// console for
-																// actual
-																// location
+			System.out.println("Image Location:" + filePath);
 			File fileToCreate = new File(filePath, pathEvidenceFileName);
-			FileUtils.copyFile(pathEvidence, fileToCreate);// copying source
-															// file to new file
-
+			FileUtils.copyFile(pathEvidence, fileToCreate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(e.getMessage());
@@ -104,6 +89,12 @@ public class Claims extends ActionSupport implements ValidationAware,
 		return "SUCCESS";
 	}
 
+	// public void validate() {
+	// if (title == null || title.trim().length() < 1)
+	// addFieldError("name", "Name can't be blank");
+	// if (content == null ||content.length() < 6)
+	// addFieldError("password", "Password must be greater than 5");
+	// }
 	public String update() {
 
 		return "SUCCESS";
@@ -149,13 +140,13 @@ public class Claims extends ActionSupport implements ValidationAware,
 		claimsDAO.update(this);
 		return "SUCCESS";
 	}
-	
-	public String search(){
+
+	public String search() {
 		searchById();
 		return "SUCCESS";
 	}
-	
-	public Claims searchById(){
+
+	public Claims searchById() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
 		Claims claim = new Claims();
 		claim = claimsDAO.findById(id);
@@ -167,7 +158,18 @@ public class Claims extends ActionSupport implements ValidationAware,
 		createDate = claim.getCreateDate();
 		dueDate = claim.getDueDate();
 		pathEvidenceFileName = claim.getPathEvidenceFileName();
+		if (claim.isStatus() == true) {
+			statusContent = "Processed";
+		} else {
+			statusContent = "Open";
+		}
 		return claim;
+	}
+
+	public String deleteClaim() {
+		ClaimsDAO claimsDAO = new ClaimsDAO();
+		claimsDAO.delete(id);
+		return "SUCCESS";
 	}
 
 	/*--------------getter & setter & constructor-----------*/
@@ -302,6 +304,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 	public void setSession(Map map) {
 		sessionmap = (SessionMap) map;
 
+	}
+
+	public String getStatusContent() {
+		return statusContent;
+	}
+
+	public void setStatusContent(String statusContent) {
+		this.statusContent = statusContent;
 	}
 
 }

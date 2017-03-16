@@ -33,8 +33,8 @@
 											ID:</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="studentid"
-												name="studentId" placeholder="Enter Student ID"
-												value="${student.id}">
+												name="studentId" placeholder="Enter Student ID" maxlength="10"
+												value="${studentId}" required="true">
 										</div>
 									</div>
 
@@ -42,8 +42,9 @@
 										<label class="control-label col-sm-2" for="title">Title
 											:</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="title"
-												name="title" placeholder="Enter Title" value="${title }">
+											<input type="text" class="form-control" id="title" maxlength="50"
+												name="title" placeholder="Enter Title" value="${title }"
+												required="true">
 
 										</div>
 
@@ -53,8 +54,8 @@
 										<label class="control-label col-sm-2" for="content">Content
 											:</label>
 										<div class="col-sm-10">
-											<textarea class="form-control" rows="5" id="content"
-												name="content" placeholder="Enter Content" >${content}</textarea>
+											<textarea class="form-control" rows="5" id="content" maxlength="300"
+												name="content" placeholder="Enter Content" required="true">${content}</textarea>
 										</div>
 									</div>
 
@@ -63,7 +64,7 @@
 											supporting evidence:</label>
 										<div class="col-sm-10">
 											<input type="file" class="form-control" id="pathEvidence"
-												name="pathEvidence">
+												name="pathEvidence" required="true">
 										</div>
 
 									</div>

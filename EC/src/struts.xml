@@ -38,6 +38,7 @@
 		</action>
 		<action name="saveaddclaim" class="vn.fpt.ec.actions.Claims"
 			method="addClaim">
+
 			<interceptor-ref name="fileUpload">
 				<param name="maximumSize">5097152</param>
 
@@ -47,9 +48,11 @@
 
 			</interceptor-ref>
 			<interceptor-ref name="defaultStack"></interceptor-ref>
-
-			<result name="input">/student/claim/AddClaim.jsp</result>
+			<interceptor-ref name="params"></interceptor-ref>
+			<interceptor-ref name="validation"></interceptor-ref>
+			<interceptor-ref name="workflow"></interceptor-ref>
 			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
+			<result name="input">/student/claim/AddClaim.jsp</result>
 		</action>
 
 		<action name="updateClaim" class="vn.fpt.ec.actions.Claims"
@@ -94,7 +97,7 @@
 		</action>
 	</package>
 
-	<include file="example.xml" />
+	
 
 	<!-- Add packages here -->
 
