@@ -48,7 +48,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private String pathEvidenceFileName3;
 	private List<Claims> listClaims;
 	private Students student;
-	
+	private ClaimType claimType;
 
 	private SessionMap<String, Object> sessionmap;
 
@@ -340,6 +340,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public void setPathEvidenceFileName3(String pathEvidenceFileName3) {
 		this.pathEvidenceFileName3 = pathEvidenceFileName3;
+	}
+
+	public ClaimType getClaimType() {
+		return claimType;
+	}
+
+	public void setClaimType(ClaimType claimType) {
+		this.claimType = claimType;
 	}
 
 	public SessionMap<String, Object> getSessionmap() {

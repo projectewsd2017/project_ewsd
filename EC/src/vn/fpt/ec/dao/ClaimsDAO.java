@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.fpt.ec.actions.ClaimType;
 import vn.fpt.ec.actions.Claims;
 import vn.fpt.ec.actions.Students;
 import vn.fpt.ec.connection.DBConnection;
@@ -21,9 +22,14 @@ public class ClaimsDAO {
 		Claims claims = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		String selectString = "SELECT C.id as claimId,C.title,C._content,C.status,C.createdDate,C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
-				+ "S.id as sId,S.studentName,S.email,S.address,S.facultyID "
-				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id ";
+		String selectString = "SELECT C.id as claimId,C.title,C._content,C.status,C.createdDate,"
+				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
+				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
+				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "CT.id as cTypeId,CT.ClaimName,CT.Description "
+				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
+				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id";
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
@@ -32,17 +38,30 @@ public class ClaimsDAO {
 				students.setId(rs.getInt("sId"));
 				students.setFirstName(rs.getString("firstName"));
 				students.setLastName(rs.getString("lastName"));
+				students.setDob(rs.getDate("dob"));
 				students.setEmail(rs.getString("email"));
 				students.setAddress(rs.getString("address"));
+				students.setSex(rs.getBoolean("sex"));
+				students.setPhoneNumber(rs.getString("phonenumber"));
+				students.setFatherName(rs.getString("fatherName"));
+				students.setMotherName(rs.getString("motherName"));
+				students.setFatherProfession(rs.getString("fatherProfession"));
+				students.setMotherProfession(rs.getString("motherProfession"));
+				students.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
+				students.setMotherOfWork(rs.getString("motherPlaceOfWork"));
 				students.setFacultyId(rs.getInt("facultyID"));
-			
+
+				ClaimType claimType = new ClaimType();
+				claimType.setId(rs.getInt("cTypeId"));
+				claimType.setClaimName(rs.getString("ClaimName"));
+				claimType.setDescription(rs.getString("Description"));
+
 				claims = new Claims();
 				claims.setId(rs.getInt("claimId"));
 				claims.setContent(rs.getString("_content"));
 				claims.setTitle(rs.getString("title"));
 				claims.setStudentId(rs.getInt(students.getId()));
 				claims.setFacultyId(rs.getInt(students.getFacultyId()));
-				claims.setEcCoordinatorID(rs.getInt("ecCoordinatorID"));
 				claims.setStatus(rs.getString("status"));
 				claims.setCreateDate(rs.getDate("createDate"));
 				claims.setDueDate(rs.getDate("dueDate"));
@@ -50,7 +69,8 @@ public class ClaimsDAO {
 				claims.setPathEvidenceFileName1(rs.getString("pathEvidence1"));
 				claims.setPathEvidenceFileName2(rs.getString("pathEvidence2"));
 				claims.setPathEvidenceFileName3(rs.getString("pathEvidence3"));
-				
+				claims.setClaimType(claimType);
+
 				list.add(claims);
 
 			}
@@ -67,8 +87,9 @@ public class ClaimsDAO {
 	public void insert(Claims c) {
 		Connection conn = DBConnection.open();
 		PreparedStatement pstmt = null;
-		String insertString = "INSERT INTO Claims(studentID,title,_content,ecCoordinatorID,status,createDate,dueDate,pathEvidence1,pathEvidence2,pathEvidence3) "
-				+ "values (?,?,?,?,?,?,?,?,?,?) ";
+		String insertString = "INSERT INTO Claims(studentID,title,_content,ecCoordinatorID,status,"
+				+ "createDate,dueDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID) "
+				+ "values (?,?,?,?,?,?,?,?,?,?,?) ";
 
 		try {
 
@@ -83,6 +104,7 @@ public class ClaimsDAO {
 			pstmt.setString(8, c.getPathEvidenceFileName1());
 			pstmt.setString(9, c.getPathEvidenceFileName2());
 			pstmt.setString(10, c.getPathEvidenceFileName3());
+			pstmt.setInt(11, c.getClaimType().getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -96,8 +118,9 @@ public class ClaimsDAO {
 	public void update(Claims c) {
 		Connection conn = DBConnection.open();
 		PreparedStatement pstmt = null;
-		String insertString = "UPDATE Claims set studentID =?,title = ?,_content =?,pathEvidence1 = ?,pathEvidence2 = ?,pathEvidence3 = ?,status =?,"
-				+ "createDate = ?,dueDate = ? WHERE id =?";
+		String insertString = "UPDATE Claims set studentID =?,title = ?,_content =?,pathEvidence1 = ?,"
+				+ "pathEvidence2 = ?,pathEvidence3 = ?,status =?,"
+				+ "createDate = ?,dueDate = ?,claimTypeID =? WHERE id =?";
 
 		try {
 			pstmt = conn.prepareStatement(insertString);
@@ -110,7 +133,8 @@ public class ClaimsDAO {
 			pstmt.setString(7, c.getStatus());
 			pstmt.setDate(8, new Date(c.getCreateDate().getTime()));
 			pstmt.setDate(9, new Date(c.getDueDate().getTime()));
-			pstmt.setInt(10, c.getId());
+			pstmt.setInt(10, c.getClaimType().getId());
+			pstmt.setInt(11, c.getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {

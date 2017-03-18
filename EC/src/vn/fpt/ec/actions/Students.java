@@ -22,7 +22,7 @@ public class Students extends ActionSupport {
 	private int facultyId;
 	private String phoneNumber;
 	private String fatherName;
-	private String motherNumber;
+	private String motherName;
 	private String fatherProfession;
 	private String motherProfession;
 	private String fatherOfWork;
@@ -129,12 +129,12 @@ public class Students extends ActionSupport {
 		this.fatherName = fatherName;
 	}
 
-	public String getMotherNumber() {
-		return motherNumber;
+	public String getMotherName() {
+		return motherName;
 	}
 
-	public void setMotherNumber(String motherNumber) {
-		this.motherNumber = motherNumber;
+	public void setMotherName(String motherName) {
+		this.motherName = motherName;
 	}
 
 	public String getFatherProfession() {
@@ -168,7 +168,5 @@ public class Students extends ActionSupport {
 	public void setMotherOfWork(String motherOfWork) {
 		this.motherOfWork = motherOfWork;
 	}
-	
-	
 
 }
