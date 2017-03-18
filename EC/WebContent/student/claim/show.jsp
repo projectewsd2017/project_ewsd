@@ -82,7 +82,25 @@
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-10">
-											<a href="evidence/<s:property value="pathEvidenceFileName"/>"
+											<a href="evidence/<s:property value="pathEvidenceFileName1"/>"
+												download>download file</a>
+										</div>
+
+									</div>
+									
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
+										<div class="col-sm-10">
+											<a href="evidence/<s:property value="pathEvidenceFileName2"/>"
+												download>download file</a>
+										</div>
+
+									</div>
+									
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
+										<div class="col-sm-10">
+											<a href="evidence/<s:property value="pathEvidenceFileName3"/>"
 												download>download file</a>
 										</div>
 

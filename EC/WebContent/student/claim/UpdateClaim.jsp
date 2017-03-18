@@ -33,8 +33,8 @@
 											ID:</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="studentid"
-												name="studentId" placeholder="Enter Student ID" maxlength="10"
-												value="${studentId}" required="true">
+												name="studentId" placeholder="Enter Student ID"
+												maxlength="10" value="${studentId}" required="true">
 										</div>
 									</div>
 
@@ -42,9 +42,9 @@
 										<label class="control-label col-sm-2" for="title">Title
 											:</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="title" maxlength="50"
-												name="title" placeholder="Enter Title" value="${title }"
-												required="true">
+											<input type="text" class="form-control" id="title"
+												maxlength="50" name="title" placeholder="Enter Title"
+												value="${title }" required="true">
 
 										</div>
 
@@ -54,17 +54,38 @@
 										<label class="control-label col-sm-2" for="content">Content
 											:</label>
 										<div class="col-sm-10">
-											<textarea class="form-control" rows="5" id="content" maxlength="300"
-												name="content" placeholder="Enter Content" required="true">${content}</textarea>
+											<textarea class="form-control" rows="5" id="content"
+												maxlength="300" name="content" placeholder="Enter Content"
+												required="true">${content}</textarea>
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence">Attach
+										<label class="control-label col-sm-2" for="pathEvidence1">Attach
 											supporting evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence"
-												name="pathEvidence" required="true">
+											<input type="file" class="form-control" id="pathEvidence1"
+												name="pathEvidence1" required="true">
+										</div>
+
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="pathEvidence2">Attach
+											supporting evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence2"
+												name="pathEvidence2" required="true">
+										</div>
+
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="pathEvidence3">Attach
+											supporting evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence3"
+												name="pathEvidence3" required="true">
 										</div>
 
 									</div>

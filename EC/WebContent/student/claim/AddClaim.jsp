@@ -34,9 +34,9 @@
 											ID:</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="studentid"
-												name="studentId" placeholder="Enter Student ID" required="true"
-												maxlength="10">
-										
+												name="studentId" placeholder="Enter Student ID"
+												required="true" maxlength="10">
+
 										</div>
 									</div>
 
@@ -55,17 +55,38 @@
 										<label class="control-label col-sm-2" for="content">Content
 											:</label>
 										<div class="col-sm-10">
-											<textarea class="form-control" rows="5" id="content" maxlength="300"
-												name="content" placeholder="Enter Content" required="true"></textarea>
+											<textarea class="form-control" rows="5" id="content"
+												maxlength="300" name="content" placeholder="Enter Content"
+												required="true"></textarea>
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence">Attach
+										<label class="control-label col-sm-2" for="pathEvidence1">Attach
 											supporting evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence"
-												name="pathEvidence" required="true">
+											<input type="file" class="form-control" id="pathEvidence1"
+												name="pathEvidence1" required="true">
+										</div>
+
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="pathEvidence2">Attach
+											supporting evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence2"
+												name="pathEvidence2" required="true">
+										</div>
+
+									</div>
+
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="pathEvidence3">Attach
+											supporting evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence3"
+												name="pathEvidence3" required="true">
 										</div>
 
 									</div>

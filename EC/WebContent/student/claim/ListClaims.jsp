@@ -32,7 +32,7 @@
 									<th>Status</th>
 									<th>Created Date</th>
 									<th>Due Date</th>
-									<th>Evidence</th>
+									
 
 									<th colspan="3" style="text-align: center;">Action</th>
 								</tr>
@@ -45,10 +45,7 @@
 										<td><s:property value="status" /></td>
 										<td><s:property value="createDate" /></td>
 										<td><s:property value="dueDate" /></td>
-										<td><a
-											href="evidence/<s:property value="pathEvidenceFileName"/>"
-											download>download file</a></td>
-
+										
 										<s:url action="deleteClaim" var="deleteid">
 											<s:param name="id">
 												<s:property value="id" />

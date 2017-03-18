@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.SessionMap;
@@ -15,7 +13,6 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import vn.fpt.ec.dao.ClaimsDAO;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
 
@@ -26,23 +23,34 @@ public class Claims extends ActionSupport implements ValidationAware,
 	 * 
 	 */
 	private static final long serialVersionUID = -4954629570486141056L;
+	private final String open = "OPEN";
+	private final String processing = "PROCESSING";
+	private final String processed = "PROCESSED";
+	private final String noEvidence = "NO EVIDENCE";
+	private final String overDue = "OVER DUE";
 	private int id;
 	private String title;
 	private String content;
 	private int studentId;
 	private int facultyId;
 	private int ecCoordinatorID;
-	private boolean status;
+	private String status;
 	private Date createDate;
 	private Date dueDate;
+	private File pathEvidence1;
+	private File pathEvidence2;
+	private File pathEvidence3;
+	private String pathEvidenceContentType1;
+	private String pathEvidenceContentType2;
+	private String pathEvidenceContentType3;
+	private String pathEvidenceFileName1;
+	private String pathEvidenceFileName2;
+	private String pathEvidenceFileName3;
 	private List<Claims> listClaims;
 	private Students student;
-	private ECCoordinator coordinator;
-	private File pathEvidence;
-	private String pathEvidenceContentType;
-	private String pathEvidenceFileName;
+	
+
 	private SessionMap<String, Object> sessionmap;
-	private String statusContent;
 
 	public String getAllClaims() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
@@ -67,7 +75,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
-		status = false;
+		this.setStatus(open);
 
 		try {
 
@@ -75,8 +83,12 @@ public class Claims extends ActionSupport implements ValidationAware,
 					.getRealPath("/").concat("evidence");
 
 			System.out.println("Image Location:" + filePath);
-			File fileToCreate = new File(filePath, pathEvidenceFileName);
-			FileUtils.copyFile(pathEvidence, fileToCreate);
+			File fileToCreate1 = new File(filePath, pathEvidenceFileName1);
+			File fileToCreate2 = new File(filePath, pathEvidenceFileName2);
+			File fileToCreate3 = new File(filePath, pathEvidenceFileName3);
+			FileUtils.copyFile(pathEvidence1, fileToCreate1);
+			FileUtils.copyFile(pathEvidence2, fileToCreate2);
+			FileUtils.copyFile(pathEvidence3, fileToCreate3);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(e.getMessage());
@@ -113,23 +125,19 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
-		status = false;
+
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
 					.getRealPath("/").concat("evidence");
 
-			System.out.println("Image Location:" + filePath);// see the
-																// server
-																// console
-																// for
-																// actual
-																// location
-			File fileToCreate = new File(filePath, pathEvidenceFileName);
-			FileUtils.copyFile(pathEvidence, fileToCreate);// copying source
-															// file to new
-															// file
-
+			System.out.println("Image Location:" + filePath);
+			File fileToCreate1 = new File(filePath, pathEvidenceFileName1);
+			File fileToCreate2 = new File(filePath, pathEvidenceFileName2);
+			File fileToCreate3 = new File(filePath, pathEvidenceFileName3);
+			FileUtils.copyFile(pathEvidence1, fileToCreate1);
+			FileUtils.copyFile(pathEvidence2, fileToCreate2);
+			FileUtils.copyFile(pathEvidence3, fileToCreate3);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(e.getMessage());
@@ -154,15 +162,12 @@ public class Claims extends ActionSupport implements ValidationAware,
 		student = claim.getStudent();
 		studentId = claim.getStudentId();
 		content = claim.getContent();
-		status = claim.isStatus();
+		status = claim.getStatus();
 		createDate = claim.getCreateDate();
 		dueDate = claim.getDueDate();
-		pathEvidenceFileName = claim.getPathEvidenceFileName();
-		if (claim.isStatus() == true) {
-			statusContent = "Processed";
-		} else {
-			statusContent = "Open";
-		}
+		pathEvidenceFileName1 = claim.getPathEvidenceFileName1();
+		pathEvidenceFileName2 = claim.getPathEvidenceFileName2();
+		pathEvidenceFileName3 = claim.getPathEvidenceFileName3();
 		return claim;
 	}
 
@@ -209,11 +214,11 @@ public class Claims extends ActionSupport implements ValidationAware,
 		this.ecCoordinatorID = ecCoordinatorID;
 	}
 
-	public boolean isStatus() {
+	public String getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
 
@@ -265,36 +270,76 @@ public class Claims extends ActionSupport implements ValidationAware,
 		this.content = content;
 	}
 
-	public File getPathEvidence() {
-		return pathEvidence;
+	public File getPathEvidence1() {
+		return pathEvidence1;
 	}
 
-	public void setPathEvidence(File pathEvidence) {
-		this.pathEvidence = pathEvidence;
+	public void setPathEvidence1(File pathEvidence1) {
+		this.pathEvidence1 = pathEvidence1;
 	}
 
-	public String getPathEvidenceContentType() {
-		return pathEvidenceContentType;
+	public File getPathEvidence2() {
+		return pathEvidence2;
 	}
 
-	public void setPathEvidenceContentType(String pathEvidenceContentType) {
-		this.pathEvidenceContentType = pathEvidenceContentType;
+	public void setPathEvidence2(File pathEvidence2) {
+		this.pathEvidence2 = pathEvidence2;
 	}
 
-	public String getPathEvidenceFileName() {
-		return pathEvidenceFileName;
+	public File getPathEvidence3() {
+		return pathEvidence3;
 	}
 
-	public void setPathEvidenceFileName(String pathEvidenceFileName) {
-		this.pathEvidenceFileName = pathEvidenceFileName;
+	public void setPathEvidence3(File pathEvidence3) {
+		this.pathEvidence3 = pathEvidence3;
 	}
 
-	public ECCoordinator getCoordinator() {
-		return coordinator;
+	public String getPathEvidenceContentType1() {
+		return pathEvidenceContentType1;
 	}
 
-	public void setCoordinator(ECCoordinator coordinator) {
-		this.coordinator = coordinator;
+	public void setPathEvidenceContentType1(String pathEvidenceContentType1) {
+		this.pathEvidenceContentType1 = pathEvidenceContentType1;
+	}
+
+	public String getPathEvidenceContentType2() {
+		return pathEvidenceContentType2;
+	}
+
+	public void setPathEvidenceContentType2(String pathEvidenceContentType2) {
+		this.pathEvidenceContentType2 = pathEvidenceContentType2;
+	}
+
+	public String getPathEvidenceContentType3() {
+		return pathEvidenceContentType3;
+	}
+
+	public void setPathEvidenceContentType3(String pathEvidenceContentType3) {
+		this.pathEvidenceContentType3 = pathEvidenceContentType3;
+	}
+
+	public String getPathEvidenceFileName1() {
+		return pathEvidenceFileName1;
+	}
+
+	public void setPathEvidenceFileName1(String pathEvidenceFileName1) {
+		this.pathEvidenceFileName1 = pathEvidenceFileName1;
+	}
+
+	public String getPathEvidenceFileName2() {
+		return pathEvidenceFileName2;
+	}
+
+	public void setPathEvidenceFileName2(String pathEvidenceFileName2) {
+		this.pathEvidenceFileName2 = pathEvidenceFileName2;
+	}
+
+	public String getPathEvidenceFileName3() {
+		return pathEvidenceFileName3;
+	}
+
+	public void setPathEvidenceFileName3(String pathEvidenceFileName3) {
+		this.pathEvidenceFileName3 = pathEvidenceFileName3;
 	}
 
 	public SessionMap<String, Object> getSessionmap() {
@@ -304,14 +349,6 @@ public class Claims extends ActionSupport implements ValidationAware,
 	public void setSession(Map map) {
 		sessionmap = (SessionMap) map;
 
-	}
-
-	public String getStatusContent() {
-		return statusContent;
-	}
-
-	public void setStatusContent(String statusContent) {
-		this.statusContent = statusContent;
 	}
 
 }
