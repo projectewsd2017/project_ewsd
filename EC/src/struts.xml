@@ -74,6 +74,50 @@
 			method="search">
 			<result name="SUCCESS">/student/claim/show.jsp</result>
 		</action>
+		
+		
+		
+		
+		
+		
+		<action name="getAllType" class="vn.fpt.ec.actions.ClaimType"
+			method="getAllType">
+			<result name="SUCCESS">/student/claimtype/ListClaimType.jsp</result>
+		</action>
+		<action name="addType" class="vn.fpt.ec.actions.ClaimType"
+			method="add">
+			<result name="SUCCESS">/student/claimtype/AddClaimType.jsp</result>
+		</action>
+		<action name="saveaddclaimtype" class="vn.fpt.ec.actions.ClaimType"
+			method="addType">
+			<result name="SUCCESS" type="redirectAction">getAllType</result>
+			<result name="input">/student/claimtype/AddClaimType.jsp</result>
+		</action>
+
+		<action name="updateClaimType" class="vn.fpt.ec.actions.ClaimType"
+			method="update">
+			<result name="SUCCESS">/student/claimtype/UpdateClaimType.jsp</result>
+		</action>
+
+		<action name="saveupdateclaimtype" class="vn.fpt.ec.actions.ClaimType"
+			method="updateType">
+			<result name="input">/student/claimtype/UpdateClaimType.jsp</result>
+			<result name="SUCCESS" type="redirectAction">getAllType</result>
+		</action>
+
+		<action name="deleteType" class="vn.fpt.ec.actions.ClaimType"
+			method="deleteType">
+			<result name="SUCCESS" type="redirectAction">getAllType</result>
+		</action>
+		<action name="searchByIdType" class="vn.fpt.ec.actions.ClaimType"
+			method="search">
+			<result name="SUCCESS">/student/claimtype/Detail.jsp</result>
+		</action>
+		
+		
+		
+		
+		
 
 		<action name="login">
 			<result>login.jsp</result>

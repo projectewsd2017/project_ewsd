@@ -49,7 +49,6 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private List<Claims> listClaims;
 	private Students student;
 	private ClaimType claimType;
-
 	private SessionMap<String, Object> sessionmap;
 
 	public String getAllClaims() {
