@@ -5,14 +5,14 @@
 	<field name="claimName">
 		<field-validator type="required">
 			<message>
-				The name is required sdasd.
+				The name is required.
 			</message>
 		</field-validator>
 	</field>
 	<field name="description">
 		<field-validator type="required">
 			<message>
-				The description is required asdad.
+				The description is required.
 			</message>
 		</field-validator>
 	</field>

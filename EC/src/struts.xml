@@ -7,6 +7,7 @@
 
 	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
 	<constant name="struts.devMode" value="true" />
+	
 
 	<package name="default" namespace="/" extends="struts-default">
 
@@ -90,6 +91,10 @@
 		</action>
 		<action name="saveaddclaimtype" class="vn.fpt.ec.actions.ClaimType"
 			method="addType">
+			
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
 			<result name="SUCCESS" type="redirectAction">getAllType</result>
 			<result name="input">/student/claimtype/AddClaimType.jsp</result>
 		</action>

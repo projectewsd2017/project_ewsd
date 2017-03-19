@@ -98,8 +98,9 @@
 											<button type="submit" class="btn btn-default">Save</button>
 										</div>
 									</div>
+								</s:form>
 							</div>
-							</s:form>
+
 						</div>
 					</div>
 				</div>
