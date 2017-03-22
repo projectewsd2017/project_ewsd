@@ -39,7 +39,7 @@
 								<s:iterator value="listClaims" var="list">
 									<tr>
 										<td><s:property value="student.id" /></td>
-										<td><s:property value="student.studentName" /></td>
+										<td><s:property value="student.firstName +' '+ student.lastName" /></td>
 										<td><s:property value="title" /></td>
 
 										<td><s:property value="status" /></td>

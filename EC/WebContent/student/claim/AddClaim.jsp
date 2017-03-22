@@ -5,9 +5,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <d:head />
+<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+					function() {
+						$("#file_error").html("");
+						$('#pathEvidence1')
+								.change(
+										function() {
+											var file_size = $(this)[0].files[0].size;
+											if (file_size > 2097152) {
+												$("#file_error")
+														.html(
+																"<span style='color: red'>File size is greater than 2MB</span>");
+												return false;
+											}
+											return true;
+										})
+					})
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -15,89 +36,58 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Forms</h1>
+					<br />
 				</div>
-				<!-- /.col-lg-12 -->
+
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">Add Claim</div>
-					</div>
+
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
-								<s:form action="saveaddclaim" class="form-horizontal"
-									enctype="multipart/form-data">
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="studentid">Student
-											ID:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="studentid"
-												name="studentId" placeholder="Enter Student ID"
-												required="true" maxlength="10">
 
-										</div>
-									</div>
+								<s:actionerror />
+								<s:form action="saveaddclaim" onSubmit="return validate()"
+									cssClass="form-horizontal col-xs-12"
+									enctype="multipart/form-data" validate="true">
+									<s:textfield class="form-control table" id="studentId"
+										name="studentId" maxlength="30" label="Student ID"
+										style="width:100%" placeholder="Enter Student ID" />
 
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="title">Title
-											:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="title"
-												name="title" placeholder="Enter Title" required="true"
-												maxlength="30">
-										</div>
+									<s:textfield class="form-control table" id="title" name="title"
+										maxlength="30" label="Title" style="width:100%"
+										placeholder="Enter Title" />
 
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="content">Content
-											:</label>
-										<div class="col-sm-10">
-											<textarea class="form-control" rows="5" id="content"
-												maxlength="300" name="content" placeholder="Enter Content"
-												required="true"></textarea>
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence1">Attach
-											supporting evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence1"
-												name="pathEvidence1" required="true">
+									<div class="form-group" style="">
+										<label class="control-label col-sm-3" for="ward">Claim
+											Type:</label>
+										<div class="col-sm-9 row">
+											<s:select class="form-control table" id="claimtype"
+												label="Claim Type" list="%{listType}" theme="simple"
+												listKey="%{id}" style="width:100%" listValue="%{claimName}"
+												value="%{id}" name="claimType.id" />
 										</div>
 
 									</div>
-
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence2">Attach
-											supporting evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence2"
-												name="pathEvidence2" required="true">
-										</div>
-
+									<s:textarea class="form-control table" id="content"
+										name="content" maxlength="300" label="Content"
+										style="width:100%" rows="5" placeholder="Enter Content" />
+									<div>
+										<s:file class="form-control table" id="pathEvidence1"
+											name="pathEvidence1" label="Evidence" theme="simple" />
+										<span id="file_error"></span>
 									</div>
+									<s:file class="form-control table" id="pathEvidence2"
+										name="pathEvidence2" label="Evidence" />
 
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence3">Attach
-											supporting evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence3"
-												name="pathEvidence3" required="true">
-										</div>
-
-									</div>
+									<s:file class="form-control table" id="pathEvidence3"
+										name="pathEvidence3" label="Evidence" />
 
 
 
-									<div class="form-group">
-										<div class="col-sm-offset-2 col-sm-10">
-											<button type="submit" class="btn btn-default">Save</button>
-										</div>
-									</div>
+
+									<s:submit class="btn btn-default" />
 								</s:form>
 							</div>
 
@@ -110,5 +100,6 @@
 		</div>
 
 	</div>
+
 </body>
 </html>

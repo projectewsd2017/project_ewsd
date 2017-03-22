@@ -48,6 +48,17 @@
 												name="content" placeholder="Enter Content">${content}</textarea>
 										</div>
 									</div>
+									
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Claim Type
+											:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="title"
+												name="title" placeholder="Enter Title" value="${claimType.claimName}" readonly="readonly">
+
+										</div>
+
+									</div>
 
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="createDate">Created
@@ -74,7 +85,7 @@
 											:</label>
 										<div class="col-sm-10">
 
-											<s:property value="statusContent" />
+											<s:property value="status" />
 
 										</div>
 									</div>
@@ -82,7 +93,7 @@
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-10">
-											<a href="evidence/<s:property value="pathEvidenceFileName1"/>"
+											<a href="evidence/<s:property value="pathEvidence1FileName"/>"
 												download>download file</a>
 										</div>
 
@@ -91,7 +102,7 @@
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-10">
-											<a href="evidence/<s:property value="pathEvidenceFileName2"/>"
+											<a href="evidence/<s:property value="pathEvidence2FileName"/>"
 												download>download file</a>
 										</div>
 
@@ -100,7 +111,7 @@
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-10">
-											<a href="evidence/<s:property value="pathEvidenceFileName3"/>"
+											<a href="evidence/<s:property value="pathEvidence3FileName"/>"
 												download>download file</a>
 										</div>
 
@@ -118,6 +129,9 @@
 								</s:param>
 								<s:param name="content">
 									<s:property value="content" />
+								</s:param>
+								<s:param name="claimType.claimName">
+									<s:property value="claimType.claimName" />
 								</s:param>
 
 							</s:url>

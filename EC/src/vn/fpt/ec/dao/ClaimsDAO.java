@@ -60,15 +60,15 @@ public class ClaimsDAO {
 				claims.setId(rs.getInt("claimId"));
 				claims.setContent(rs.getString("_content"));
 				claims.setTitle(rs.getString("title"));
-				claims.setStudentId(rs.getInt(students.getId()));
-				claims.setFacultyId(rs.getInt(students.getFacultyId()));
+
+				// claims.setFacultyId(rs.getInt(students.getFacultyId()));
 				claims.setStatus(rs.getString("status"));
-				claims.setCreateDate(rs.getDate("createDate"));
+				claims.setCreateDate(rs.getDate("createdDate"));
 				claims.setDueDate(rs.getDate("dueDate"));
 				claims.setStudent(students);
-				claims.setPathEvidenceFileName1(rs.getString("pathEvidence1"));
-				claims.setPathEvidenceFileName2(rs.getString("pathEvidence2"));
-				claims.setPathEvidenceFileName3(rs.getString("pathEvidence3"));
+				claims.setPathEvidence1FileName(rs.getString("pathEvidence1"));
+				claims.setPathEvidence2FileName(rs.getString("pathEvidence2"));
+				claims.setPathEvidence3FileName(rs.getString("pathEvidence3"));
 				claims.setClaimType(claimType);
 
 				list.add(claims);
@@ -88,8 +88,8 @@ public class ClaimsDAO {
 		Connection conn = DBConnection.open();
 		PreparedStatement pstmt = null;
 		String insertString = "INSERT INTO Claims(studentID,title,_content,ecCoordinatorID,status,"
-				+ "createDate,dueDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID) "
-				+ "values (?,?,?,?,?,?,?,?,?,?,?) ";
+				+ "createdDate,dueDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID,facutlyID) "
+				+ "values (?,?,?,?,?,?,?,?,?,?,?,?) ";
 
 		try {
 
@@ -101,10 +101,11 @@ public class ClaimsDAO {
 			pstmt.setString(5, c.getStatus());
 			pstmt.setDate(6, new Date(c.getCreateDate().getTime()));
 			pstmt.setDate(7, new Date(c.getDueDate().getTime()));
-			pstmt.setString(8, c.getPathEvidenceFileName1());
-			pstmt.setString(9, c.getPathEvidenceFileName2());
-			pstmt.setString(10, c.getPathEvidenceFileName3());
+			pstmt.setString(8, c.getPathEvidence1FileName());
+			pstmt.setString(9, c.getPathEvidence2FileName());
+			pstmt.setString(10, c.getPathEvidence3FileName());
 			pstmt.setInt(11, c.getClaimType().getId());
+			pstmt.setInt(12, c.getStudent().getFacultyId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -120,21 +121,22 @@ public class ClaimsDAO {
 		PreparedStatement pstmt = null;
 		String insertString = "UPDATE Claims set studentID =?,title = ?,_content =?,pathEvidence1 = ?,"
 				+ "pathEvidence2 = ?,pathEvidence3 = ?,status =?,"
-				+ "createDate = ?,dueDate = ?,claimTypeID =? WHERE id =?";
+				+ "createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ? WHERE id =?";
 
 		try {
 			pstmt = conn.prepareStatement(insertString);
 			pstmt.setInt(1, c.getStudentId());
 			pstmt.setString(2, c.getTitle());
 			pstmt.setString(3, c.getContent());
-			pstmt.setString(4, c.getPathEvidenceFileName1());
-			pstmt.setString(5, c.getPathEvidenceFileName1());
-			pstmt.setString(6, c.getPathEvidenceFileName1());
+			pstmt.setString(4, c.getPathEvidence1FileName());
+			pstmt.setString(5, c.getPathEvidence2FileName());
+			pstmt.setString(6, c.getPathEvidence3FileName());
 			pstmt.setString(7, c.getStatus());
 			pstmt.setDate(8, new Date(c.getCreateDate().getTime()));
 			pstmt.setDate(9, new Date(c.getDueDate().getTime()));
 			pstmt.setInt(10, c.getClaimType().getId());
-			pstmt.setInt(11, c.getId());
+			pstmt.setInt(11, c.getStudent().getFacultyId());
+			pstmt.setInt(12, c.getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -178,12 +180,15 @@ public class ClaimsDAO {
 			claim.setStudentId(rs.getInt("studentID"));
 			claim.setTitle(rs.getString("title"));
 			claim.setContent(rs.getString("_content"));
-			claim.setPathEvidenceFileName1(rs.getString("pathEvidence1"));
-			claim.setPathEvidenceFileName2(rs.getString("pathEvidence2"));
-			claim.setPathEvidenceFileName3(rs.getString("pathEvidence3"));
-			claim.setCreateDate(rs.getDate("createDate"));
+			claim.setPathEvidence1FileName(rs.getString("pathEvidence1"));
+			claim.setPathEvidence2FileName(rs.getString("pathEvidence2"));
+			claim.setPathEvidence3FileName(rs.getString("pathEvidence3"));
+			claim.setCreateDate(rs.getDate("createdDate"));
 			claim.setDueDate(rs.getDate("dueDate"));
 			claim.setStatus(rs.getString("status"));
+			ClaimType claimType = new ClaimType();
+			claimType.setId(rs.getInt("claimTypeID"));
+			claim.setClaimType(claimType);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

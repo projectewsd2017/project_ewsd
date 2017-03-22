@@ -11,7 +11,9 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 
+import vn.fpt.ec.dao.ClaimTypeDAO;
 import vn.fpt.ec.dao.ClaimsDAO;
+import vn.fpt.ec.dao.StudentsDAO;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ValidationAware;
@@ -40,15 +42,16 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private File pathEvidence1;
 	private File pathEvidence2;
 	private File pathEvidence3;
-	private String pathEvidenceContentType1;
-	private String pathEvidenceContentType2;
-	private String pathEvidenceContentType3;
-	private String pathEvidenceFileName1;
-	private String pathEvidenceFileName2;
-	private String pathEvidenceFileName3;
+	private String pathEvidence1ContentType;
+	private String pathEvidence2ContentType;
+	private String pathEvidence3ContentType;
+	private String pathEvidence1FileName;
+	private String pathEvidence2FileName;
+	private String pathEvidence3FileName;
 	private List<Claims> listClaims;
 	private Students student;
 	private ClaimType claimType;
+	private List<ClaimType> listType;
 	private SessionMap<String, Object> sessionmap;
 
 	public String getAllClaims() {
@@ -59,6 +62,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 	}
 
 	public String add() {
+		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+		listType = claimTypeDAO.select();
 		return "SUCCESS";
 	}
 
@@ -75,19 +80,29 @@ public class Claims extends ActionSupport implements ValidationAware,
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
 		this.setStatus(open);
-
+		
+		StudentsDAO studentsDAO = new StudentsDAO();
+		student = new Students();
+		student = studentsDAO.findById(studentId);
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
 					.getRealPath("/").concat("evidence");
 
 			System.out.println("Image Location:" + filePath);
-			File fileToCreate1 = new File(filePath, pathEvidenceFileName1);
-			File fileToCreate2 = new File(filePath, pathEvidenceFileName2);
-			File fileToCreate3 = new File(filePath, pathEvidenceFileName3);
-			FileUtils.copyFile(pathEvidence1, fileToCreate1);
-			FileUtils.copyFile(pathEvidence2, fileToCreate2);
-			FileUtils.copyFile(pathEvidence3, fileToCreate3);
+			if (pathEvidence1FileName != null) {
+				File fileToCreate1 = new File(filePath, pathEvidence1FileName);
+				FileUtils.copyFile(pathEvidence1, fileToCreate1);
+			}
+			if (pathEvidence2FileName != null) {
+				File fileToCreate2 = new File(filePath, pathEvidence2FileName);
+				FileUtils.copyFile(pathEvidence2, fileToCreate2);
+			}
+			if (pathEvidence3FileName != null) {
+				File fileToCreate3 = new File(filePath, pathEvidence3FileName);
+				FileUtils.copyFile(pathEvidence3, fileToCreate3);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(e.getMessage());
@@ -100,14 +115,9 @@ public class Claims extends ActionSupport implements ValidationAware,
 		return "SUCCESS";
 	}
 
-	// public void validate() {
-	// if (title == null || title.trim().length() < 1)
-	// addFieldError("name", "Name can't be blank");
-	// if (content == null ||content.length() < 6)
-	// addFieldError("password", "Password must be greater than 5");
-	// }
 	public String update() {
-
+		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+		listType = claimTypeDAO.select();
 		return "SUCCESS";
 	}
 
@@ -124,19 +134,27 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
-
+		
+		StudentsDAO studentsDAO = new StudentsDAO();
+		student = studentsDAO.findById(studentId);
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
 					.getRealPath("/").concat("evidence");
 
 			System.out.println("Image Location:" + filePath);
-			File fileToCreate1 = new File(filePath, pathEvidenceFileName1);
-			File fileToCreate2 = new File(filePath, pathEvidenceFileName2);
-			File fileToCreate3 = new File(filePath, pathEvidenceFileName3);
-			FileUtils.copyFile(pathEvidence1, fileToCreate1);
-			FileUtils.copyFile(pathEvidence2, fileToCreate2);
-			FileUtils.copyFile(pathEvidence3, fileToCreate3);
+			if (pathEvidence1FileName != null) {
+				File fileToCreate1 = new File(filePath, pathEvidence1FileName);
+				FileUtils.copyFile(pathEvidence1, fileToCreate1);
+			}
+			if (pathEvidence2FileName != null) {
+				File fileToCreate2 = new File(filePath, pathEvidence2FileName);
+				FileUtils.copyFile(pathEvidence2, fileToCreate2);
+			}
+			if (pathEvidence3FileName != null) {
+				File fileToCreate3 = new File(filePath, pathEvidence3FileName);
+				FileUtils.copyFile(pathEvidence3, fileToCreate3);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(e.getMessage());
@@ -164,9 +182,12 @@ public class Claims extends ActionSupport implements ValidationAware,
 		status = claim.getStatus();
 		createDate = claim.getCreateDate();
 		dueDate = claim.getDueDate();
-		pathEvidenceFileName1 = claim.getPathEvidenceFileName1();
-		pathEvidenceFileName2 = claim.getPathEvidenceFileName2();
-		pathEvidenceFileName3 = claim.getPathEvidenceFileName3();
+		pathEvidence1FileName = claim.getPathEvidence1FileName();
+		pathEvidence2FileName = claim.getPathEvidence2FileName();
+		pathEvidence3FileName = claim.getPathEvidence3FileName();
+		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+		claimType = claimTypeDAO.findById(claim.getClaimType().getId());
+		
 		return claim;
 	}
 
@@ -293,52 +314,52 @@ public class Claims extends ActionSupport implements ValidationAware,
 		this.pathEvidence3 = pathEvidence3;
 	}
 
-	public String getPathEvidenceContentType1() {
-		return pathEvidenceContentType1;
+	public String getPathEvidence1ContentType() {
+		return pathEvidence1ContentType;
 	}
 
-	public void setPathEvidenceContentType1(String pathEvidenceContentType1) {
-		this.pathEvidenceContentType1 = pathEvidenceContentType1;
+	public void setPathEvidence1ContentType(String pathEvidence1ContentType) {
+		this.pathEvidence1ContentType = pathEvidence1ContentType;
 	}
 
-	public String getPathEvidenceContentType2() {
-		return pathEvidenceContentType2;
+	public String getPathEvidence2ContentType() {
+		return pathEvidence2ContentType;
 	}
 
-	public void setPathEvidenceContentType2(String pathEvidenceContentType2) {
-		this.pathEvidenceContentType2 = pathEvidenceContentType2;
+	public void setPathEvidence2ContentType(String pathEvidence2ContentType) {
+		this.pathEvidence2ContentType = pathEvidence2ContentType;
 	}
 
-	public String getPathEvidenceContentType3() {
-		return pathEvidenceContentType3;
+	public String getPathEvidence3ContentType() {
+		return pathEvidence3ContentType;
 	}
 
-	public void setPathEvidenceContentType3(String pathEvidenceContentType3) {
-		this.pathEvidenceContentType3 = pathEvidenceContentType3;
+	public void setPathEvidence3ContentType(String pathEvidence3ContentType) {
+		this.pathEvidence3ContentType = pathEvidence3ContentType;
 	}
 
-	public String getPathEvidenceFileName1() {
-		return pathEvidenceFileName1;
+	public String getPathEvidence1FileName() {
+		return pathEvidence1FileName;
 	}
 
-	public void setPathEvidenceFileName1(String pathEvidenceFileName1) {
-		this.pathEvidenceFileName1 = pathEvidenceFileName1;
+	public void setPathEvidence1FileName(String pathEvidence1FileName) {
+		this.pathEvidence1FileName = pathEvidence1FileName;
 	}
 
-	public String getPathEvidenceFileName2() {
-		return pathEvidenceFileName2;
+	public String getPathEvidence2FileName() {
+		return pathEvidence2FileName;
 	}
 
-	public void setPathEvidenceFileName2(String pathEvidenceFileName2) {
-		this.pathEvidenceFileName2 = pathEvidenceFileName2;
+	public void setPathEvidence2FileName(String pathEvidence2FileName) {
+		this.pathEvidence2FileName = pathEvidence2FileName;
 	}
 
-	public String getPathEvidenceFileName3() {
-		return pathEvidenceFileName3;
+	public String getPathEvidence3FileName() {
+		return pathEvidence3FileName;
 	}
 
-	public void setPathEvidenceFileName3(String pathEvidenceFileName3) {
-		this.pathEvidenceFileName3 = pathEvidenceFileName3;
+	public void setPathEvidence3FileName(String pathEvidence3FileName) {
+		this.pathEvidence3FileName = pathEvidence3FileName;
 	}
 
 	public ClaimType getClaimType() {
@@ -351,6 +372,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public SessionMap<String, Object> getSessionmap() {
 		return sessionmap;
+	}
+
+	public List<ClaimType> getListType() {
+		return listType;
+	}
+
+	public void setListType(List<ClaimType> listType) {
+		this.listType = listType;
 	}
 
 	public void setSession(Map map) {

@@ -4,6 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<s:head />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -13,100 +14,65 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Forms</h1>
+					<h1 class="page-header">Update Claim</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">Update Claim</div>
-					</div>
+
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
-								<s:form action="saveupdateclaim" class="form-horizontal"
-									enctype="multipart/form-data">
-									<s:textfield name="id" label="Id" type="hidden"></s:textfield>
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="studentid">Student
-											ID:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="studentid"
-												name="studentId" placeholder="Enter Student ID"
-												maxlength="10" value="${studentId}" required="true">
-										</div>
-									</div>
+								<s:form action="saveupdateclaim"
+									cssClass="form-horizontal col-xs-12"
+									enctype="multipart/form-data" validate="true">
+									<s:textfield name="id" type="hidden"></s:textfield>
+									<s:textfield class="form-control table" id="studentId"
+										name="studentId" maxlength="30" label="Student ID"
+										style="width:100%" placeholder="Enter Student ID" />
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="title">Title
-											:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="title"
-												maxlength="50" name="title" placeholder="Enter Title"
-												value="${title }" required="true">
-
+										<label class="control-label col-sm-3" for="ward">Claim Name:</label>
+										<div class="col-sm-9 row">
+											<s:select class="form-control table" id="claimtype"
+												label="Claim Type" list="%{listType}" theme="simple"
+												listKey="%{id}" style="width:100%" listValue="%{claimName}"
+												value="%{id}" name="claimType.id" />
 										</div>
 
 									</div>
+									<s:textfield class="form-control table" id="title" name="title"
+										maxlength="30" label="Title" style="width:100%"
+										placeholder="Enter Title" />
 
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="content">Content
-											:</label>
-										<div class="col-sm-10">
-											<textarea class="form-control" rows="5" id="content"
-												maxlength="300" name="content" placeholder="Enter Content"
-												required="true">${content}</textarea>
-										</div>
-									</div>
+									<s:textarea class="form-control table" id="content"
+										name="content" maxlength="300" label="Content"
+										style="width:100%" rows="5" placeholder="Enter Content" />
 
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence1">Attach
-											supporting evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence1"
-												name="pathEvidence1" required="true">
-										</div>
+									<s:file class="form-control table" id="pathEvidence1"
+										name="pathEvidence1" label="Evidence" />
 
-									</div>
+									<s:file class="form-control table" id="pathEvidence2"
+										name="pathEvidence2" label="Evidence" />
 
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence2">Attach
-											supporting evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence2"
-												name="pathEvidence2" required="true">
-										</div>
-
-									</div>
-
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="pathEvidence3">Attach
-											supporting evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence3"
-												name="pathEvidence3" required="true">
-										</div>
-
-									</div>
+									<s:file class="form-control table" id="pathEvidence3"
+										name="pathEvidence3" label="Evidence" />
 
 
 
-									<div class="form-group">
-										<div class="col-sm-offset-2 col-sm-10">
-											<button type="submit" class="btn btn-default">Save</button>
-										</div>
-									</div>
+
+									<s:submit class="btn btn-default" />
+								</s:form>
+
 							</div>
-							</s:form>
 						</div>
 					</div>
+
 				</div>
 
 			</div>
 
 		</div>
-
-	</div>
 </body>
 </html>
