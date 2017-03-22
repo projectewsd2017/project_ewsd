@@ -9,7 +9,7 @@
 	<constant name="struts.devMode" value="true" />
 	<constant name="struts.custom.i18n.resources" value="global" />
 	<constant name="struts.multipart.maxSize" value="10485760" />
-	
+
 
 	<package name="default" namespace="/" extends="struts-default">
 
@@ -77,12 +77,12 @@
 			method="search">
 			<result name="SUCCESS">/student/claim/show.jsp</result>
 		</action>
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
 		<action name="getAllType" class="vn.fpt.ec.actions.ClaimType"
 			method="getAllType">
 			<result name="SUCCESS">/student/claimtype/ListClaimType.jsp</result>
@@ -93,7 +93,7 @@
 		</action>
 		<action name="saveaddclaimtype" class="vn.fpt.ec.actions.ClaimType"
 			method="addType">
-			
+
 			<interceptor-ref name="params" />
 			<interceptor-ref name="validation" />
 			<interceptor-ref name="workflow" />
@@ -120,11 +120,11 @@
 			method="search">
 			<result name="SUCCESS">/student/claimtype/Detail.jsp</result>
 		</action>
-		
-		
-		
-		
-		
+
+
+
+
+
 
 		<action name="login">
 			<result>login.jsp</result>
@@ -146,9 +146,21 @@
 			<result name="success">profilesuccess.jsp</result>
 			<result name="error">profileerror.jsp</result>
 		</action>
+
+		<action name="testMail" class="vn.fpt.ec.actions.Emailer"
+			method="test">
+			<result name="SUCCESS">/test.jsp</result>
+		</action>
+		
+
+		<action name="emailer" class="vn.fpt.ec.actions.Emailer"
+			method="execute">
+			<result name="success">/loginsuccess.jsp</result>
+			<result name="error">/loginerror.jsp</result>
+		</action>
 	</package>
 
-	
+
 
 	<!-- Add packages here -->
 

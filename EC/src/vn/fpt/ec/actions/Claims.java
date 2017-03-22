@@ -112,6 +112,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 		// ....................................
 
 		claimsDAO.insert(this);
+		Emailer emailer = new Emailer();
+		emailer.execute();
 		return "SUCCESS";
 	}
 
