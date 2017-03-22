@@ -80,7 +80,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
 		this.setStatus(open);
-		
+
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = new Students();
 		student = studentsDAO.findById(studentId);
@@ -136,7 +136,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
-		
+
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = studentsDAO.findById(studentId);
 		try {
@@ -189,7 +189,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		pathEvidence3FileName = claim.getPathEvidence3FileName();
 		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
 		claimType = claimTypeDAO.findById(claim.getClaimType().getId());
-		
+
 		return claim;
 	}
 

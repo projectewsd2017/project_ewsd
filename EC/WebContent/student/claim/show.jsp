@@ -112,7 +112,7 @@
 										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-10">
 											<a href="evidence/<s:property value="pathEvidence3FileName"/>"
-												download>download file</a>
+												download>downlolad file</a>
 										</div>
 
 									</div>
@@ -132,6 +132,15 @@
 								</s:param>
 								<s:param name="claimType.claimName">
 									<s:property value="claimType.claimName" />
+								</s:param>
+								<s:param name="pathEvidence1FileName">
+									<s:property value="pathEvidence1FileName" />
+								</s:param>
+								<s:param name="pathEvidence2FileName">
+									<s:property value="pathEvidence2FileName" />
+								</s:param>
+								<s:param name="pathEvidence3FileName">
+									<s:property value="pathEvidence3FileName" />
 								</s:param>
 
 							</s:url>

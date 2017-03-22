@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="/struts-dojo-tags" prefix="d"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 5.00 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 
@@ -13,20 +13,77 @@
 <script type="text/javascript">
 	$(document)
 			.ready(
+
 					function() {
-						$("#file_error").html("");
-						$('#pathEvidence1')
-								.change(
-										function() {
-											var file_size = $(this)[0].files[0].size;
-											if (file_size > 2097152) {
-												$("#file_error")
-														.html(
-																"<span style='color: red'>File size is greater than 2MB</span>");
-												return false;
+						$.validator.addMethod('filesize', function(value,
+								element, param) {
+							return this.optional(element)
+									|| (element.files[0].size <= param)
+						}, 'File size must be less than {0}');
+						$("#formClaim")
+								.validate(
+										{
+
+											rules : {
+												studentId : "required",
+												title : "required",
+												content : "required",
+												pathEvidence1 : {
+													filesize : 2097152,
+													accept : "image/png,image/jpeg,image/pjpeg,application/pdf"
+												},
+												pathEvidence2 : {
+													filesize : 2097152,
+													accept : "image/png,image/jpeg,image/pjpeg,application/pdf"
+												},
+												pathEvidence3 : {
+													filesize : 2097152,
+													accept : "image/png,image/jpeg,image/pjpeg,application/pdf"
+												}
+
+											},
+											messages : {
+												style : "color:red",
+												studentId : "Please enter your studentId",
+												title : "Please enter your title",
+												content : "Please enter your content",
+												pathEvidence1 : "File must be JPG, PNG or PDF, less than 2MB",
+												pathEvidence2 : "File must be JPG, PNG or PDF, less than 2MB",
+												pathEvidence3 : "File must be JPG, PNG or PDF, less than 2MB"
+
+											},
+
+											errorElement : "em",
+											errorPlacement : function(error,
+													element) {
+												// Add the `help-block` class to the error element
+												error.addClass("help-block");
+
+												if (element.prop("type") === "checkbox") {
+													error.insertAfter(element
+															.parent("label"));
+												} else {
+													error.insertAfter(element);
+												}
+											},
+											highlight : function(element,
+													errorClass, validClass) {
+												$(element).parents(".col-sm-5")
+														.addClass("has-error")
+														.removeClass(
+																"has-success");
+											},
+											unhighlight : function(element,
+													errorClass, validClass) {
+												$(element)
+														.parents(".col-sm-5")
+														.addClass("has-success")
+														.removeClass(
+																"has-error");
 											}
-											return true;
-										})
+
+										});
+
 					})
 </script>
 </head>
@@ -46,43 +103,72 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
+								<s:form action="saveaddclaim"
+									cssClass="form-horizontal col-xs-12" id="formClaim"
+									enctype="multipart/form-data">
 
-								<s:actionerror />
-								<s:form action="saveaddclaim" onSubmit="return validate()"
-									cssClass="form-horizontal col-xs-12"
-									enctype="multipart/form-data" validate="true">
-									<s:textfield class="form-control table" id="studentId"
-										name="studentId" maxlength="30" label="Student ID"
-										style="width:100%" placeholder="Enter Student ID" />
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="studentId">studentId:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="studentId"
+												name="studentId" placeholder="Enter studentId">
+										</div>
+									</div>
 
-									<s:textfield class="form-control table" id="title" name="title"
-										maxlength="30" label="Title" style="width:100%"
-										placeholder="Enter Title" />
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Title:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="title"
+												name="title" placeholder="Enter Title">
+										</div>
+									</div>
+
+
 
 									<div class="form-group" style="">
-										<label class="control-label col-sm-3" for="ward">Claim
-											Type:</label>
-										<div class="col-sm-9 row">
-											<s:select class="form-control table" id="claimtype"
+										<label class="control-label col-sm-2" for="ward">Type:</label>
+										<div class="col-sm-10">
+											<s:select class="form-control" id="claimtype"
 												label="Claim Type" list="%{listType}" theme="simple"
 												listKey="%{id}" style="width:100%" listValue="%{claimName}"
 												value="%{id}" name="claimType.id" />
 										</div>
 
 									</div>
-									<s:textarea class="form-control table" id="content"
-										name="content" maxlength="300" label="Content"
-										style="width:100%" rows="5" placeholder="Enter Content" />
-									<div>
-										<s:file class="form-control table" id="pathEvidence1"
-											name="pathEvidence1" label="Evidence" theme="simple" />
-										<span id="file_error"></span>
-									</div>
-									<s:file class="form-control table" id="pathEvidence2"
-										name="pathEvidence2" label="Evidence" />
 
-									<s:file class="form-control table" id="pathEvidence3"
-										name="pathEvidence3" label="Evidence" />
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Content:</label>
+										<div class="col-sm-10">
+
+											<textarea class="form-control" id="content" rows="5"
+												name="content" placeholder="Enter content" maxlength="300"></textarea>
+										</div>
+									</div>
+
+
+
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence1"
+												name="pathEvidence1"> <span id="file_error"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence2"
+												name="pathEvidence2"> <span id="file_error"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence3"
+												name="pathEvidence3"> <span id="file_error"></span>
+										</div>
+									</div>
+
 
 
 
