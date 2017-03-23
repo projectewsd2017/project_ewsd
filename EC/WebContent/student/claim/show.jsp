@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Claim - ${id }</title>
 </head>
 <body>
 	<div id="wrapper">
@@ -144,7 +144,7 @@
 								</s:param>
 
 							</s:url>
-							<button>
+							<button class="btn btn-default">
 								<s:a href="%{updateid}">Update</s:a>
 							</button>
 

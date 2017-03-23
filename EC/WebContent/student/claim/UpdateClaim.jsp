@@ -6,7 +6,7 @@
 <head>
 <s:head />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Claim - Edit ${id }</title>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 <script type="text/javascript">
 	$(document)
@@ -106,9 +106,9 @@
 									enctype="multipart/form-data" validate="true">
 									<s:textfield name="id" type="hidden"></s:textfield>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="studentId">studentId:</label>
+										<label class="control-label col-sm-2" for="studentId">student Id:</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="studentId"
+											<input type="text" class="form-control" id="studentId" readonly="readonly"
 												name="studentId" placeholder="Enter studentId" value="${studentId}">
 										</div>
 									</div>

@@ -7,7 +7,7 @@
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Claim - New Claim</title>
 <d:head />
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 <script type="text/javascript">
@@ -15,11 +15,13 @@
 			.ready(
 
 					function() {
-						$.validator.addMethod('filesize', function(value,
-								element, param) {
+						$.validator.addMethod('filesize', function(
+								value, element, param) {
 							return this.optional(element)
 									|| (element.files[0].size <= param)
-						}, 'File size must be less than {0}');
+									|| (element.files[0].size > 10000000)
+						}, 'File size must be less than {0} and more than {0}');
+
 						$("#formClaim")
 								.validate(
 										{
@@ -107,13 +109,7 @@
 									cssClass="form-horizontal col-xs-12" id="formClaim"
 									enctype="multipart/form-data">
 
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="studentId">studentId:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="studentId"
-												name="studentId" placeholder="Enter studentId">
-										</div>
-									</div>
+									
 
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Title:</label>

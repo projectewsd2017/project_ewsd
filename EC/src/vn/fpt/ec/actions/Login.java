@@ -7,7 +7,6 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import vn.fpt.ec.dao.LoginDAO;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class Login extends ActionSupport implements SessionAware {
@@ -19,6 +18,7 @@ public class Login extends ActionSupport implements SessionAware {
 	private String username;
 	private String pass;
 	private int roleId;
+	private int id;
 	private SessionMap<String, Object> sessionmap;
 
 	public String login() {
@@ -28,25 +28,33 @@ public class Login extends ActionSupport implements SessionAware {
 	public String loginUser() {
 		Login login = new Login();
 		LoginDAO loginDAO = new LoginDAO();
-		if (!username.isEmpty() && username != null && !pass.isEmpty()
-				&& pass != null) {
-			login = loginDAO.login(username, pass);
-			sessionmap.put("login", "true");
+
+		login = loginDAO.loginStudent(username, pass);
+		if (login.username != null) {
+			sessionmap.put("login", "student");
+			sessionmap.put("id", login.id);
 			sessionmap.put("username", username);
-			sessionmap.put("role", login.getRoleId());
 			sessionmap.put("pass", pass);
-			if (login.getRoleId() == 1) {
-				return "ADMIN";
-			} else if (login.getRoleId() == 2) {
-				return "EC";
-			} else if (login.getRoleId() == 3) {
-				return "STUDENT";
-			} else {
-				return "ERROR";
-			}
+			return "STUDENT";
 		} else {
-			return "LOGINERROR";
+			login = loginDAO.loginStaff(username, pass);
+			if (login.username == null) {
+				return "LOGINERROR";
+			} else {
+				
+				sessionmap.put("username", username);
+				sessionmap.put("role", login.getRoleId());
+				sessionmap.put("pass", pass);
+				if (login.getRoleId() == 1) {
+					sessionmap.put("login", "admin");
+					return "ADMIN";
+				} else if (login.getRoleId() == 2) {
+					sessionmap.put("login", "ec");
+					return "EC";
+				}
+			}
 		}
+		return "LOGINERROR";
 	}
 
 	public String logout() {
@@ -87,6 +95,15 @@ public class Login extends ActionSupport implements SessionAware {
 
 	public void setRoleId(int roleId) {
 		this.roleId = roleId;
+	}
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public SessionMap<String, Object> getSessionmap() {
