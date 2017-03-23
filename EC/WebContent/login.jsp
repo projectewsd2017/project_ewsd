@@ -28,33 +28,80 @@
 
 </head>
 <body>
+<style>
+        body{
+        	background: url(http://images.adsttc.com/media/images/55e4/31d4/e58e/ce03/1300/009d/slideshow/03_entrance_view_VTN.jpg?1441018318) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+        }
+        
+        .login-box{
+        	box-shadow: 
+        }
+         #btnLogin {
+        transition: 0.5s;
+    }
+
+    #btnLogin:hover {
+        border-radius: 5px;
+        box-shadow: 8px 8px 4px lightblue
+    }
+    
+    #btnLogin:focus {
+        border-radius: 5px;
+        box-shadow: 8px 8px 4px lightblue;
+    }
+    
+    #username:focus {
+        box-shadow: 2px 2px 1px #888888;
+    }
+    
+    #pass:focus {
+        box-shadow: 2px 2px 1px #888888;
+    }
+    .login-box-msg {
+  margin: 0;
+  text-align: center;
+  padding: 0 20px 20px 20px;
+}
+.red {
+    color:red;
+}
+.panel-heading{
+	background-color: orange !important;
+}
+
+.login-panel{
+	border: solid orange;
+	box-shadow: 10px 10px 5px #888888;
+}
+    </style>
 	<div class="container">
-		<div style="text-align: right">
-			<a href="login">login</a>| <a href="logout">logout</a>| <a
-				href="profile">profile</a>
-		</div>
-		<div class="row">
-			<div class="col-md-4 col-md-offset-4">
+			<div class="row">
+			<div class="col-md-6 col-md-offset-3 login-box">
 				<div class="login-panel panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Please Sign In</h3>
+						<h3 class="panel-title" style="text-align: center; font-family: 'Comic Sans MS', cursive, sans-serif; font-weight: ">DHHBT University</h3>
 					</div>
 					<div class="panel-body">
-						<s:form action="loginprocess">
+					<p class="login-box-msg">Please fill out the following fields to login</p>
+						<s:form action="loginprocess" name="form" id="form">
 							<fieldset>
 								<div class="form-group">
 
-									<input class="form-control" placeholder="Username"
+									<input id="username" class="form-control" placeholder="Username"
 										name="username" type="text" autofocus>
 								</div>
 								<div class="form-group">
-									<input class="form-control" placeholder="Password" name="pass"
+									<input id="pass" class="form-control" placeholder="Password" name="pass"
 										type="password" value="">
 								</div>
 
 								<div class="form-group">
 
-									<button type="submit" class="btn btn-lg btn-success btn-block">Login</button>
+									<button type="submit" id="btnLogin" class="btn btn-lg btn-primary btn-block">Login</button>
 
 								</div>
 						</s:form>
@@ -76,4 +123,46 @@
 	<!-- Custom Theme JavaScript -->
 	<script src="resources/dist/js/sb-admin-2.js"></script>
 </body>
+<script>
+$(document).ready(function () {
+    $("#username").focus();
+    $("#username").blur(function () {
+        var name = $('#username').val();
+        if (name.length == 0) {
+            $('#username').next('div.red').remove();
+            $('#username').after('<div class="red">Please enter username!</div>');
+        } else {
+            $(this).next('div.red').remove();
+            return true;
+        }
+    });
+
+    $("#pass").blur(function () {
+        var address = $('#pass').val();
+        if (address.length == 0) {
+            $('#pass').next('div.red').remove();
+            $('#pass').after('<div class="red">Please enter password!</div>');
+            return false;
+        } else {
+            $('#pass').next('div.red').remove();
+            return true;
+        }
+    });
+
+});
+$('#form').submit(function() {
+    if ($.trim($("#username").val()) === "" && $.trim($("#pass").val()) === "") {
+        alert('Please enter username & password!');
+        return false;
+    }
+    else if ($.trim($("#username").val()) === ""){
+        alert('Please enter username!');
+        return false;
+	}
+    else if ($.trim($("#pass").val()) === ""){
+        alert('Please enter password!');
+        return false;
+	}
+});
+</script>
 </html>
