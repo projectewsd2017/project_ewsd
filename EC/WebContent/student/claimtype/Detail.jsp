@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Claim Type - ${id}</title>
 </head>
 <body>
 	<div id="wrapper">
@@ -53,18 +53,21 @@
 
 
 							</s:url>
-							<button>
-								<s:a href="%{updateid}">Update</s:a>
-							</button>
 							<s:url action="deleteType" var="deleteid">
 								<s:param name="id">
 									<s:property value="id" />
 								</s:param>
 							</s:url>
-							<button>
-								<s:a href="%{deleteid}">Delete</s:a>
-							</button>
+							<div style="text-align: right">
+								<button class="btn btn-default">
+									<s:a href="%{updateid}">Update</s:a>
+								</button>
+								&nbsp
 
+								<button class="btn btn-default">
+									<s:a href="%{deleteid}">Delete</s:a>
+								</button>
+							</div>
 
 							</s:form>
 						</div>

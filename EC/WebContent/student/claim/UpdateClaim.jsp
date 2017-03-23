@@ -6,7 +6,84 @@
 <head>
 <s:head />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Claim - Edit ${id }</title>
+<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script type="text/javascript">
+	$(document)
+			.ready(
+
+					function() {
+						$.validator.addMethod('filesize', function(value,
+								element, param) {
+							return this.optional(element)
+									|| (element.files[0].size <= param)
+						}, 'File size must be less than {0}');
+						$("#updateClaim")
+								.validate(
+										{
+
+											rules : {
+												studentId : "required",
+												title : "required",
+												content : "required",
+												pathEvidence1 : {
+													filesize : 2097152,
+													accept : "image/png,image/jpeg,image/pjpeg,application/pdf"
+												},
+												pathEvidence2 : {
+													filesize : 2097152,
+													accept : "image/png,image/jpeg,image/pjpeg,application/pdf"
+												},
+												pathEvidence3 : {
+													filesize : 2097152,
+													accept : "image/png,image/jpeg,image/pjpeg,application/pdf"
+												}
+
+											},
+											messages : {
+												style : "color:red",
+												studentId : "Please enter your studentId",
+												title : "Please enter your title",
+												content : "Please enter your content",
+												pathEvidence1 : "File must be JPG, PNG or PDF, less than 2MB",
+												pathEvidence2 : "File must be JPG, PNG or PDF, less than 2MB",
+												pathEvidence3 : "File must be JPG, PNG or PDF, less than 2MB"
+
+											},
+
+											errorElement : "em",
+											errorPlacement : function(error,
+													element) {
+												// Add the `help-block` class to the error element
+												error.addClass("help-block");
+
+												if (element.prop("type") === "checkbox") {
+													error.insertAfter(element
+															.parent("label"));
+												} else {
+													error.insertAfter(element);
+												}
+											},
+											highlight : function(element,
+													errorClass, validClass) {
+												$(element).parents(".col-sm-5")
+														.addClass("has-error")
+														.removeClass(
+																"has-success");
+											},
+											unhighlight : function(element,
+													errorClass, validClass) {
+												$(element)
+														.parents(".col-sm-5")
+														.addClass("has-success")
+														.removeClass(
+																"has-error");
+											}
+
+										});
+
+					})
+</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -24,40 +101,71 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
-								<s:form action="saveupdateclaim"
+								<s:form action="saveupdateclaim" id="updateClaim"
 									cssClass="form-horizontal col-xs-12"
 									enctype="multipart/form-data" validate="true">
 									<s:textfield name="id" type="hidden"></s:textfield>
-									<s:textfield class="form-control table" id="studentId"
-										name="studentId" maxlength="30" label="Student ID"
-										style="width:100%" placeholder="Enter Student ID" />
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="studentId">student Id:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="studentId" readonly="readonly"
+												name="studentId" placeholder="Enter studentId" value="${studentId}">
+										</div>
+									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-3" for="ward">Claim Name:</label>
-										<div class="col-sm-9 row">
-											<s:select class="form-control table" id="claimtype"
+										<label class="control-label col-sm-2" for="title">Title:</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="title"
+												name="title" placeholder="Enter Title" value="${title }">
+										</div>
+									</div>
+
+
+
+									<div class="form-group" style="">
+										<label class="control-label col-sm-2" for="ward">Type:</label>
+										<div class="col-sm-10">
+											<s:select class="form-control" id="claimtype"
 												label="Claim Type" list="%{listType}" theme="simple"
 												listKey="%{id}" style="width:100%" listValue="%{claimName}"
 												value="%{id}" name="claimType.id" />
 										</div>
 
 									</div>
-									<s:textfield class="form-control table" id="title" name="title"
-										maxlength="30" label="Title" style="width:100%"
-										placeholder="Enter Title" />
 
-									<s:textarea class="form-control table" id="content"
-										name="content" maxlength="300" label="Content"
-										style="width:100%" rows="5" placeholder="Enter Content" />
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Content:</label>
+										<div class="col-sm-10">
 
-									<s:file class="form-control table" id="pathEvidence1"
-										name="pathEvidence1" label="Evidence" />
+											<textarea class="form-control" id="content" rows="5"
+												name="content" placeholder="Enter content" maxlength="300">${content }</textarea>
+										</div>
+									</div>
 
-									<s:file class="form-control table" id="pathEvidence2"
-										name="pathEvidence2" label="Evidence" />
 
-									<s:file class="form-control table" id="pathEvidence3"
-										name="pathEvidence3" label="Evidence" />
+
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence1"
+												name="pathEvidence1" value="${pathEvidence1FileName}"> <span id="file_error"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence2"
+												name="pathEvidence2" value="${pathEvidence2FileName}"> <span id="file_error"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="title">Evidence:</label>
+										<div class="col-sm-10">
+											<input type="file" class="form-control" id="pathEvidence3"
+												name="pathEvidence3" value="${pathEvidence3FileName}"> <span id="file_error"></span>
+										</div>
+									</div>
 
 
 

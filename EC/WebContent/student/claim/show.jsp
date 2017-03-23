@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Claim - ${id }</title>
 </head>
 <body>
 	<div id="wrapper">
@@ -112,7 +112,7 @@
 										<label class="control-label col-sm-2" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-10">
 											<a href="evidence/<s:property value="pathEvidence3FileName"/>"
-												download>download file</a>
+												download>downlolad file</a>
 										</div>
 
 									</div>
@@ -133,9 +133,18 @@
 								<s:param name="claimType.claimName">
 									<s:property value="claimType.claimName" />
 								</s:param>
+								<s:param name="pathEvidence1FileName">
+									<s:property value="pathEvidence1FileName" />
+								</s:param>
+								<s:param name="pathEvidence2FileName">
+									<s:property value="pathEvidence2FileName" />
+								</s:param>
+								<s:param name="pathEvidence3FileName">
+									<s:property value="pathEvidence3FileName" />
+								</s:param>
 
 							</s:url>
-							<button>
+							<button class="btn btn-default">
 								<s:a href="%{updateid}">Update</s:a>
 							</button>
 

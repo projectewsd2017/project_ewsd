@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.SessionMap;
@@ -62,9 +65,17 @@ public class Claims extends ActionSupport implements ValidationAware,
 	}
 
 	public String add() {
-		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
-		listType = claimTypeDAO.select();
-		return "SUCCESS";
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("student")) {
+			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			listType = claimTypeDAO.select();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public String addClaim() {
@@ -80,10 +91,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
 		this.setStatus(open);
-		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		studentId = (int) session.getAttribute("id");
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = new Students();
 		student = studentsDAO.findById(studentId);
+
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
@@ -118,9 +133,18 @@ public class Claims extends ActionSupport implements ValidationAware,
 	}
 
 	public String update() {
-		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
-		listType = claimTypeDAO.select();
-		return "SUCCESS";
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && !s.equals("student")) {
+			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			listType = claimTypeDAO.select();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+
 	}
 
 	public String updateClaim() {
@@ -136,7 +160,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
-		
+
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = studentsDAO.findById(studentId);
 		try {
@@ -169,8 +193,16 @@ public class Claims extends ActionSupport implements ValidationAware,
 	}
 
 	public String search() {
-		searchById();
-		return "SUCCESS";
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && !s.equals("student")) {
+			searchById();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public Claims searchById() {
@@ -189,14 +221,22 @@ public class Claims extends ActionSupport implements ValidationAware,
 		pathEvidence3FileName = claim.getPathEvidence3FileName();
 		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
 		claimType = claimTypeDAO.findById(claim.getClaimType().getId());
-		
+
 		return claim;
 	}
 
 	public String deleteClaim() {
-		ClaimsDAO claimsDAO = new ClaimsDAO();
-		claimsDAO.delete(id);
-		return "SUCCESS";
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && !s.equals("student")) {
+			ClaimsDAO claimsDAO = new ClaimsDAO();
+			claimsDAO.delete(id);
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	/*--------------getter & setter & constructor-----------*/
