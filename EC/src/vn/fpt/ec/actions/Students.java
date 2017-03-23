@@ -1,6 +1,17 @@
 package vn.fpt.ec.actions;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
+import vn.fpt.ec.dao.ClaimTypeDAO;
+import vn.fpt.ec.dao.ClaimsDAO;
+import vn.fpt.ec.dao.FacultyDAO;
+import vn.fpt.ec.dao.StudentsDAO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -27,6 +38,72 @@ public class Students extends ActionSupport {
 	private String motherProfession;
 	private String fatherOfWork;
 	private String motherOfWork;
+	private Faculties faculty;
+	private List<Students> listAllStudents;
+	private List<Faculties> listAllFaculty;
+
+	public String getAllStudent() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		listAllStudents = studentsDAO.selectAllStudent();
+
+		return "SUCCESS";
+	}
+
+	public String add() {
+
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = facultyDAO.select();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String addStudent() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		password = "Abc123!";
+		studentsDAO.insert(this);
+		return "SUCCESS";
+	}
+
+	public String update() {
+
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String updateStudent() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		studentsDAO.update(this);
+		return "SUCCESS";
+	}
+
+	public String deleteStudent() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			StudentsDAO studentsDAO = new StudentsDAO();
+			studentsDAO.delete(id);
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
 
 	/*--------------getter & setter & constructor-----------*/
 	public Students() {
@@ -167,6 +244,30 @@ public class Students extends ActionSupport {
 
 	public void setMotherOfWork(String motherOfWork) {
 		this.motherOfWork = motherOfWork;
+	}
+
+	public Faculties getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(Faculties faculty) {
+		this.faculty = faculty;
+	}
+
+	public List<Students> getListAllStudents() {
+		return listAllStudents;
+	}
+
+	public void setListAllStudents(List<Students> listAllStudents) {
+		this.listAllStudents = listAllStudents;
+	}
+
+	public List<Faculties> getListAllFaculty() {
+		return listAllFaculty;
+	}
+
+	public void setListAllFaculty(List<Faculties> listAllFaculty) {
+		this.listAllFaculty = listAllFaculty;
 	}
 
 }

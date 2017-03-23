@@ -122,7 +122,7 @@
 
 
 									<div class="form-group" style="">
-										<label class="control-label col-sm-2" for="ward">Type:</label>
+										<label class="control-label col-sm-2" for="claimtype">Type:</label>
 										<div class="col-sm-10">
 											<s:select class="form-control" id="claimtype"
 												label="Claim Type" list="%{listType}" theme="simple"

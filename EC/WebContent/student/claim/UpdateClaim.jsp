@@ -7,6 +7,11 @@
 <s:head />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Claim - Edit ${id }</title>
+<style type="text/css">
+.rendered{
+	display: none;
+}
+</style>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 <script type="text/javascript">
 	$(document)
