@@ -31,10 +31,10 @@
 <style>
         body{
         	background: url(http://images.adsttc.com/media/images/55e4/31d4/e58e/ce03/1300/009d/slideshow/03_entrance_view_VTN.jpg?1441018318) no-repeat center center fixed; 
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+           -webkit-background-size: cover;
+           -moz-background-size: cover;
+           -o-background-size: cover;
+           background-size: cover;
         }
         
         .login-box{
