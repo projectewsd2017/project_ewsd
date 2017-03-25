@@ -11,6 +11,7 @@ import java.util.List;
 
 import vn.fpt.ec.actions.ClaimType;
 import vn.fpt.ec.actions.Claims;
+import vn.fpt.ec.actions.Faculties;
 import vn.fpt.ec.actions.Students;
 import vn.fpt.ec.connection.DBConnection;
 
@@ -49,7 +50,9 @@ public class ClaimsDAO {
 				students.setMotherProfession(rs.getString("motherProfession"));
 				students.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
 				students.setMotherOfWork(rs.getString("motherPlaceOfWork"));
-				students.setFacultyId(rs.getInt("facultyID"));
+				Faculties faculties = new Faculties();
+				faculties.setId(rs.getInt("facultyID"));
+				students.setFaculty(faculties);
 
 				ClaimType claimType = new ClaimType();
 				claimType.setId(rs.getInt("cTypeId"));
@@ -105,7 +108,7 @@ public class ClaimsDAO {
 			pstmt.setString(9, c.getPathEvidence2FileName());
 			pstmt.setString(10, c.getPathEvidence3FileName());
 			pstmt.setInt(11, c.getClaimType().getId());
-			pstmt.setInt(12, c.getStudent().getFacultyId());
+			pstmt.setInt(12, c.getStudent().getFaculty().getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -119,24 +122,47 @@ public class ClaimsDAO {
 	public void update(Claims c) {
 		Connection conn = DBConnection.open();
 		PreparedStatement pstmt = null;
-		String insertString = "UPDATE Claims set studentID =?,title = ?,_content =?,pathEvidence1 = ?,"
-				+ "pathEvidence2 = ?,pathEvidence3 = ?,status =?,"
-				+ "createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ? WHERE id =?";
+		
 
 		try {
+//			String insertString = ""
+//					+ "pathEvidence2 = ?,pathEvidence3 = ?,status =?,"
+//					+ "createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? WHERE id =?";
+			StringBuilder builder = new StringBuilder();
+			builder.append("UPDATE Claims set studentID =?,title = ?,_content =?,status =?,createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? ");
+			if(c.getPathEvidence1FileName() != null){
+				builder.append(",pathEvidence1 = ? ");
+			}
+			if(c.getPathEvidence1FileName() != null){
+				builder.append(",pathEvidence2 = ? ");
+			}
+			if(c.getPathEvidence1FileName() != null){
+				builder.append(",pathEvidence3 = ? ");
+			}
+			builder.append("WHERE id =?");
+			String insertString =builder.toString();
 			pstmt = conn.prepareStatement(insertString);
 			pstmt.setInt(1, c.getStudentId());
 			pstmt.setString(2, c.getTitle());
 			pstmt.setString(3, c.getContent());
-			pstmt.setString(4, c.getPathEvidence1FileName());
-			pstmt.setString(5, c.getPathEvidence2FileName());
-			pstmt.setString(6, c.getPathEvidence3FileName());
-			pstmt.setString(7, c.getStatus());
-			pstmt.setDate(8, new Date(c.getCreateDate().getTime()));
-			pstmt.setDate(9, new Date(c.getDueDate().getTime()));
-			pstmt.setInt(10, c.getClaimType().getId());
-			pstmt.setInt(11, c.getStudent().getFacultyId());
-			pstmt.setInt(12, c.getId());
+			pstmt.setString(4, c.getStatus());
+			pstmt.setDate(5, new Date(c.getCreateDate().getTime()));
+			pstmt.setDate(6, new Date(c.getDueDate().getTime()));
+			pstmt.setInt(7, c.getClaimType().getId());
+			pstmt.setInt(8, c.getStudent().getFaculty().getId());
+			pstmt.setInt(9, c.getStaffs().getId());
+			pstmt.setString(10, c.getComment());
+			if(c.getPathEvidence1FileName() != null){
+				pstmt.setString(11, c.getPathEvidence1FileName());
+			}
+			if(c.getPathEvidence1FileName() != null){
+				pstmt.setString(12, c.getPathEvidence2FileName());
+			}
+			if(c.getPathEvidence1FileName() != null){
+				pstmt.setString(13, c.getPathEvidence3FileName());
+			}
+			
+			pstmt.setInt(14, c.getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {

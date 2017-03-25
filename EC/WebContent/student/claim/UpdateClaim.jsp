@@ -50,9 +50,9 @@
 												studentId : "Please enter your studentId",
 												title : "Please enter your title",
 												content : "Please enter your content",
-												pathEvidence1 : "File must be JPG, PNG or PDF, less than 2MB",
-												pathEvidence2 : "File must be JPG, PNG or PDF, less than 2MB",
-												pathEvidence3 : "File must be JPG, PNG or PDF, less than 2MB"
+												pathEvidence1 : "File must be JPG, PNG or PDF, less than 2MB and file name less than 50 character",
+												pathEvidence2 : "File must be JPG, PNG or PDF, less than 2MB and file name less than 50 character",
+												pathEvidence3 : "File must be JPG, PNG or PDF, less than 2MB and file name less than 50 character"
 
 											},
 
@@ -117,6 +117,17 @@
 												name="studentId" placeholder="Enter studentId" value="${studentId}">
 										</div>
 									</div>
+									
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="coordinator">Coordinator:</label>
+										<div class="col-sm-10">
+											<s:select class="form-control" id="coordinator"
+												label="Claim Type" list="%{listStaffs}" theme="simple"
+												listKey="%{id}" style="width:100%" listValue="%{firstName}"
+												value="%{id}" name="staffs.id" />
+										</div>
+
+									</div>
 
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Title:</label>
@@ -129,7 +140,7 @@
 
 
 									<div class="form-group" style="">
-										<label class="control-label col-sm-2" for="ward">Type:</label>
+										<label class="control-label col-sm-2" for="claimtype">Type:</label>
 										<div class="col-sm-10">
 											<s:select class="form-control" id="claimtype"
 												label="Claim Type" list="%{listType}" theme="simple"
@@ -140,34 +151,43 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="title">Content:</label>
+										<label class="control-label col-sm-2" for="content">Content:</label>
 										<div class="col-sm-10">
 
 											<textarea class="form-control" id="content" rows="5"
 												name="content" placeholder="Enter content" maxlength="300">${content }</textarea>
 										</div>
 									</div>
+									
+									<div class="form-group">
+										<label class="control-label col-sm-2" for="comment">comment:</label>
+										<div class="col-sm-10">
+
+											<textarea class="form-control" id="comment" rows="5"
+												name="comment" placeholder="Enter comment" maxlength="500">${content }</textarea>
+										</div>
+									</div>
 
 
 
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence1"
+											<input type="file" class="form-control" id="pathEvidence1" maxlength="50"
 												name="pathEvidence1" value="${pathEvidence1FileName}"> <span id="file_error"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence2"
+											<input type="file" class="form-control" id="pathEvidence2" maxlength="50"
 												name="pathEvidence2" value="${pathEvidence2FileName}"> <span id="file_error"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence3"
+											<input type="file" class="form-control" id="pathEvidence3" maxlength="50"
 												name="pathEvidence3" value="${pathEvidence3FileName}"> <span id="file_error"></span>
 										</div>
 									</div>

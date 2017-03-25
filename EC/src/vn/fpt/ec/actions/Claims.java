@@ -16,6 +16,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import vn.fpt.ec.dao.ClaimTypeDAO;
 import vn.fpt.ec.dao.ClaimsDAO;
+import vn.fpt.ec.dao.StaffsDAO;
 import vn.fpt.ec.dao.StudentsDAO;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -54,7 +55,10 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private List<Claims> listClaims;
 	private Students student;
 	private ClaimType claimType;
+	private String comment;
 	private List<ClaimType> listType;
+	private List<Staffs> listStaffs;
+	private Staffs staffs;
 	private SessionMap<String, Object> sessionmap;
 
 	public String getAllClaims() {
@@ -139,6 +143,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 		String s = (String) session.getAttribute("login");
 		if (s != null && !s.equals("student")) {
 			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			StaffsDAO staffsDAO = new StaffsDAO();
+			listStaffs = staffsDAO.selectAllStaff();
 			listType = claimTypeDAO.select();
 			return "SUCCESS";
 		} else {
@@ -160,9 +166,19 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
 
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			this.setStatus(processing);
+		} else if (s != null && s.equals("ec")) {
+			this.setStatus(processed);
+		}
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = studentsDAO.findById(studentId);
+		Claims claim = new Claims();
+		claim = claimsDAO.findById(id);
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
@@ -172,14 +188,21 @@ public class Claims extends ActionSupport implements ValidationAware,
 			if (pathEvidence1FileName != null) {
 				File fileToCreate1 = new File(filePath, pathEvidence1FileName);
 				FileUtils.copyFile(pathEvidence1, fileToCreate1);
+			} else {
+				pathEvidence1FileName = claim.getPathEvidence1FileName();
+
 			}
 			if (pathEvidence2FileName != null) {
 				File fileToCreate2 = new File(filePath, pathEvidence2FileName);
 				FileUtils.copyFile(pathEvidence2, fileToCreate2);
+			} else {
+				pathEvidence2FileName = claim.getPathEvidence2FileName();
 			}
 			if (pathEvidence3FileName != null) {
 				File fileToCreate3 = new File(filePath, pathEvidence3FileName);
 				FileUtils.copyFile(pathEvidence3, fileToCreate3);
+			} else {
+				pathEvidence3FileName = claim.getPathEvidence3FileName();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -422,6 +445,30 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public void setListType(List<ClaimType> listType) {
 		this.listType = listType;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public List<Staffs> getListStaffs() {
+		return listStaffs;
+	}
+
+	public void setListStaffs(List<Staffs> listStaffs) {
+		this.listStaffs = listStaffs;
+	}
+
+	public Staffs getStaffs() {
+		return staffs;
+	}
+
+	public void setStaffs(Staffs staffs) {
+		this.staffs = staffs;
 	}
 
 	public void setSession(Map map) {

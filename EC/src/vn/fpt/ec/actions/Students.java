@@ -28,7 +28,6 @@ public class Students extends ActionSupport {
 	private String email;
 	private String address;
 	private boolean sex;
-	private int facultyId;
 	private String phoneNumber;
 	private String fatherName;
 	private String motherName;
@@ -87,6 +86,7 @@ public class Students extends ActionSupport {
 
 	public String updateStudent() {
 		StudentsDAO studentsDAO = new StudentsDAO();
+		
 		studentsDAO.update(this);
 		return "SUCCESS";
 	}
@@ -220,13 +220,6 @@ public class Students extends ActionSupport {
 		this.sex = sex;
 	}
 
-	public int getFacultyId() {
-		return facultyId;
-	}
-
-	public void setFacultyId(int facultyId) {
-		this.facultyId = facultyId;
-	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;

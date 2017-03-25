@@ -100,7 +100,7 @@ public class StudentsDAO {
 
 	public void update(Students s) {
 		Connection conn = DBConnection.open();
-		String insertString = "UPDATE Students SET username = ?,password = ?,firstName = ?,lastName = ?,dob = ?,"
+		String insertString = "UPDATE Students SET username = ?,firstName = ?,lastName = ?,dob = ?,"
 				+ "email = ?,address = ?,sex = ?,facultyID = ?,phonenumber = ?,fatherName = ?,motherName = ?,fatherProfession = ?,"
 				+ "motherProfession = ?,fatherPlaceOfWork = ?,motherPlaceOfWork = ? WHERE id = ?";
 
@@ -109,22 +109,22 @@ public class StudentsDAO {
 		try {
 			pstmt = conn.prepareStatement(insertString);
 			pstmt.setString(1, s.getUsername());
-			pstmt.setString(2, s.getPassword());
-			pstmt.setString(3, s.getFirstName());
-			pstmt.setString(4, s.getLastName());
-			pstmt.setDate(5, new Date(s.getDob().getTime()));
-			pstmt.setString(6, s.getEmail());
-			pstmt.setString(7, s.getAddress());
-			pstmt.setBoolean(8, s.isSex());
-			pstmt.setInt(9, s.getFaculty().getId());
-			pstmt.setString(10, s.getPhoneNumber());
-			pstmt.setString(11, s.getFatherName());
-			pstmt.setString(12, s.getMotherName());
-			pstmt.setString(13, s.getFatherProfession());
-			pstmt.setString(14, s.getMotherProfession());
-			pstmt.setString(15, s.getFatherOfWork());
-			pstmt.setString(16, s.getMotherOfWork());
-			pstmt.setInt(17, s.getId());
+			
+			pstmt.setString(2, s.getFirstName());
+			pstmt.setString(3, s.getLastName());
+			pstmt.setDate(4, new Date(s.getDob().getTime()));
+			pstmt.setString(5, s.getEmail());
+			pstmt.setString(6, s.getAddress());
+			pstmt.setBoolean(7, s.isSex());
+			pstmt.setInt(8, s.getFaculty().getId());
+			pstmt.setString(9, s.getPhoneNumber());
+			pstmt.setString(10, s.getFatherName());
+			pstmt.setString(11, s.getMotherName());
+			pstmt.setString(12, s.getFatherProfession());
+			pstmt.setString(13, s.getMotherProfession());
+			pstmt.setString(14, s.getFatherOfWork());
+			pstmt.setString(15, s.getMotherOfWork());
+			pstmt.setInt(16, s.getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException e) {

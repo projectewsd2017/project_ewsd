@@ -200,7 +200,7 @@
 		<action name="loginprocess" class="vn.fpt.ec.actions.Login"
 			method="loginUser">
 			<result name="ADMIN" type="redirectAction">getAllClaims</result>
-			<result name="EC">loginsuccess.jsp</result>
+			<result name="EC" type="redirectAction">getAllClaims</result>
 			<result name="STUDENT" type="redirectAction">addClaim</result>
 			<result name="error">loginerror.jsp</result>
 			<result name="LOGINERROR">loginnull.jsp</result>
