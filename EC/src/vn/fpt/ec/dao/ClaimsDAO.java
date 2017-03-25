@@ -212,6 +212,7 @@ public class ClaimsDAO {
 			claim.setCreateDate(rs.getDate("createdDate"));
 			claim.setDueDate(rs.getDate("dueDate"));
 			claim.setStatus(rs.getString("status"));
+			claim.setEcCoordinatorID(rs.getInt("ecCoordinatorID"));
 			ClaimType claimType = new ClaimType();
 			claimType.setId(rs.getInt("claimTypeID"));
 			claim.setClaimType(claimType);

@@ -164,7 +164,7 @@
 										<div class="col-sm-10">
 
 											<textarea class="form-control" id="comment" rows="5"
-												name="comment" placeholder="Enter comment" maxlength="500">${content }</textarea>
+												name="comment" placeholder="Enter comment" maxlength="500">${comment }</textarea>
 										</div>
 									</div>
 

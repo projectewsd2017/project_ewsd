@@ -211,6 +211,12 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 
 		// ....................................
+		Staffs st = new Staffs();
+		StaffsDAO dao = new StaffsDAO();
+		st = dao.findById(staffs.getId());
+		Emailer emailer = new Emailer();
+		emailer.setTo(st.getEmail());
+		emailer.execute();
 		claimsDAO.update(this);
 		return "SUCCESS";
 	}

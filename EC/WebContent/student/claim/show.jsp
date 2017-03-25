@@ -130,6 +130,9 @@
 								<s:param name="content">
 									<s:property value="content" />
 								</s:param>
+								<s:param name="comment">
+									<s:property value="comment" />
+								</s:param>
 								<s:param name="claimType.claimName">
 									<s:property value="claimType.claimName" />
 								</s:param>

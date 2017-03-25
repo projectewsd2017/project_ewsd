@@ -32,7 +32,7 @@ public class Emailer extends ActionSupport {
 		password = "Abcd1234!";
 		subject = "New Claim";
 		body = "We Have New Claim,Please Check!";
-		to = "tranquocduy3112@gmail.com";
+		
 		try {
 			Session session = Session.getDefaultInstance(properties,
 					new javax.mail.Authenticator() {
