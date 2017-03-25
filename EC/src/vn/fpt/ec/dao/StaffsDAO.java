@@ -34,7 +34,7 @@ public class StaffsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("fId"));
 				faculties.setFacutlyName(rs.getString("facutlyName"));
-				
+
 				Roles role = new Roles();
 				role.setId(rs.getInt("rId"));
 				role.setRoleName(rs.getString("roleName"));
@@ -64,7 +64,7 @@ public class StaffsDAO {
 
 		return list;
 	}
-	
+
 	public Staffs findById(int id) {
 		Connection conn = DBConnection.open();
 		String findByIdString = "Select * From Staffs Where id = ?";
@@ -86,6 +86,30 @@ public class StaffsDAO {
 		return staff;
 
 	}
-	
-	
+
+	public List<String> selectAllAdmin() {
+		Connection conn = DBConnection.open();
+		String selectString = "Select * From Staffs Where RoleID = 1";
+		Statement stmt = null;
+		ResultSet rs = null;
+		List<String> list = new ArrayList<String>();
+		Staffs staff = null;
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(selectString);
+			while (rs.next()) {
+				staff = new Staffs();
+				staff.setId(rs.getInt("id"));
+				staff.setEmail(rs.getString("email"));
+				list.add(staff.getEmail());
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+
+	}
+
 }

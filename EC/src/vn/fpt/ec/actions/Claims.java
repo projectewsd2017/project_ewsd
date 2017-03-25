@@ -1,6 +1,7 @@
 package vn.fpt.ec.actions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -129,10 +130,17 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 
 		// ....................................
-
+		StaffsDAO staffsDAO = new StaffsDAO();
+		List<String> emailAdmin = new ArrayList<String>();
+		emailAdmin = staffsDAO.selectAllAdmin();
+		
 		claimsDAO.insert(this);
 		Emailer emailer = new Emailer();
-		emailer.execute();
+		for (String mail : emailAdmin) {
+			emailer.setTo(mail);
+			emailer.execute();
+		}
+		
 		return "SUCCESS";
 	}
 
