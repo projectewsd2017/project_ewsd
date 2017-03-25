@@ -166,15 +166,15 @@
 			<result name="input">/admin/student/AddStudent.jsp</result>
 		</action>
 
-		<action name="updateClaimType" class="vn.fpt.ec.actions.Students"
+		<action name="updateStudent" class="vn.fpt.ec.actions.Students"
 			method="update">
-			<result name="SUCCESS">/admin/student/AddStudent.jsp</result>
+			<result name="SUCCESS">/admin/student/UpdateStudent.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
 
-		<action name="saveupdateclaimtype" class="vn.fpt.ec.actions.Students"
-			method="updateType">
-			<result name="input">/admin/student/AddStudent.jsp</result>
+		<action name="saveupdatestudent" class="vn.fpt.ec.actions.Students"
+			method="updateStudent">
+			<result name="input">/admin/student/UpdateStudent.jsp</result>
 			<result name="SUCCESS" type="redirectAction">getAllStudent</result>
 		</action>
 

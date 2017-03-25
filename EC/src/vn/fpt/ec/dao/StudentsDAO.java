@@ -88,7 +88,7 @@ public class StudentsDAO {
 			pstmt.setString(15, s.getFatherOfWork());
 			pstmt.setString(16, s.getMotherOfWork());
 
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -116,7 +116,7 @@ public class StudentsDAO {
 			pstmt.setString(6, s.getEmail());
 			pstmt.setString(7, s.getAddress());
 			pstmt.setBoolean(8, s.isSex());
-			pstmt.setInt(9, s.getFacultyId());
+			pstmt.setInt(9, s.getFaculty().getId());
 			pstmt.setString(10, s.getPhoneNumber());
 			pstmt.setString(11, s.getFatherName());
 			pstmt.setString(12, s.getMotherName());
@@ -126,7 +126,7 @@ public class StudentsDAO {
 			pstmt.setString(16, s.getMotherOfWork());
 			pstmt.setInt(17, s.getId());
 
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -20,7 +20,7 @@
 								<s:form class="form-horizontal" enctype="multipart/form-data">
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="status">Full Name
+										<label class="control-label col-sm-2" for="fullname">Full Name
 											:</label>
 										<div class="col-sm-10">
 
@@ -30,7 +30,7 @@
 									</div>
 									
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="status">Username
+										<label class="control-label col-sm-2" for="username">Username
 											:</label>
 										<div class="col-sm-10">
 
@@ -39,7 +39,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="status">Email
+										<label class="control-label col-sm-2" for="email">Email
 											:</label>
 										<div class="col-sm-10">
 
@@ -48,7 +48,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="status">Date Of Birth
+										<label class="control-label col-sm-2" for="dob">Date Of Birth
 											:</label>
 										<div class="col-sm-10">
 
@@ -57,7 +57,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="status">address
+										<label class="control-label col-sm-2" for="address">address
 											:</label>
 										<div class="col-sm-10">
 
@@ -157,36 +157,72 @@
 
 									
 							</div>
-							<s:url action="updateClaim" var="updateid">
+							<s:url action="updateStudent" var="updateid">
 								<s:param name="id">
 									<s:property value="id" />
 								</s:param>
-								<s:param name="studentId">
-									<s:property value="studentId" />
+								<s:param name="firstName">
+									<s:property value="firstName" />
 								</s:param>
-								<s:param name="title">
-									<s:property value="title" />
+								<s:param name="lastName">
+									<s:property value="lastName" />
 								</s:param>
-								<s:param name="content">
-									<s:property value="content" />
+								<s:param name="username">
+									<s:property value="username" />
 								</s:param>
-								<s:param name="claimType.claimName">
-									<s:property value="claimType.claimName" />
+								<s:param name="dob">
+									<s:property value="dob" />
 								</s:param>
-								<s:param name="pathEvidence1FileName">
-									<s:property value="pathEvidence1FileName" />
+								<s:param name="email">
+									<s:property value="email" />
 								</s:param>
-								<s:param name="pathEvidence2FileName">
-									<s:property value="pathEvidence2FileName" />
+								<s:param name="address">
+									<s:property value="address" />
 								</s:param>
-								<s:param name="pathEvidence3FileName">
-									<s:property value="pathEvidence3FileName" />
+								<s:param name="sex">
+									<s:property value="sex" />
+								</s:param>
+								<s:param name="phoneNumber">
+									<s:property value="phoneNumber" />
+								</s:param>
+								<s:param name="fatherName">
+									<s:property value="fatherName" />
+								</s:param>
+								<s:param name="motherName">
+									<s:property value="motherName" />
+								</s:param>
+								<s:param name="fatherProfession">
+									<s:property value="fatherProfession" />
+								</s:param>
+								<s:param name="motherProfession">
+									<s:property value="motherProfession" />
+								</s:param>
+								<s:param name="fatherOfWork">
+									<s:property value="fatherOfWork" />
+								</s:param>
+								<s:param name="motherOfWork">
+									<s:property value="motherOfWork" />
+								</s:param>
+								<s:param name="faculty.facutlyName">
+									<s:property value="faculty.facutlyName" />
 								</s:param>
 
 							</s:url>
-							<button class="btn btn-default">
-								<s:a href="%{updateid}">Update</s:a>
-							</button>
+							<s:url action="deleteStudent" var="deleteid">
+								<s:param name="id">
+									<s:property value="id" />
+								</s:param>
+							</s:url>
+							<div style="text-align: right">
+								<button class="btn btn-default">
+									<s:a href="%{updateid}">Update</s:a>
+								</button>
+								&nbsp
+
+								<button class="btn btn-default">
+									<s:a href="%{deleteid}">Delete</s:a>
+								</button>
+							</div>
 
 							</s:form>
 						</div>

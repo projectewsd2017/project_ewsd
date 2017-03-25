@@ -65,6 +65,7 @@ public class Students extends ActionSupport {
 	public String addStudent() {
 		StudentsDAO studentsDAO = new StudentsDAO();
 		password = "Abc123!";
+		email = username.concat("@gmail.com");
 		studentsDAO.insert(this);
 		return "SUCCESS";
 	}
@@ -76,7 +77,8 @@ public class Students extends ActionSupport {
 
 		String s = (String) session.getAttribute("login");
 		if (s != null && s.equals("admin")) {
-
+			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = facultyDAO.select();
 			return "SUCCESS";
 		} else {
 			return "error";
