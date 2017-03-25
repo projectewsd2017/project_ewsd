@@ -136,7 +136,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		
 		claimsDAO.insert(this);
 		Emailer emailer = new Emailer();
-		for (String mail : emailAdmin) {
+		for (String mail : emailAdmin) {//send mail to all admin
 			emailer.setTo(mail);
 			emailer.execute();
 		}
@@ -174,13 +174,22 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
+		Staffs st = new Staffs();
+		StaffsDAO dao = new StaffsDAO();
+		Emailer emailer = new Emailer();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 
 		String s = (String) session.getAttribute("login");
 		if (s != null && s.equals("admin")) {
+			st = dao.findById(staffs.getId());
+			emailer.setTo(st.getEmail());
 			this.setStatus(processing);
 		} else if (s != null && s.equals("ec")) {
+			StudentsDAO studentsDAO = new StudentsDAO();
+			Students students = new Students();
+			students = studentsDAO.findById(studentId);
+			emailer.setTo(students.getEmail());
 			this.setStatus(processed);
 		}
 		StudentsDAO studentsDAO = new StudentsDAO();
@@ -219,11 +228,10 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 
 		// ....................................
-		Staffs st = new Staffs();
-		StaffsDAO dao = new StaffsDAO();
-		st = dao.findById(staffs.getId());
-		Emailer emailer = new Emailer();
-		emailer.setTo(st.getEmail());
+		
+		
+		
+		
 		emailer.execute();
 		claimsDAO.update(this);
 		return "SUCCESS";
