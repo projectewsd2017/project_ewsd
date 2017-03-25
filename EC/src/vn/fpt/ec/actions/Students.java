@@ -8,8 +8,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
-import vn.fpt.ec.dao.ClaimTypeDAO;
-import vn.fpt.ec.dao.ClaimsDAO;
 import vn.fpt.ec.dao.FacultyDAO;
 import vn.fpt.ec.dao.StudentsDAO;
 
@@ -103,6 +101,44 @@ public class Students extends ActionSupport {
 		} else {
 			return "error";
 		}
+	}
+
+	public String search() {
+		 HttpServletRequest request = ServletActionContext.getRequest();
+		 HttpSession session = request.getSession();
+		
+		 String s = (String) session.getAttribute("login");
+		 if (s != null && !s.equals("student")) {
+		searchById();
+		return "SUCCESS";
+		 } else {
+		 return "error";
+		 }
+	}
+
+	public Students searchById() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		Students student = new Students();
+		student = studentsDAO.findById(id);
+		username = student.getUsername();
+		password = student.getPassword();
+		firstName = student.getFirstName();
+		lastName = student.getLastName();
+		dob = student.getDob();
+		email = student.getEmail();
+		address = student.getAddress();
+		sex = student.isSex();
+		phoneNumber = student.getPhoneNumber();
+		fatherName = student.getFatherName();
+		motherName = student.getMotherName();
+		fatherProfession = student.getFatherProfession();
+		motherProfession = student.getMotherProfession();
+		fatherOfWork = student.getFatherOfWork();
+		motherOfWork = student.getMotherOfWork();
+		FacultyDAO facultyDAO = new FacultyDAO();
+		faculty = facultyDAO.findById(student.getFaculty().getId());
+
+		return student;
 	}
 
 	/*--------------getter & setter & constructor-----------*/

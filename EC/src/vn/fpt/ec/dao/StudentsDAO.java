@@ -32,10 +32,11 @@ public class StudentsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("fId"));
 				faculties.setFacutlyName(rs.getString("facutlyName"));
-				
+
 				students = new Students();
 				students.setId(rs.getInt("sId"));
 				students.setUsername(rs.getString("username"));
+				students.setPassword(rs.getString("password"));
 				students.setFirstName(rs.getString("firstName"));
 				students.setLastName(rs.getString("lastName"));
 				students.setDob(rs.getDate("dob"));
@@ -165,8 +166,25 @@ public class StudentsDAO {
 			rs.next();
 			student = new Students();
 			student.setId(rs.getInt("id"));
-			student.setFacultyId(rs.getInt("facultyID"));
+			Faculties faculties = new Faculties();
+			faculties.setId(rs.getInt("facultyID"));
+			student.setFaculty(faculties);
 			student.setUsername(rs.getString("username"));
+			student.setPassword(rs.getString("password"));
+
+			student.setFirstName(rs.getString("firstName"));
+			student.setLastName(rs.getString("lastName"));
+			student.setDob(rs.getDate("dob"));
+			student.setEmail(rs.getString("email"));
+			student.setAddress(rs.getString("address"));
+			student.setSex(rs.getBoolean("sex"));
+			student.setPhoneNumber(rs.getString("phonenumber"));
+			student.setFatherName(rs.getString("fatherName"));
+			student.setMotherName(rs.getString("motherName"));
+			student.setFatherProfession(rs.getString("fatherProfession"));
+			student.setMotherProfession(rs.getString("motherProfession"));
+			student.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
+			student.setMotherOfWork(rs.getString("motherPlaceOfWork"));
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -183,6 +183,12 @@
 			<result name="SUCCESS" type="redirectAction">getAllStudent</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
+		
+		<action name="searchStudentById" class="vn.fpt.ec.actions.Students"
+			method="search">
+			<result name="SUCCESS">/admin/student/Detail.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
 
 
 

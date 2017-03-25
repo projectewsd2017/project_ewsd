@@ -1,6 +1,7 @@
 package vn.fpt.ec.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,5 +39,29 @@ public class FacultyDAO {
 			DBConnection.close(conn, stmt, rs);
 		}
 		return list;
+	}
+	
+	
+	public Faculties findById(int id) {
+		Connection conn = DBConnection.open();
+		String findByIdString = "Select * From Faculties Where id = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Faculties faculties = new Faculties();
+		try {
+			pstmt = conn.prepareStatement(findByIdString);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			rs.next();
+			faculties.setId(rs.getInt("id"));
+			faculties.setFacutlyName(rs.getString("facutlyName"));
+			
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return faculties;
+
 	}
 }

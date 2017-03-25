@@ -52,7 +52,7 @@
 											</s:param>
 										</s:url>
 										<td style="text-align: center"><s:a href="%{deleteid}">Delete</s:a></td>
-										<s:url action="searchById" var="searchById">
+										<s:url action="searchStudentById" var="searchById">
 											<s:param name="id">
 												<s:property value="id" />
 											</s:param>
