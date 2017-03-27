@@ -91,7 +91,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.html"></s:include>
+		<s:include value="../../home.html"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
@@ -108,17 +108,13 @@
 								<s:form action="saveaddclaim"
 									cssClass="form-horizontal col-xs-12" id="formClaim"
 									enctype="multipart/form-data">
-
-									
-
-									<div class="form-group">
+									<div class="form-group"  >
 										<label class="control-label col-sm-2" for="title">Title:</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control" id="title"
 												name="title" placeholder="Enter Title">
 										</div>
 									</div>
-
 
 
 									<div class="form-group" style="">

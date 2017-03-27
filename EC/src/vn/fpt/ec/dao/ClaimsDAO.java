@@ -42,7 +42,7 @@ public class ClaimsDAO {
 				students.setDob(rs.getDate("dob"));
 				students.setEmail(rs.getString("email"));
 				students.setAddress(rs.getString("address"));
-				students.setSex(rs.getBoolean("sex"));
+				students.setSex(rs.getString("sex"));
 				students.setPhoneNumber(rs.getString("phonenumber"));
 				students.setFatherName(rs.getString("fatherName"));
 				students.setMotherName(rs.getString("motherName"));

@@ -42,7 +42,7 @@ public class StudentsDAO {
 				students.setDob(rs.getDate("dob"));
 				students.setEmail(rs.getString("email"));
 				students.setAddress(rs.getString("address"));
-				students.setSex(rs.getBoolean("sex"));
+				students.setSex(rs.getString("sex"));
 				students.setPhoneNumber(rs.getString("phonenumber"));
 				students.setFatherName(rs.getString("motherName"));
 				students.setFatherProfession(rs.getString("fatherProfession"));
@@ -78,7 +78,7 @@ public class StudentsDAO {
 			pstmt.setDate(5, new Date(s.getDob().getTime()));
 			pstmt.setString(6, s.getEmail());
 			pstmt.setString(7, s.getAddress());
-			pstmt.setBoolean(8, s.isSex());
+			pstmt.setString(8, s.getSex());
 			pstmt.setInt(9, s.getFaculty().getId());
 			pstmt.setString(10, s.getPhoneNumber());
 			pstmt.setString(11, s.getFatherName());
@@ -115,7 +115,7 @@ public class StudentsDAO {
 			pstmt.setDate(4, new Date(s.getDob().getTime()));
 			pstmt.setString(5, s.getEmail());
 			pstmt.setString(6, s.getAddress());
-			pstmt.setBoolean(7, s.isSex());
+			pstmt.setString(7, s.getSex());
 			pstmt.setInt(8, s.getFaculty().getId());
 			pstmt.setString(9, s.getPhoneNumber());
 			pstmt.setString(10, s.getFatherName());
@@ -177,7 +177,7 @@ public class StudentsDAO {
 			student.setDob(rs.getDate("dob"));
 			student.setEmail(rs.getString("email"));
 			student.setAddress(rs.getString("address"));
-			student.setSex(rs.getBoolean("sex"));
+			student.setSex(rs.getString("sex"));
 			student.setPhoneNumber(rs.getString("phonenumber"));
 			student.setFatherName(rs.getString("fatherName"));
 			student.setMotherName(rs.getString("motherName"));

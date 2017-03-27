@@ -11,63 +11,61 @@
 <d:head />
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 <script type="text/javascript">
-$(document)
-.ready(
+	$(document)
+			.ready(
 
-		function() {
+					function() {
 
-			$("#formStudent")
-					.validate(
-							{
+						$("#formStudent")
+								.validate(
+										{
 
-								rules : {
-									username : "required",
-									firstName : "required",
-									lastName : "required",
-								
+											rules : {
+												username : "required",
+												firstName : "required",
+												lastName : "required",
 
-								},
-								messages : {
-									style : "color:red",
-									username : "Please enter your username",
-									firstName : "Please enter your first name",
-									lastName : "Please enter your last name",
-									
+											},
+											messages : {
+												style : "color:red",
+												username : "Please enter your username",
+												firstName : "Please enter your first name",
+												lastName : "Please enter your last name",
 
-								},
+											},
 
-								errorElement : "em",
-								errorPlacement : function(error,
-										element) {
-									// Add the `help-block` class to the error element
-									error.addClass("help-block");
+											errorElement : "em",
+											errorPlacement : function(error,
+													element) {
+												// Add the `help-block` class to the error element
+												error.addClass("help-block");
 
-									if (element.prop("type") === "checkbox") {
-										error.insertAfter(element
-												.parent("label"));
-									} else {
-										error.insertAfter(element);
-									}
-								},
-								highlight : function(element,
-										errorClass, validClass) {
-									$(element).parents(".col-sm-5")
-											.addClass("has-error")
-											.removeClass(
-													"has-success");
-								},
-								unhighlight : function(element,
-										errorClass, validClass) {
-									$(element)
-											.parents(".col-sm-5")
-											.addClass("has-success")
-											.removeClass(
-													"has-error");
-								}
+												if (element.prop("type") === "checkbox") {
+													error.insertAfter(element
+															.parent("label"));
+												} else {
+													error.insertAfter(element);
+												}
+											},
+											highlight : function(element,
+													errorClass, validClass) {
+												$(element).parents(".col-sm-5")
+														.addClass("has-error")
+														.removeClass(
+																"has-success");
+											},
+											unhighlight : function(element,
+													errorClass, validClass) {
+												$(element)
+														.parents(".col-sm-5")
+														.addClass("has-success")
+														.removeClass(
+																"has-error");
+											}
 
-							});
+										});
 
-		})
+					})
 </script>
 </head>
 <body>
@@ -85,7 +83,7 @@ $(document)
 
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-lg-6">
+							<div class="col-lg-10">
 								<s:form action="saveaddstudent"
 									cssClass="form-horizontal col-xs-12" id="formStudent"
 									enctype="multipart/form-data">
@@ -93,60 +91,67 @@ $(document)
 
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="username">Username:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="username">Username:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="username"
 												name="username" placeholder="Enter Username">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="firstName">First
+										<label class="control-label col-sm-4" for="firstName">First
 											Name:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="firstName"
 												name="firstName" placeholder="Enter First Name">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="lastName">Last
+										<label class="control-label col-sm-4" for="lastName">Last
 											Name:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="lastName"
 												name="lastName" placeholder="Enter Last Name">
 										</div>
 									</div>
 
-									
+
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="dob">Birth
+										<label class="control-label col-sm-4" for="dobString">Birth
 											Date:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control" id="dob" name="dob"
-												placeholder="Enter Birth Date">
+										<div class="col-sm-6">
+											<input type="date" class="form-control" id="dobString"
+												name="dobString" maxlength="10">
+
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="address">Address:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="address">Address:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="address"
 												name="address" placeholder="Enter address">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="sex">sex:</label>
-										<div class="col-sm-10">
-											<input type="radio" class="form-control" id="sex" name="sex"
-												placeholder="Enter email">
+										<label class="control-label col-sm-4">Sex :</label>
+										<div class="col-sm-6">
+											<label class="radio-inline"> <input type="radio"
+												name="sex" value="Male" checked>Male
+											</label> <label class="radio-inline"> <input type="radio"
+												name="sex" value="Female">Female
+											</label> <label class="radio-inline"> <input type="radio"
+												name="sex" value="Other">Other
+											</label>
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="phoneNumber">phonenumber:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="phoneNumber">Phone
+											Number:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="phoneNumber"
 												name="phoneNumber" placeholder="Enter phonenumber">
 										</div>
@@ -155,8 +160,8 @@ $(document)
 
 
 									<div class="form-group" style="">
-										<label class="control-label col-sm-2" for="faculty">Faculty:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="faculty">Faculty:</label>
+										<div class="col-sm-6">
 											<s:select class="form-control" id="faculty"
 												list="%{listAllFaculty}" theme="simple" listKey="%{id}"
 												style="width:100%" listValue="%{facutlyName}" value="%{id}"
@@ -166,47 +171,51 @@ $(document)
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherName">fatherName:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="fatherName">Father
+											Name:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherName"
 												name="fatherName" placeholder="Enter fatherName">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherName">motherName:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="motherName">Mother
+											Name:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherName"
 												name="motherName" placeholder="Enter motherName">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherProfession">fatherProfession:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="fatherProfession">Father
+											Profession:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherProfession"
 												name="fatherProfession" placeholder="Enter fatherProfession">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherProfession">motherProfession:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="motherProfession">Mother
+											Profession:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherProfession"
 												name="motherProfession" placeholder="Enter motherProfession">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherOfWork">fatherPlaceOfWork:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control"
-												id="fatherOfWork" name="fatherOfWork"
-												placeholder="Enter fatherOfWork">
+										<label class="control-label col-sm-4" for="fatherOfWork">Father
+											Place Of Work:</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control" id="fatherOfWork"
+												name="fatherOfWork" placeholder="Enter fatherOfWork">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherOfWork">motherPlaceOfWork:</label>
-										<div class="col-sm-10">
-											<input type="text" class="form-control"
-												id="motherOfWork" name="motherOfWork"
-												placeholder="Enter motherOfWork">
+										<label class="control-label col-sm-4" for="motherOfWork">Mother
+											Place Of Work:</label>
+										<div class="col-sm-6">
+											<input type="text" class="form-control" id="motherOfWork"
+												name="motherOfWork" placeholder="Enter motherOfWork">
 										</div>
 									</div>
 

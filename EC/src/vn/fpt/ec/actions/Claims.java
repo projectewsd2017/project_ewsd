@@ -60,7 +60,33 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private List<ClaimType> listType;
 	private List<Staffs> listStaffs;
 	private Staffs staffs;
+	private Boolean admin;
+	private Boolean ec;
 	private SessionMap<String, Object> sessionmap;
+
+	public void checkAdmin() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			admin = true;
+		} else {
+			admin = false;
+		}
+	}
+
+	public void checkEC() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("ec")) {
+			ec = true;
+		} else {
+			ec = false;
+		}
+	}
 
 	public String getAllClaims() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
@@ -133,14 +159,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 		StaffsDAO staffsDAO = new StaffsDAO();
 		List<String> emailAdmin = new ArrayList<String>();
 		emailAdmin = staffsDAO.selectAllAdmin();
-		
+
 		claimsDAO.insert(this);
 		Emailer emailer = new Emailer();
-		for (String mail : emailAdmin) {//send mail to all admin
+		for (String mail : emailAdmin) {// send mail to all admin
 			emailer.setTo(mail);
 			emailer.execute();
 		}
-		
+
 		return "SUCCESS";
 	}
 
@@ -154,6 +180,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 			StaffsDAO staffsDAO = new StaffsDAO();
 			listStaffs = staffsDAO.selectAllStaff();
 			listType = claimTypeDAO.select();
+			checkAdmin();
+			checkEC();
 			return "SUCCESS";
 		} else {
 			return "error";
@@ -228,10 +256,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 
 		// ....................................
-		
-		
-		
-		
+
 		emailer.execute();
 		claimsDAO.update(this);
 		return "SUCCESS";
@@ -491,6 +516,22 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public void setStaffs(Staffs staffs) {
 		this.staffs = staffs;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
+	public Boolean getEc() {
+		return ec;
+	}
+
+	public void setEc(Boolean ec) {
+		this.ec = ec;
 	}
 
 	public void setSession(Map map) {

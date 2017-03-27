@@ -1,5 +1,7 @@
 package vn.fpt.ec.actions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class Students extends ActionSupport {
 	private Date dob;
 	private String email;
 	private String address;
-	private boolean sex;
+	private String sex;
 	private String phoneNumber;
 	private String fatherName;
 	private String motherName;
@@ -35,6 +37,7 @@ public class Students extends ActionSupport {
 	private String motherProfession;
 	private String fatherOfWork;
 	private String motherOfWork;
+	private String dobString;
 	private Faculties faculty;
 	private List<Students> listAllStudents;
 	private List<Faculties> listAllFaculty;
@@ -61,10 +64,13 @@ public class Students extends ActionSupport {
 		}
 	}
 
-	public String addStudent() {
+	public String addStudent() throws ParseException {
 		StudentsDAO studentsDAO = new StudentsDAO();
 		password = "Abc123!";
 		email = username.concat("@gmail.com");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		dob = format.parse(dobString);
+
 		studentsDAO.insert(this);
 		return "SUCCESS";
 	}
@@ -86,7 +92,7 @@ public class Students extends ActionSupport {
 
 	public String updateStudent() {
 		StudentsDAO studentsDAO = new StudentsDAO();
-		
+
 		studentsDAO.update(this);
 		return "SUCCESS";
 	}
@@ -106,16 +112,16 @@ public class Students extends ActionSupport {
 	}
 
 	public String search() {
-		 HttpServletRequest request = ServletActionContext.getRequest();
-		 HttpSession session = request.getSession();
-		
-		 String s = (String) session.getAttribute("login");
-		 if (s != null && !s.equals("student")) {
-		searchById();
-		return "SUCCESS";
-		 } else {
-		 return "error";
-		 }
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && !s.equals("student")) {
+			searchById();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public Students searchById() {
@@ -129,7 +135,7 @@ public class Students extends ActionSupport {
 		dob = student.getDob();
 		email = student.getEmail();
 		address = student.getAddress();
-		sex = student.isSex();
+		sex = student.getSex();
 		phoneNumber = student.getPhoneNumber();
 		fatherName = student.getFatherName();
 		motherName = student.getMotherName();
@@ -212,14 +218,13 @@ public class Students extends ActionSupport {
 		this.address = address;
 	}
 
-	public boolean isSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(boolean sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
-
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -299,6 +304,14 @@ public class Students extends ActionSupport {
 
 	public void setListAllFaculty(List<Faculties> listAllFaculty) {
 		this.listAllFaculty = listAllFaculty;
+	}
+
+	public String getDobString() {
+		return dobString;
+	}
+
+	public void setDobString(String dobString) {
+		this.dobString = dobString;
 	}
 
 }

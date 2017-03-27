@@ -7,9 +7,13 @@
 <s:head />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Claim - Edit ${id }</title>
-<style type="text/css">
-.rendered{
+<style>
+#hide {
 	display: none;
+}
+
+#show {
+	display: block;
 }
 </style>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
@@ -111,14 +115,16 @@
 									enctype="multipart/form-data" validate="true">
 									<s:textfield name="id" type="hidden"></s:textfield>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="studentId">student Id:</label>
+										<label class="control-label col-sm-2" for="studentId">student
+											Id:</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="studentId" readonly="readonly"
-												name="studentId" placeholder="Enter studentId" value="${studentId}">
+											<input type="text" class="form-control" id="studentId"
+												readonly="readonly" name="studentId"
+												placeholder="Enter studentId" value="${studentId}">
 										</div>
 									</div>
-									
-									<div class="form-group">
+
+									<div class="form-group" id="${ admin  ? 'show' : 'hide' }">
 										<label class="control-label col-sm-2" for="coordinator">Coordinator:</label>
 										<div class="col-sm-10">
 											<s:select class="form-control" id="coordinator"
@@ -158,8 +164,8 @@
 												name="content" placeholder="Enter content" maxlength="300">${content }</textarea>
 										</div>
 									</div>
-									
-									<div class="form-group">
+									<div class="form-group" id="${ ec  ? 'show' : 'hide' }">
+
 										<label class="control-label col-sm-2" for="comment">comment:</label>
 										<div class="col-sm-10">
 
@@ -173,22 +179,28 @@
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence1" maxlength="50"
-												name="pathEvidence1" value="${pathEvidence1FileName}"> <span id="file_error"></span>
+											<input type="file" class="form-control" id="pathEvidence1"
+												maxlength="50" name="pathEvidence1"
+												value="${pathEvidence1FileName}"> <span
+												id="file_error"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence2" maxlength="50"
-												name="pathEvidence2" value="${pathEvidence2FileName}"> <span id="file_error"></span>
+											<input type="file" class="form-control" id="pathEvidence2"
+												maxlength="50" name="pathEvidence2"
+												value="${pathEvidence2FileName}"> <span
+												id="file_error"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence3" maxlength="50"
-												name="pathEvidence3" value="${pathEvidence3FileName}"> <span id="file_error"></span>
+											<input type="file" class="form-control" id="pathEvidence3"
+												maxlength="50" name="pathEvidence3"
+												value="${pathEvidence3FileName}"> <span
+												id="file_error"></span>
 										</div>
 									</div>
 
