@@ -16,146 +16,142 @@
 
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-lg-6">
+							<div class="col-lg-10">
 								<s:form class="form-horizontal" enctype="multipart/form-data">
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fullname">Full Name
-											:</label>
-										<div class="col-sm-10">
-
+										<label class="col-sm-4 text-right" for="fullname">Full
+											Name :</label>
+										<div class="col-sm-6">
 											<s:property value="firstName+ ' '+ lastName" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="username">Username
+										<label class="col-sm-4 text-right" for="username">Username
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="username" />
 
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="email">Email
+										<label class="col-sm-4 text-right" for="email">Email
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="email" />
 
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="dob">Date Of Birth
-											:</label>
-										<div class="col-sm-10">
+										<label class="col-sm-4 text-right" for="dob">Date
+											Of Birth :</label>
+										<div class="col-sm-6">
 
 											<s:property value="dob" />
 
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="address">address
+										<label class="col-sm-4 text-right" for="address">Address
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="address" />
 
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="sex">sex
-											:</label>
-										<div class="col-sm-10">
+										<label class="col-sm-4 text-right" for="sex">Sex :</label>
+										<div class="col-sm-6">
 
 											<s:property value="sex" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="faculty">Faculty
+										<label class="col-sm-4 text-right" for="faculty">Faculty
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="faculty.facutlyName" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="phonenumber">phonenumber
+										<label class="col-sm-4 text-right" for="phonenumber">Phone Number
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="phoneNumber" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherName">fatherName
+										<label class="col-sm-4 text-right" for="fatherName">Father Name
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="fatherName" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherName">motherName
+										<label class="col-sm-4 text-right" for="motherName">Mother Name
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="motherName" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherProfession">fatherProfession
+										<label class="col-sm-4 text-right" for="fatherProfession">Father Profession
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="fatherProfession" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherProfession">motherProfession
+										<label class="col-sm-4 text-right" for="motherProfession">Mother Profession
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="motherProfession" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherOfWork">fatherOfWork
+										<label class="col-sm-4 text-right" for="fatherOfWork">Father Place Of Work
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="fatherOfWork" />
 
 										</div>
 									</div>
-									
+
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherOfWork">motherOfWork
+										<label class="col-sm-4 text-right" for="motherOfWork">Mother Place OfWork
 											:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 
 											<s:property value="motherOfWork" />
 
 										</div>
 									</div>
-
-									
 							</div>
 							<s:url action="updateStudent" var="updateid">
 								<s:param name="id">
