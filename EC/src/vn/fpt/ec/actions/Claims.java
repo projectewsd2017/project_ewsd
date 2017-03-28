@@ -59,6 +59,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private String comment;
 	private List<ClaimType> listType;
 	private List<Staffs> listStaffs;
+	private List<Claims> listOfStudent;
 	private Staffs staffs;
 	private Boolean admin;
 	private Boolean ec;
@@ -267,7 +268,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		HttpSession session = request.getSession();
 
 		String s = (String) session.getAttribute("login");
-		if (s != null && !s.equals("student")) {
+		if (s != null) {
 			searchById();
 			return "SUCCESS";
 		} else {
@@ -286,6 +287,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		status = claim.getStatus();
 		createDate = claim.getCreateDate();
 		dueDate = claim.getDueDate();
+		comment = claim.getComment();
 		pathEvidence1FileName = claim.getPathEvidence1FileName();
 		pathEvidence2FileName = claim.getPathEvidence2FileName();
 		pathEvidence3FileName = claim.getPathEvidence3FileName();
@@ -293,6 +295,24 @@ public class Claims extends ActionSupport implements ValidationAware,
 		claimType = claimTypeDAO.findById(claim.getClaimType().getId());
 
 		return claim;
+	}
+
+	public List<Claims> searchClaimByStudentId() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		int idStudent = (int) session.getAttribute("id");
+
+		ClaimsDAO claimsDAO = new ClaimsDAO();
+		listOfStudent = new ArrayList<Claims>();
+		listOfStudent = claimsDAO.selectClaimByStudent(idStudent);
+
+		return listOfStudent;
+	}
+
+	public String searchMyClaim() {
+		searchClaimByStudentId();
+		return "SUCCESS";
 	}
 
 	public String deleteClaim() {
@@ -532,6 +552,15 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public void setEc(Boolean ec) {
 		this.ec = ec;
+	}
+
+	
+	public List<Claims> getListOfStudent() {
+		return listOfStudent;
+	}
+
+	public void setListOfStudent(List<Claims> listOfStudent) {
+		this.listOfStudent = listOfStudent;
 	}
 
 	public void setSession(Map map) {

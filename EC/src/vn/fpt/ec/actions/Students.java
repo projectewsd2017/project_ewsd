@@ -2,6 +2,7 @@ package vn.fpt.ec.actions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class Students extends ActionSupport {
 		String s = (String) session.getAttribute("login");
 		if (s != null && s.equals("admin")) {
 			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = new ArrayList<Faculties>();
 			listAllFaculty = facultyDAO.select();
 			return "SUCCESS";
 		} else {
@@ -83,6 +85,7 @@ public class Students extends ActionSupport {
 		String s = (String) session.getAttribute("login");
 		if (s != null && s.equals("admin")) {
 			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = new ArrayList<Faculties>();
 			listAllFaculty = facultyDAO.select();
 			return "SUCCESS";
 		} else {
@@ -313,5 +316,6 @@ public class Students extends ActionSupport {
 	public void setDobString(String dobString) {
 		this.dobString = dobString;
 	}
+	
 
 }

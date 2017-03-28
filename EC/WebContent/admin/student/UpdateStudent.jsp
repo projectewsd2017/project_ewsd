@@ -79,7 +79,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">Update Claim</h1>
+					<h1 class="page-header">Update Student</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -88,14 +88,14 @@
 
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-lg-6">
+							<div class="col-lg-10">
 								<s:form action="saveupdatestudent" id="updateStudent"
 									cssClass="form-horizontal col-xs-12"
 									enctype="multipart/form-data" validate="true">
 									<s:textfield name="id" type="hidden"></s:textfield>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="username">Username:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="username">Username:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="username"
 												value="${username }" name="username"
 												placeholder="Enter Username">
@@ -103,18 +103,18 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="firstName">First
+										<label class="control-label col-sm-4" for="firstName">First
 											Name:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="firstName"
 												value="${firstName }" name="firstName"
 												placeholder="Enter First Name">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="lastName">Last
+										<label class="control-label col-sm-4" for="lastName">Last
 											Name:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="lastName"
 												value="${lastName }" name="lastName"
 												placeholder="Enter Last Name">
@@ -122,25 +122,25 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="email">Email:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="email">Email:</label>
+										<div class="col-sm-6">
 											<input type="email" class="form-control" id="email"
 												value="${email }" name="email" placeholder="Enter email">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="dob">Birth
+										<label class="control-label col-sm-4" for="dob">Birth
 											Date:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="dob" name="dob"
 												value="${dob }" placeholder="Enter Birth Date">
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="address">Address:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="address">Address:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="address"
 												value="${address }" name="address"
 												placeholder="Enter address">
@@ -148,16 +148,21 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="sex">sex:</label>
-										<div class="col-sm-10">
-											<input type="radio" class="form-control" id="sex" name="sex"
-												value="${sex }" placeholder="Enter sex">
+										<label class="control-label col-sm-4" for="sex">sex:</label>
+										<div class="col-sm-6">
+											<label class="radio-inline"> <input type="radio"
+												name="sex" value="Male" checked>Male
+											</label> <label class="radio-inline"> <input type="radio"
+												name="sex" value="Female">Female
+											</label> <label class="radio-inline"> <input type="radio"
+												name="sex" value="Other">Other
+											</label>
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="phoneNumber">phonenumber:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="phoneNumber">phonenumber:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="phoneNumber"
 												value="${phoneNumber }" name="phoneNumber"
 												placeholder="Enter phonenumber">
@@ -167,60 +172,59 @@
 
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="faculty">Faculty:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="faculty">Faculty:</label>
+										<div class="col-sm-6">
 											<s:select class="form-control" id="faculty"
-												list="%{listAllFaculty}" theme="simple" listKey="%{id}"
-												style="width:100%" listValue="%{facutlyName}" value="%{id}"
-												name="faculty.id" />
+												list="listAllFaculty" theme="simple" listKey="%{id}"
+												listValue="%{facutlyName}" value="%{id}" name="faculty.id" />
 										</div>
 
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherName">fatherName:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="fatherName">fatherName:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherName"
 												value="${fatherName }" name="fatherName"
 												placeholder="Enter fatherName">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherName">motherName:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="motherName">motherName:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherName"
 												value="${motherName }" name="motherName"
 												placeholder="Enter motherName">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherProfession">fatherProfession:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="fatherProfession">fatherProfession:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherProfession"
 												value="${fatherProfession }" name="fatherProfession"
 												placeholder="Enter fatherProfession">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherProfession">motherProfession:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="motherProfession">motherProfession:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherProfession"
 												value="${motherProfession }" name="motherProfession"
 												placeholder="Enter motherProfession">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="fatherOfWork">fatherPlaceOfWork:</label>
-										<div class="col-sm-10">
+										<label class="control-label col-sm-4" for="fatherOfWork">fatherPlaceOfWork:</label>
+										<div class="col-sm-6">
 											<input type="text" class="form-control"
 												value="${fatherOfWork }" id="fatherOfWork"
 												name="fatherOfWork" placeholder="Enter fatherOfWork">
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-2" for="motherOfWork">mother
+										<label class="control-label col-sm-4" for="motherOfWork">mother
 											Place Of Work:</label>
-										<div class="col-sm-10">
+										<div class="col-sm-6">
 											<input type="text" class="form-control"
 												value="${motherOfWork }" id="motherOfWork"
 												name="motherOfWork" placeholder="Enter motherOfWork">
@@ -229,8 +233,9 @@
 
 
 
-
-									<s:submit class="btn btn-default" />
+									<div style="text-align: center">
+										<s:submit class="btn btn-default" />
+									</div>
 								</s:form>
 
 							</div>

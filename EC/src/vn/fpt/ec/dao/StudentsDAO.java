@@ -100,14 +100,14 @@ public class StudentsDAO {
 
 	public void update(Students s) {
 		Connection conn = DBConnection.open();
-		String insertString = "UPDATE Students SET username = ?,firstName = ?,lastName = ?,dob = ?,"
+		String updateString = "UPDATE Students SET username = ?,firstName = ?,lastName = ?,dob = ?,"
 				+ "email = ?,address = ?,sex = ?,facultyID = ?,phonenumber = ?,fatherName = ?,motherName = ?,fatherProfession = ?,"
 				+ "motherProfession = ?,fatherPlaceOfWork = ?,motherPlaceOfWork = ? WHERE id = ?";
 
 		PreparedStatement pstmt = null;
 
 		try {
-			pstmt = conn.prepareStatement(insertString);
+			pstmt = conn.prepareStatement(updateString);
 			pstmt.setString(1, s.getUsername());
 			
 			pstmt.setString(2, s.getFirstName());
