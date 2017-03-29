@@ -109,7 +109,7 @@ public class StudentsDAO {
 		try {
 			pstmt = conn.prepareStatement(updateString);
 			pstmt.setString(1, s.getUsername());
-			
+
 			pstmt.setString(2, s.getFirstName());
 			pstmt.setString(3, s.getLastName());
 			pstmt.setDate(4, new Date(s.getDob().getTime()));
@@ -163,29 +163,70 @@ public class StudentsDAO {
 			pstmt = conn.prepareStatement(findByIdString);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
-			rs.next();
-			student = new Students();
-			student.setId(rs.getInt("id"));
-			Faculties faculties = new Faculties();
-			faculties.setId(rs.getInt("facultyID"));
-			student.setFaculty(faculties);
-			student.setUsername(rs.getString("username"));
-			student.setPassword(rs.getString("password"));
+			if (rs.next()) {
+				student = new Students();
+				student.setId(rs.getInt("id"));
+				Faculties faculties = new Faculties();
+				faculties.setId(rs.getInt("facultyID"));
+				student.setFaculty(faculties);
+				student.setUsername(rs.getString("username"));
+				student.setPassword(rs.getString("password"));
 
-			student.setFirstName(rs.getString("firstName"));
-			student.setLastName(rs.getString("lastName"));
-			student.setDob(rs.getDate("dob"));
-			student.setEmail(rs.getString("email"));
-			student.setAddress(rs.getString("address"));
-			student.setSex(rs.getString("sex"));
-			student.setPhoneNumber(rs.getString("phonenumber"));
-			student.setFatherName(rs.getString("fatherName"));
-			student.setMotherName(rs.getString("motherName"));
-			student.setFatherProfession(rs.getString("fatherProfession"));
-			student.setMotherProfession(rs.getString("motherProfession"));
-			student.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
-			student.setMotherOfWork(rs.getString("motherPlaceOfWork"));
+				student.setFirstName(rs.getString("firstName"));
+				student.setLastName(rs.getString("lastName"));
+				student.setDob(rs.getDate("dob"));
+				student.setEmail(rs.getString("email"));
+				student.setAddress(rs.getString("address"));
+				student.setSex(rs.getString("sex"));
+				student.setPhoneNumber(rs.getString("phonenumber"));
+				student.setFatherName(rs.getString("fatherName"));
+				student.setMotherName(rs.getString("motherName"));
+				student.setFatherProfession(rs.getString("fatherProfession"));
+				student.setMotherProfession(rs.getString("motherProfession"));
+				student.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
+				student.setMotherOfWork(rs.getString("motherPlaceOfWork"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return student;
 
+	}
+
+	public Students findByUsername(String username) {
+		Connection conn = DBConnection.open();
+		String findByIdString = "Select * From Students Where username = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Students student = null;
+		try {
+			pstmt = conn.prepareStatement(findByIdString);
+			pstmt.setString(1, username);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				student = new Students();
+				student.setId(rs.getInt("id"));
+				Faculties faculties = new Faculties();
+				faculties.setId(rs.getInt("facultyID"));
+				student.setFaculty(faculties);
+				student.setUsername(rs.getString("username"));
+				student.setPassword(rs.getString("password"));
+
+				student.setFirstName(rs.getString("firstName"));
+				student.setLastName(rs.getString("lastName"));
+				student.setDob(rs.getDate("dob"));
+				student.setEmail(rs.getString("email"));
+				student.setAddress(rs.getString("address"));
+				student.setSex(rs.getString("sex"));
+				student.setPhoneNumber(rs.getString("phonenumber"));
+				student.setFatherName(rs.getString("fatherName"));
+				student.setMotherName(rs.getString("motherName"));
+				student.setFatherProfession(rs.getString("fatherProfession"));
+				student.setMotherProfession(rs.getString("motherProfession"));
+				student.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
+				student.setMotherOfWork(rs.getString("motherPlaceOfWork"));
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

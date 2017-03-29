@@ -152,7 +152,7 @@
 										<label class="control-label col-sm-4" for="phoneNumber">Phone
 											Number:</label>
 										<div class="col-sm-6">
-											<input type="text" class="form-control" id="phoneNumber"
+											<input type="text" class="form-control" maxlength="12" id="phoneNumber"
 												name="phoneNumber" placeholder="Enter phonenumber">
 										</div>
 									</div>

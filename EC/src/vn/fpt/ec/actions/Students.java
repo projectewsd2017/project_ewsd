@@ -69,11 +69,16 @@ public class Students extends ActionSupport {
 	public String addStudent() throws ParseException {
 		StudentsDAO studentsDAO = new StudentsDAO();
 		password = "Abc123!";
-		email = username.concat("@gmail.com");
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		dob = format.parse(dobString);
 
 		studentsDAO.insert(this);
+		Students s = new Students();
+		s = studentsDAO.findByUsername(username);
+		s.setUsername(username + s.getId());
+		s.setEmail(s.getUsername().concat("@gmail.com"));
+		studentsDAO.update(s);
 		return "SUCCESS";
 	}
 
@@ -87,6 +92,10 @@ public class Students extends ActionSupport {
 			FacultyDAO facultyDAO = new FacultyDAO();
 			listAllFaculty = new ArrayList<Faculties>();
 			listAllFaculty = facultyDAO.select();
+			Students st = new Students();
+			StudentsDAO sDao = new StudentsDAO();
+			st = sDao.findById(id);
+			this.setDob(st.getDob());;
 			return "SUCCESS";
 		} else {
 			return "error";
@@ -95,7 +104,13 @@ public class Students extends ActionSupport {
 
 	public String updateStudent() {
 		StudentsDAO studentsDAO = new StudentsDAO();
-
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			dob = format.parse(dobString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		studentsDAO.update(this);
 		return "SUCCESS";
 	}
@@ -316,6 +331,5 @@ public class Students extends ActionSupport {
 	public void setDobString(String dobString) {
 		this.dobString = dobString;
 	}
-	
 
 }

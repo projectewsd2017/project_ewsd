@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="s" uri="/struts-tags"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 5.00 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -133,8 +134,8 @@
 										<label class="control-label col-sm-4" for="dob">Birth
 											Date:</label>
 										<div class="col-sm-6">
-											<input type="text" class="form-control" id="dob" name="dob"
-												value="${dob }" placeholder="Enter Birth Date">
+											<input type="date" class="form-control" id="dob"
+												name="dobString" value="${dob}">
 										</div>
 									</div>
 
@@ -148,7 +149,7 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="sex">sex:</label>
+										<label class="control-label col-sm-4" for="sex">Sex:</label>
 										<div class="col-sm-6">
 											<label class="radio-inline"> <input type="radio"
 												name="sex" value="Male" checked>Male
@@ -161,10 +162,11 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="phoneNumber">phonenumber:</label>
+										<label class="control-label col-sm-4" for="phoneNumber">Phone
+											Number:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="phoneNumber"
-												value="${phoneNumber }" name="phoneNumber"
+												value="${phoneNumber }" name="phoneNumber" maxlength="12"
 												placeholder="Enter phonenumber">
 										</div>
 									</div>
@@ -182,7 +184,8 @@
 									</div>
 
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="fatherName">fatherName:</label>
+										<label class="control-label col-sm-4" for="fatherName">Father
+											Name:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherName"
 												value="${fatherName }" name="fatherName"
@@ -190,7 +193,8 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="motherName">motherName:</label>
+										<label class="control-label col-sm-4" for="motherName">Mother
+											Name:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherName"
 												value="${motherName }" name="motherName"
@@ -198,7 +202,8 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="fatherProfession">fatherProfession:</label>
+										<label class="control-label col-sm-4" for="fatherProfession">Father
+											Profession:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherProfession"
 												value="${fatherProfession }" name="fatherProfession"
@@ -206,7 +211,8 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="motherProfession">motherProfession:</label>
+										<label class="control-label col-sm-4" for="motherProfession">Mother
+											Profession:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherProfession"
 												value="${motherProfession }" name="motherProfession"
@@ -214,7 +220,8 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="fatherOfWork">fatherPlaceOfWork:</label>
+										<label class="control-label col-sm-4" for="fatherOfWork">Father
+											Place Of Work:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control"
 												value="${fatherOfWork }" id="fatherOfWork"
@@ -222,7 +229,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="control-label col-sm-4" for="motherOfWork">mother
+										<label class="control-label col-sm-4" for="motherOfWork">Mother
 											Place Of Work:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control"
