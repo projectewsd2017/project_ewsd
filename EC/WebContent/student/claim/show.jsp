@@ -6,6 +6,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Claim - ${id }</title>
+<style>
+#hide {
+	display: none;
+}
+
+#show {
+	display: block;
+}
+</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -66,9 +75,7 @@
 										<label class="col-sm-4 text-right" for="createDate">Created
 											Date :</label>
 										<div class="col-sm-6">
-											<input type="text" class="form-control" id="createDate"
-												name="createDate" placeholder="Enter Title"
-												value="${createDate }" readonly="readonly">
+											<s:property value="createDate"/>
 
 										</div>
 									</div>
@@ -92,7 +99,7 @@
 										</div>
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" id="${ checkFile1  ? 'show' : 'hide' }">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -102,7 +109,7 @@
 
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" id="${ checkFile2  ? 'show' : 'hide' }">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -112,7 +119,7 @@
 
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" id="${ checkFile3  ? 'show' : 'hide' }">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -153,7 +160,7 @@
 
 							</s:url>
 							<div style="text-align: center">
-								<button class="btn btn-default" >
+								<button class="btn btn-default">
 									<s:a href="%{updateid}">Update</s:a>
 								</button>
 							</div>

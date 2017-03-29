@@ -176,32 +176,34 @@
 
 
 
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="title">Evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence1"
-												maxlength="50" name="pathEvidence1"
-												value="${pathEvidence1FileName}"> <span
-												id="file_error"></span>
+									<div class="form-group" id="${ checkFile1  ? 'show' : 'hide' }">
+										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
+										<div class="col-sm-6">
+											<a
+												href="evidence/<s:property value="pathEvidence1FileName"/>"
+												download>download file</a>
 										</div>
+
 									</div>
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="title">Evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence2"
-												maxlength="50" name="pathEvidence2"
-												value="${pathEvidence2FileName}"> <span
-												id="file_error"></span>
+
+									<div class="form-group" id="${ checkFile2  ? 'show' : 'hide' }">
+										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
+										<div class="col-sm-6">
+											<a
+												href="evidence/<s:property value="pathEvidence2FileName"/>"
+												download>download file</a>
 										</div>
+
 									</div>
-									<div class="form-group">
-										<label class="control-label col-sm-2" for="title">Evidence:</label>
-										<div class="col-sm-10">
-											<input type="file" class="form-control" id="pathEvidence3"
-												maxlength="50" name="pathEvidence3"
-												value="${pathEvidence3FileName}"> <span
-												id="file_error"></span>
+
+									<div class="form-group" id="${ checkFile3  ? 'show' : 'hide' }">
+										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
+										<div class="col-sm-6">
+											<a
+												href="evidence/<s:property value="pathEvidence3FileName"/>"
+												download>downlolad file</a>
 										</div>
+
 									</div>
 
 

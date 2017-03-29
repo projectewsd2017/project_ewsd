@@ -63,6 +63,9 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private Staffs staffs;
 	private Boolean admin;
 	private Boolean ec;
+	private Boolean checkFile1;
+	private Boolean checkFile2;
+	private Boolean checkFile3;
 	private SessionMap<String, Object> sessionmap;
 
 	public void checkAdmin() {
@@ -183,6 +186,21 @@ public class Claims extends ActionSupport implements ValidationAware,
 			listType = claimTypeDAO.select();
 			checkAdmin();
 			checkEC();
+			if(pathEvidence1FileName != null && !pathEvidence1FileName.isEmpty()){
+				checkFile1 = true;
+			}else{
+				checkFile1 = false;
+			}
+			if(pathEvidence2FileName != null && !pathEvidence2FileName.isEmpty()){
+				checkFile2 = true;
+			}else{
+				checkFile2 = false;
+			}
+			if(pathEvidence3FileName != null && !pathEvidence3FileName.isEmpty()){
+				checkFile3 = true;
+			}else{
+				checkFile3 = false;
+			}
 			return "SUCCESS";
 		} else {
 			return "error";
@@ -291,6 +309,21 @@ public class Claims extends ActionSupport implements ValidationAware,
 		pathEvidence1FileName = claim.getPathEvidence1FileName();
 		pathEvidence2FileName = claim.getPathEvidence2FileName();
 		pathEvidence3FileName = claim.getPathEvidence3FileName();
+		if(pathEvidence1FileName != null && !pathEvidence1FileName.isEmpty()){
+			checkFile1 = true;
+		}else{
+			checkFile1 = false;
+		}
+		if(pathEvidence2FileName != null && !pathEvidence2FileName.isEmpty()){
+			checkFile2 = true;
+		}else{
+			checkFile2 = false;
+		}
+		if(pathEvidence3FileName != null && !pathEvidence3FileName.isEmpty()){
+			checkFile3 = true;
+		}else{
+			checkFile3 = false;
+		}
 		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
 		claimType = claimTypeDAO.findById(claim.getClaimType().getId());
 
@@ -554,13 +587,36 @@ public class Claims extends ActionSupport implements ValidationAware,
 		this.ec = ec;
 	}
 
-	
 	public List<Claims> getListOfStudent() {
 		return listOfStudent;
 	}
 
 	public void setListOfStudent(List<Claims> listOfStudent) {
 		this.listOfStudent = listOfStudent;
+	}
+
+	public Boolean getCheckFile1() {
+		return checkFile1;
+	}
+
+	public void setCheckFile1(Boolean checkFile1) {
+		this.checkFile1 = checkFile1;
+	}
+
+	public Boolean getCheckFile2() {
+		return checkFile2;
+	}
+
+	public void setCheckFile2(Boolean checkFile2) {
+		this.checkFile2 = checkFile2;
+	}
+
+	public Boolean getCheckFile3() {
+		return checkFile3;
+	}
+
+	public void setCheckFile3(Boolean checkFile3) {
+		this.checkFile3 = checkFile3;
 	}
 
 	public void setSession(Map map) {
