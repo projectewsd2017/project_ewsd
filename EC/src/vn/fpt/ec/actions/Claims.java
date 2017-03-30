@@ -1,6 +1,7 @@
 package vn.fpt.ec.actions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import vn.fpt.ec.dao.ClaimTypeDAO;
 import vn.fpt.ec.dao.ClaimsDAO;
+import vn.fpt.ec.dao.StaffsDAO;
 import vn.fpt.ec.dao.StudentsDAO;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -54,8 +56,41 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private List<Claims> listClaims;
 	private Students student;
 	private ClaimType claimType;
+	private String comment;
 	private List<ClaimType> listType;
+	private List<Staffs> listStaffs;
+	private List<Claims> listOfStudent;
+	private Staffs staffs;
+	private Boolean admin;
+	private Boolean ec;
+	private Boolean checkFile1;
+	private Boolean checkFile2;
+	private Boolean checkFile3;
 	private SessionMap<String, Object> sessionmap;
+
+	public void checkAdmin() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			admin = true;
+		} else {
+			admin = false;
+		}
+	}
+
+	public void checkEC() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("ec")) {
+			ec = true;
+		} else {
+			ec = false;
+		}
+	}
 
 	public String getAllClaims() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
@@ -125,10 +160,17 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 
 		// ....................................
+		StaffsDAO staffsDAO = new StaffsDAO();
+		List<String> emailAdmin = new ArrayList<String>();
+		emailAdmin = staffsDAO.selectAllAdmin();
 
 		claimsDAO.insert(this);
 		Emailer emailer = new Emailer();
-		emailer.execute();
+		for (String mail : emailAdmin) {// send mail to all admin
+			emailer.setTo(mail);
+			emailer.execute();
+		}
+
 		return "SUCCESS";
 	}
 
@@ -139,7 +181,26 @@ public class Claims extends ActionSupport implements ValidationAware,
 		String s = (String) session.getAttribute("login");
 		if (s != null && !s.equals("student")) {
 			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			StaffsDAO staffsDAO = new StaffsDAO();
+			listStaffs = staffsDAO.selectAllStaff();
 			listType = claimTypeDAO.select();
+			checkAdmin();
+			checkEC();
+			if(pathEvidence1FileName != null && !pathEvidence1FileName.isEmpty()){
+				checkFile1 = true;
+			}else{
+				checkFile1 = false;
+			}
+			if(pathEvidence2FileName != null && !pathEvidence2FileName.isEmpty()){
+				checkFile2 = true;
+			}else{
+				checkFile2 = false;
+			}
+			if(pathEvidence3FileName != null && !pathEvidence3FileName.isEmpty()){
+				checkFile3 = true;
+			}else{
+				checkFile3 = false;
+			}
 			return "SUCCESS";
 		} else {
 			return "error";
@@ -160,9 +221,28 @@ public class Claims extends ActionSupport implements ValidationAware,
 		c2.roll(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
+		Staffs st = new Staffs();
+		StaffsDAO dao = new StaffsDAO();
+		Emailer emailer = new Emailer();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
 
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			st = dao.findById(staffs.getId());
+			emailer.setTo(st.getEmail());
+			this.setStatus(processing);
+		} else if (s != null && s.equals("ec")) {
+			StudentsDAO studentsDAO = new StudentsDAO();
+			Students students = new Students();
+			students = studentsDAO.findById(studentId);
+			emailer.setTo(students.getEmail());
+			this.setStatus(processed);
+		}
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = studentsDAO.findById(studentId);
+		Claims claim = new Claims();
+		claim = claimsDAO.findById(id);
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
@@ -172,14 +252,21 @@ public class Claims extends ActionSupport implements ValidationAware,
 			if (pathEvidence1FileName != null) {
 				File fileToCreate1 = new File(filePath, pathEvidence1FileName);
 				FileUtils.copyFile(pathEvidence1, fileToCreate1);
+			} else {
+				pathEvidence1FileName = claim.getPathEvidence1FileName();
+
 			}
 			if (pathEvidence2FileName != null) {
 				File fileToCreate2 = new File(filePath, pathEvidence2FileName);
 				FileUtils.copyFile(pathEvidence2, fileToCreate2);
+			} else {
+				pathEvidence2FileName = claim.getPathEvidence2FileName();
 			}
 			if (pathEvidence3FileName != null) {
 				File fileToCreate3 = new File(filePath, pathEvidence3FileName);
 				FileUtils.copyFile(pathEvidence3, fileToCreate3);
+			} else {
+				pathEvidence3FileName = claim.getPathEvidence3FileName();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -188,6 +275,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 
 		// ....................................
+
+		emailer.execute();
 		claimsDAO.update(this);
 		return "SUCCESS";
 	}
@@ -197,7 +286,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		HttpSession session = request.getSession();
 
 		String s = (String) session.getAttribute("login");
-		if (s != null && !s.equals("student")) {
+		if (s != null) {
 			searchById();
 			return "SUCCESS";
 		} else {
@@ -216,13 +305,47 @@ public class Claims extends ActionSupport implements ValidationAware,
 		status = claim.getStatus();
 		createDate = claim.getCreateDate();
 		dueDate = claim.getDueDate();
+		comment = claim.getComment();
 		pathEvidence1FileName = claim.getPathEvidence1FileName();
 		pathEvidence2FileName = claim.getPathEvidence2FileName();
 		pathEvidence3FileName = claim.getPathEvidence3FileName();
+		if(pathEvidence1FileName != null && !pathEvidence1FileName.isEmpty()){
+			checkFile1 = true;
+		}else{
+			checkFile1 = false;
+		}
+		if(pathEvidence2FileName != null && !pathEvidence2FileName.isEmpty()){
+			checkFile2 = true;
+		}else{
+			checkFile2 = false;
+		}
+		if(pathEvidence3FileName != null && !pathEvidence3FileName.isEmpty()){
+			checkFile3 = true;
+		}else{
+			checkFile3 = false;
+		}
 		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
 		claimType = claimTypeDAO.findById(claim.getClaimType().getId());
 
 		return claim;
+	}
+
+	public List<Claims> searchClaimByStudentId() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		int idStudent = (int) session.getAttribute("id");
+
+		ClaimsDAO claimsDAO = new ClaimsDAO();
+		listOfStudent = new ArrayList<Claims>();
+		listOfStudent = claimsDAO.selectClaimByStudent(idStudent);
+
+		return listOfStudent;
+	}
+
+	public String searchMyClaim() {
+		searchClaimByStudentId();
+		return "SUCCESS";
 	}
 
 	public String deleteClaim() {
@@ -422,6 +545,78 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public void setListType(List<ClaimType> listType) {
 		this.listType = listType;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public List<Staffs> getListStaffs() {
+		return listStaffs;
+	}
+
+	public void setListStaffs(List<Staffs> listStaffs) {
+		this.listStaffs = listStaffs;
+	}
+
+	public Staffs getStaffs() {
+		return staffs;
+	}
+
+	public void setStaffs(Staffs staffs) {
+		this.staffs = staffs;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
+	public Boolean getEc() {
+		return ec;
+	}
+
+	public void setEc(Boolean ec) {
+		this.ec = ec;
+	}
+
+	public List<Claims> getListOfStudent() {
+		return listOfStudent;
+	}
+
+	public void setListOfStudent(List<Claims> listOfStudent) {
+		this.listOfStudent = listOfStudent;
+	}
+
+	public Boolean getCheckFile1() {
+		return checkFile1;
+	}
+
+	public void setCheckFile1(Boolean checkFile1) {
+		this.checkFile1 = checkFile1;
+	}
+
+	public Boolean getCheckFile2() {
+		return checkFile2;
+	}
+
+	public void setCheckFile2(Boolean checkFile2) {
+		this.checkFile2 = checkFile2;
+	}
+
+	public Boolean getCheckFile3() {
+		return checkFile3;
+	}
+
+	public void setCheckFile3(Boolean checkFile3) {
+		this.checkFile3 = checkFile3;
 	}
 
 	public void setSession(Map map) {

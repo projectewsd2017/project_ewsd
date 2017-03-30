@@ -22,6 +22,7 @@ public class LoginDAO {
 			if (rs.next()) {
 				l.setId(rs.getInt("id"));
 				l.setUsername(rs.getString("username"));
+				l.setEmail(rs.getString("email"));
 			}
 
 		} catch (SQLException e) {
@@ -47,6 +48,7 @@ public class LoginDAO {
 				l.setId(rs.getInt("id"));
 				l.setUsername(rs.getString("username"));
 				l.setRoleId(rs.getInt("roleID"));
+				l.setEmail(rs.getString("email"));
 			}
 		} catch (SQLException e) {
 

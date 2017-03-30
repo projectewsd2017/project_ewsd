@@ -1,6 +1,18 @@
 package vn.fpt.ec.actions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
+import vn.fpt.ec.dao.FacultyDAO;
+import vn.fpt.ec.dao.StudentsDAO;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -18,8 +30,7 @@ public class Students extends ActionSupport {
 	private Date dob;
 	private String email;
 	private String address;
-	private boolean sex;
-	private int facultyId;
+	private String sex;
 	private String phoneNumber;
 	private String fatherName;
 	private String motherName;
@@ -27,6 +38,134 @@ public class Students extends ActionSupport {
 	private String motherProfession;
 	private String fatherOfWork;
 	private String motherOfWork;
+	private String dobString;
+	private Faculties faculty;
+	private List<Students> listAllStudents;
+	private List<Faculties> listAllFaculty;
+
+	public String getAllStudent() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		listAllStudents = studentsDAO.selectAllStudent();
+
+		return "SUCCESS";
+	}
+
+	public String add() {
+
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = new ArrayList<Faculties>();
+			listAllFaculty = facultyDAO.select();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String addStudent() throws ParseException {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		password = "Abc123!";
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		dob = format.parse(dobString);
+
+		studentsDAO.insert(this);
+		Students s = new Students();
+		s = studentsDAO.findByUsername(username);
+		s.setUsername(username + s.getId());
+		s.setEmail(s.getUsername().concat("@gmail.com"));
+		studentsDAO.update(s);
+		return "SUCCESS";
+	}
+
+	public String update() {
+
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = new ArrayList<Faculties>();
+			listAllFaculty = facultyDAO.select();
+			Students st = new Students();
+			StudentsDAO sDao = new StudentsDAO();
+			st = sDao.findById(id);
+			this.setDob(st.getDob());;
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String updateStudent() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			dob = format.parse(dobString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		studentsDAO.update(this);
+		return "SUCCESS";
+	}
+
+	public String deleteStudent() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			StudentsDAO studentsDAO = new StudentsDAO();
+			studentsDAO.delete(id);
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String search() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && !s.equals("student")) {
+			searchById();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public Students searchById() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		Students student = new Students();
+		student = studentsDAO.findById(id);
+		username = student.getUsername();
+		password = student.getPassword();
+		firstName = student.getFirstName();
+		lastName = student.getLastName();
+		dob = student.getDob();
+		email = student.getEmail();
+		address = student.getAddress();
+		sex = student.getSex();
+		phoneNumber = student.getPhoneNumber();
+		fatherName = student.getFatherName();
+		motherName = student.getMotherName();
+		fatherProfession = student.getFatherProfession();
+		motherProfession = student.getMotherProfession();
+		fatherOfWork = student.getFatherOfWork();
+		motherOfWork = student.getMotherOfWork();
+		FacultyDAO facultyDAO = new FacultyDAO();
+		faculty = facultyDAO.findById(student.getFaculty().getId());
+
+		return student;
+	}
 
 	/*--------------getter & setter & constructor-----------*/
 	public Students() {
@@ -97,20 +236,12 @@ public class Students extends ActionSupport {
 		this.address = address;
 	}
 
-	public boolean isSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(boolean sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
-	}
-
-	public int getFacultyId() {
-		return facultyId;
-	}
-
-	public void setFacultyId(int facultyId) {
-		this.facultyId = facultyId;
 	}
 
 	public String getPhoneNumber() {
@@ -167,6 +298,38 @@ public class Students extends ActionSupport {
 
 	public void setMotherOfWork(String motherOfWork) {
 		this.motherOfWork = motherOfWork;
+	}
+
+	public Faculties getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(Faculties faculty) {
+		this.faculty = faculty;
+	}
+
+	public List<Students> getListAllStudents() {
+		return listAllStudents;
+	}
+
+	public void setListAllStudents(List<Students> listAllStudents) {
+		this.listAllStudents = listAllStudents;
+	}
+
+	public List<Faculties> getListAllFaculty() {
+		return listAllFaculty;
+	}
+
+	public void setListAllFaculty(List<Faculties> listAllFaculty) {
+		this.listAllFaculty = listAllFaculty;
+	}
+
+	public String getDobString() {
+		return dobString;
+	}
+
+	public void setDobString(String dobString) {
+		this.dobString = dobString;
 	}
 
 }

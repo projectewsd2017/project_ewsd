@@ -19,6 +19,7 @@ public class Login extends ActionSupport implements SessionAware {
 	private String pass;
 	private int roleId;
 	private int id;
+	private String email;
 	private SessionMap<String, Object> sessionmap;
 
 	public String login() {
@@ -35,13 +36,14 @@ public class Login extends ActionSupport implements SessionAware {
 			sessionmap.put("id", login.id);
 			sessionmap.put("username", username);
 			sessionmap.put("pass", pass);
+			sessionmap.put("email", login.email);
 			return "STUDENT";
 		} else {
 			login = loginDAO.loginStaff(username, pass);
 			if (login.username == null) {
 				return "LOGINERROR";
 			} else {
-				
+
 				sessionmap.put("username", username);
 				sessionmap.put("role", login.getRoleId());
 				sessionmap.put("pass", pass);
@@ -80,7 +82,7 @@ public class Login extends ActionSupport implements SessionAware {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
 	public String getPass() {
 		return pass;
 	}
@@ -97,7 +99,6 @@ public class Login extends ActionSupport implements SessionAware {
 		this.roleId = roleId;
 	}
 
-	
 	public int getId() {
 		return id;
 	}
@@ -108,6 +109,14 @@ public class Login extends ActionSupport implements SessionAware {
 
 	public SessionMap<String, Object> getSessionmap() {
 		return sessionmap;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setSession(Map map) {

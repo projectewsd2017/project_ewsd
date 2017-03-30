@@ -57,7 +57,7 @@
 			<interceptor-ref name="workflow"></interceptor-ref>
 			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
 			<result name="input">/student/claim/AddClaim.jsp</result>
-			
+
 		</action>
 
 		<action name="updateClaim" class="vn.fpt.ec.actions.Claims"
@@ -92,6 +92,16 @@
 		<action name="searchById" class="vn.fpt.ec.actions.Claims"
 			method="search">
 			<result name="SUCCESS">/student/claim/show.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="searchClaimByStudentId" class="vn.fpt.ec.actions.Claims"
+			method="searchMyClaim">
+			<result name="SUCCESS">/student/claim/ListMyClaim.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="searchMyClaim" class="vn.fpt.ec.actions.Claims"
+			method="search">
+			<result name="SUCCESS">/student/claim/ShowMyClaim.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
 
@@ -146,6 +156,54 @@
 
 
 
+		<action name="getAllStudent" class="vn.fpt.ec.actions.Students"
+			method="getAllStudent">
+			<result name="SUCCESS">/admin/student/ListStudents.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="addStudent" class="vn.fpt.ec.actions.Students"
+			method="add">
+			<result name="SUCCESS">/admin/student/AddStudent.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="saveaddstudent" class="vn.fpt.ec.actions.Students"
+			method="addStudent">
+
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="SUCCESS" type="redirectAction">getAllStudent</result>
+			<result name="input">/admin/student/AddStudent.jsp</result>
+		</action>
+
+		<action name="updateStudent" class="vn.fpt.ec.actions.Students"
+			method="update">
+			<result name="SUCCESS">/admin/student/UpdateStudent.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
+		<action name="saveupdatestudent" class="vn.fpt.ec.actions.Students"
+			method="updateStudent">
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="input">/admin/student/UpdateStudent.jsp</result>
+			<result name="SUCCESS" type="redirectAction">getAllStudent</result>
+		</action>
+
+		<action name="deleteStudent" class="vn.fpt.ec.actions.Students"
+			method="deleteStudent">
+			<result name="SUCCESS" type="redirectAction">getAllStudent</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
+		<action name="searchStudentById" class="vn.fpt.ec.actions.Students"
+			method="search">
+			<result name="SUCCESS">/admin/student/Detail.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
+
 
 
 		<action name="login">
@@ -154,8 +212,8 @@
 
 		<action name="loginprocess" class="vn.fpt.ec.actions.Login"
 			method="loginUser">
-			<result name="ADMIN" type="redirectAction">getAllClaim</result>
-			<result name="EC">loginsuccess.jsp</result>
+			<result name="ADMIN" type="redirectAction">getAllClaims</result>
+			<result name="EC" type="redirectAction">getAllClaims</result>
 			<result name="STUDENT" type="redirectAction">addClaim</result>
 			<result name="error">loginerror.jsp</result>
 			<result name="LOGINERROR">loginnull.jsp</result>

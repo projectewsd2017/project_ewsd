@@ -4,21 +4,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Claim - ${id }</title>
-<style>
-#hide {
-	display: none;
-}
-
-#show {
-	display: block;
+<style type="text/css">
+#comment{
+	word-break: break-all;
 }
 </style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Claim - ${id }</title>
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.html"></s:include>
+		<s:include value="../../home.html"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-10">
@@ -32,18 +28,15 @@
 										<label class="col-sm-4 text-right" for="studentid">Student
 											ID:</label>
 										<div class="col-sm-6">
-											<input type="text" class="form-control" id="studentid"
-												name="studentId" placeholder="Enter Student ID"
-												value="${studentId}" readonly="readonly">
+											<s:property value="studentId" />
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-4 text-right" for="title">Title :</label>
+										<label class="col-sm-4 text-right" for="title">Title
+											:</label>
 										<div class="col-sm-6">
-											<input type="text" class="form-control" id="title"
-												name="title" placeholder="Enter Title" value="${title }"
-												readonly="readonly">
+										<s:property value="title" />
 
 										</div>
 
@@ -53,19 +46,15 @@
 										<label class="col-sm-4 text-right" for="content">Content
 											:</label>
 										<div class="col-sm-6">
-											<textarea class="form-control" rows="5" id="content"
-												readonly="readonly" name="content"
-												placeholder="Enter Content">${content}</textarea>
+											<s:property value="content" />
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-4 text-right" for="title">Claim
+										<label class="col-sm-4 text-right" for="type">Claim
 											Type :</label>
 										<div class="col-sm-6">
-											<input type="text" class="form-control" id="title"
-												name="title" placeholder="Enter Title"
-												value="${claimType.claimName}" readonly="readonly">
+											<s:property value="claimType.claimName" />
 
 										</div>
 
@@ -75,7 +64,15 @@
 										<label class="col-sm-4 text-right" for="createDate">Created
 											Date :</label>
 										<div class="col-sm-6">
-											<s:property value="createDate"/>
+											<s:property value="createDate" />
+
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-4 text-right" for="comment">Comment :</label>
+										<div class="col-sm-6" id="comment">
+											<s:property value="comment"/>
 
 										</div>
 									</div>
@@ -99,7 +96,7 @@
 										</div>
 									</div>
 
-									<div class="form-group" id="${ checkFile1  ? 'show' : 'hide' }">
+									<div class="form-group">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -109,7 +106,7 @@
 
 									</div>
 
-									<div class="form-group" id="${ checkFile2  ? 'show' : 'hide' }">
+									<div class="form-group">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -119,7 +116,7 @@
 
 									</div>
 
-									<div class="form-group" id="${ checkFile3  ? 'show' : 'hide' }">
+									<div class="form-group">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -129,41 +126,7 @@
 
 									</div>
 							</div>
-							<s:url action="updateClaim" var="updateid">
-								<s:param name="id">
-									<s:property value="id" />
-								</s:param>
-								<s:param name="studentId">
-									<s:property value="studentId" />
-								</s:param>
-								<s:param name="title">
-									<s:property value="title" />
-								</s:param>
-								<s:param name="content">
-									<s:property value="content" />
-								</s:param>
-								<s:param name="comment">
-									<s:property value="comment" />
-								</s:param>
-								<s:param name="claimType.claimName">
-									<s:property value="claimType.claimName" />
-								</s:param>
-								<s:param name="pathEvidence1FileName">
-									<s:property value="pathEvidence1FileName" />
-								</s:param>
-								<s:param name="pathEvidence2FileName">
-									<s:property value="pathEvidence2FileName" />
-								</s:param>
-								<s:param name="pathEvidence3FileName">
-									<s:property value="pathEvidence3FileName" />
-								</s:param>
 
-							</s:url>
-							<div style="text-align: center">
-								<button class="btn btn-default">
-									<s:a href="%{updateid}">Update</s:a>
-								</button>
-							</div>
 							</s:form>
 						</div>
 					</div>
