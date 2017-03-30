@@ -86,7 +86,7 @@
 						<h3 class="panel-title" style="text-align: center; font-family: 'Comic Sans MS', cursive, sans-serif; font-weight: ">DHHBT University</h3>
 					</div>
 					<div class="panel-body">
-					<p class="login-box-msg">Please fill out the following fields to login</p>
+					<p class="login-box-msg">Please fill out the following fields</p>
 						<s:form action="loginprocess" name="form" id="form">
 							<fieldset>
 								<div class="form-group">
