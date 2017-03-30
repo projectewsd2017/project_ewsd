@@ -94,16 +94,16 @@
 		<s:include value="../../index.html"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
-				<div class="col-lg-12">
-					<br />
-				</div>
-
-			</div>
-			<div class="row">
-				<div class="col-lg-12">
-
-					<div class="panel-body">
-						<div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-plus-square"></i>
+                            Add Claim
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                    	<div class="row">
 							<div class="col-lg-6">
 								<s:form action="saveaddclaim"
 									cssClass="form-horizontal col-xs-12" id="formClaim"
@@ -169,15 +169,15 @@
 
 
 
-									<s:submit class="btn btn-default" />
+									<s:submit class="btn btn-primary" />
 								</s:form>
 							</div>
 
 						</div>
-					</div>
-				</div>
-
-			</div>
+                    </div>
+                 </div>
+              </div>
+            </div>
 
 		</div>
 
