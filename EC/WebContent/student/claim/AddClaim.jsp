@@ -31,6 +31,7 @@
 												title : "required",
 												content : "required",
 												pathEvidence1 : {
+													required : true,
 													filesize : 2097152,
 													accept : "image/png,image/jpeg,image/pjpeg,application/pdf"
 												},
@@ -49,7 +50,7 @@
 												studentId : "Please enter your studentId",
 												title : "Please enter your title",
 												content : "Please enter your content",
-												pathEvidence1 : "File must be JPG, PNG or PDF, less than 2MB",
+												pathEvidence1 : "File is required and must be JPG, PNG or PDF, less than 2MB",
 												pathEvidence2 : "File must be JPG, PNG or PDF, less than 2MB",
 												pathEvidence3 : "File must be JPG, PNG or PDF, less than 2MB"
 

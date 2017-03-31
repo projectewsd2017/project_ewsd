@@ -25,7 +25,10 @@
 										{
 
 											rules : {
-												username : "required",
+												username : {
+													required : true,
+													minlength : 3
+												},
 												firstName : "required",
 												lastName : "required",
 												email : "required",
@@ -33,7 +36,7 @@
 											},
 											messages : {
 												style : "color:red",
-												username : "Please enter your username",
+												username : "Please enter your username and username more than 3 character",
 												firstName : "Please enter your first name",
 												lastName : "Please enter your last name",
 												email : "Please enter your email"

@@ -55,7 +55,7 @@
 			<interceptor-ref name="params"></interceptor-ref>
 			<interceptor-ref name="validation"></interceptor-ref>
 			<interceptor-ref name="workflow"></interceptor-ref>
-			<result name="SUCCESS" type="redirectAction">getAllClaims</result>
+			<result name="SUCCESS" type="redirectAction">searchClaimByStudentId</result>
 			<result name="input">/student/claim/AddClaim.jsp</result>
 
 		</action>

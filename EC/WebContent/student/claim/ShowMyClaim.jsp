@@ -8,6 +8,13 @@
 #comment{
 	word-break: break-all;
 }
+#hide {
+	display: none;
+}
+
+#show {
+	display: block;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Claim - ${id }</title>
@@ -96,7 +103,7 @@
 										</div>
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" id="${ checkFile1  ? 'show' : 'hide' }">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -106,7 +113,7 @@
 
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" id="${ checkFile2  ? 'show' : 'hide' }">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a
@@ -116,7 +123,7 @@
 
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" id="${ checkFile3  ? 'show' : 'hide' }">
 										<label class="col-sm-4 text-right" for="pathEvidence">Evidence:</label>
 										<div class="col-sm-6">
 											<a

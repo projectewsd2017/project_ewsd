@@ -130,15 +130,15 @@ public class ClaimsDAO {
 			// "createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? WHERE id =?";
 			StringBuilder builder = new StringBuilder();
 			builder.append("UPDATE Claims set studentID =?,title = ?,_content =?,status =?,createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? ");
-			if (c.getPathEvidence1FileName() != null) {
+			
 				builder.append(",pathEvidence1 = ? ");
-			}
-			if (c.getPathEvidence1FileName() != null) {
+			
+			
 				builder.append(",pathEvidence2 = ? ");
-			}
-			if (c.getPathEvidence1FileName() != null) {
+			
+			
 				builder.append(",pathEvidence3 = ? ");
-			}
+			
 			builder.append("WHERE id =?");
 			String insertString = builder.toString();
 			pstmt = conn.prepareStatement(insertString);
@@ -152,15 +152,12 @@ public class ClaimsDAO {
 			pstmt.setInt(8, c.getStudent().getFaculty().getId());
 			pstmt.setInt(9, c.getStaffs().getId());
 			pstmt.setString(10, c.getComment());
-			if (c.getPathEvidence1FileName() != null) {
-				pstmt.setString(11, c.getPathEvidence1FileName());
-			}
-			if (c.getPathEvidence1FileName() != null) {
-				pstmt.setString(12, c.getPathEvidence2FileName());
-			}
-			if (c.getPathEvidence1FileName() != null) {
-				pstmt.setString(13, c.getPathEvidence3FileName());
-			}
+
+			pstmt.setString(11, c.getPathEvidence1FileName());
+
+			pstmt.setString(12, c.getPathEvidence2FileName());
+
+			pstmt.setString(13, c.getPathEvidence3FileName());
 
 			pstmt.setInt(14, c.getId());
 
@@ -216,7 +213,7 @@ public class ClaimsDAO {
 				claim.setEcCoordinatorID(rs.getInt("ecCoordinatorID"));
 				ClaimType claimType = new ClaimType();
 				claimType.setId(rs.getInt("claimTypeID"));
-			
+
 				claim.setClaimType(claimType);
 			}
 

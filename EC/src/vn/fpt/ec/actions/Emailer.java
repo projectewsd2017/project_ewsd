@@ -31,7 +31,7 @@ public class Emailer extends ActionSupport {
 		from ="universitymanagerec@gmail.com";
 		password = "Abcd1234!";
 		subject = "New Claim";
-		body = "We Have New Claim,Please Check!";
+//		body = "We Have New Claim,Please Check!";
 		
 		try {
 			Session session = Session.getDefaultInstance(properties,

@@ -21,14 +21,17 @@
 										{
 
 											rules : {
-												username : "required",
+												username : {
+													required : true,
+													minlength : 3
+												},
 												firstName : "required",
 												lastName : "required",
 
 											},
 											messages : {
 												style : "color:red",
-												username : "Please enter your username",
+												username : "Please enter your username and username more than 3 character",
 												firstName : "Please enter your first name",
 												lastName : "Please enter your last name",
 
@@ -94,7 +97,7 @@
 										<label class="control-label col-sm-4" for="username">Username:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="username"
-												name="username" placeholder="Enter Username">
+												maxlength="20" name="username" placeholder="Enter Username">
 										</div>
 									</div>
 
@@ -103,7 +106,8 @@
 											Name:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="firstName"
-												name="firstName" placeholder="Enter First Name">
+												maxlength="50" name="firstName"
+												placeholder="Enter First Name">
 										</div>
 									</div>
 									<div class="form-group">
@@ -111,7 +115,7 @@
 											Name:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="lastName"
-												name="lastName" placeholder="Enter Last Name">
+												maxlength="50" name="lastName" placeholder="Enter Last Name">
 										</div>
 									</div>
 
@@ -131,7 +135,7 @@
 										<label class="control-label col-sm-4" for="address">Address:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="address"
-												name="address" placeholder="Enter address">
+												maxlength="10" name="address" placeholder="Enter address">
 										</div>
 									</div>
 
@@ -152,8 +156,9 @@
 										<label class="control-label col-sm-4" for="phoneNumber">Phone
 											Number:</label>
 										<div class="col-sm-6">
-											<input type="text" class="form-control" maxlength="12" id="phoneNumber"
-												name="phoneNumber" placeholder="Enter phonenumber">
+											<input type="text" class="form-control" maxlength="12"
+												id="phoneNumber" name="phoneNumber"
+												placeholder="Enter phonenumber">
 										</div>
 									</div>
 
@@ -175,7 +180,8 @@
 											Name:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherName"
-												name="fatherName" placeholder="Enter fatherName">
+												maxlength="50" name="fatherName"
+												placeholder="Enter fatherName">
 										</div>
 									</div>
 									<div class="form-group">
@@ -183,7 +189,8 @@
 											Name:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherName"
-												name="motherName" placeholder="Enter motherName">
+												maxlength="50" name="motherName"
+												placeholder="Enter motherName">
 										</div>
 									</div>
 									<div class="form-group">
@@ -191,7 +198,8 @@
 											Profession:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherProfession"
-												name="fatherProfession" placeholder="Enter fatherProfession">
+												maxlength="50" name="fatherProfession"
+												placeholder="Enter fatherProfession">
 										</div>
 									</div>
 									<div class="form-group">
@@ -199,7 +207,8 @@
 											Profession:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherProfession"
-												name="motherProfession" placeholder="Enter motherProfession">
+												maxlength="50" name="motherProfession"
+												placeholder="Enter motherProfession">
 										</div>
 									</div>
 									<div class="form-group">
@@ -207,7 +216,8 @@
 											Place Of Work:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="fatherOfWork"
-												name="fatherOfWork" placeholder="Enter fatherOfWork">
+												maxlength="50" name="fatherOfWork"
+												placeholder="Enter fatherOfWork">
 										</div>
 									</div>
 									<div class="form-group">
@@ -215,7 +225,8 @@
 											Place Of Work:</label>
 										<div class="col-sm-6">
 											<input type="text" class="form-control" id="motherOfWork"
-												name="motherOfWork" placeholder="Enter motherOfWork">
+												maxlength="50" name="motherOfWork"
+												placeholder="Enter motherOfWork">
 										</div>
 									</div>
 

@@ -122,7 +122,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		Calendar c2 = Calendar.getInstance();
 		c1.setTime(today);
 		c2.setTime(today);
-		c2.roll(Calendar.DATE, 14);
+		c2.add(Calendar.DATE, 14);
 		createDate = c1.getTime();
 		dueDate = c2.getTime();
 		this.setStatus(open);
@@ -167,6 +167,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		claimsDAO.insert(this);
 		Emailer emailer = new Emailer();
 		for (String mail : emailAdmin) {// send mail to all admin
+			emailer.setBody("You Have New Claim Of Student: "+ student.getUsername()+" ,Please Check!");
 			emailer.setTo(mail);
 			emailer.execute();
 		}
@@ -231,12 +232,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 		if (s != null && s.equals("admin")) {
 			st = dao.findById(staffs.getId());
 			emailer.setTo(st.getEmail());
+			emailer.setBody("You Have New Claim Of Student ID:"+ studentId +",Please Check!");
 			this.setStatus(processing);
 		} else if (s != null && s.equals("ec")) {
 			StudentsDAO studentsDAO = new StudentsDAO();
 			Students students = new Students();
 			students = studentsDAO.findById(studentId);
 			emailer.setTo(students.getEmail());
+			emailer.setBody("Your Claim  ,Please Check!");
 			this.setStatus(processed);
 		}
 		StudentsDAO studentsDAO = new StudentsDAO();
