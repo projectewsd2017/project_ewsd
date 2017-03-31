@@ -10,11 +10,12 @@ import vn.fpt.ec.connection.DBConnection;
 
 public class LoginDAO {
 
-	public Login loginStudent(String name, String password) {
-		Connection conn = DBConnection.open();
+	public Login loginStudent(String name, String password)  {
+		
 		String loginUser = "SELECT * FROM Students WHERE username=? AND password=?";
 		Login l = new Login();
 		try {
+			Connection conn = DBConnection.getMySQLConnection();
 			PreparedStatement pstmt = conn.prepareStatement(loginUser);
 			pstmt.setString(1, name);
 			pstmt.setString(2, password);
@@ -25,7 +26,7 @@ public class LoginDAO {
 				l.setEmail(rs.getString("email"));
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 
 			e.printStackTrace();
 		}
@@ -34,11 +35,12 @@ public class LoginDAO {
 	}
 
 	public Login loginStaff(String name, String password) {
-		Connection conn = DBConnection.open();
+		
 
 		String loginUser = "SELECT * FROM Staffs WHERE username=? AND password=?";
 		Login l = new Login();
 		try {
+			Connection conn = DBConnection.getMySQLConnection();
 			PreparedStatement pstmt = conn.prepareStatement(loginUser);
 
 			pstmt.setString(1, name);
@@ -50,7 +52,7 @@ public class LoginDAO {
 				l.setRoleId(rs.getInt("roleID"));
 				l.setEmail(rs.getString("email"));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 
 			e.printStackTrace();
 		}

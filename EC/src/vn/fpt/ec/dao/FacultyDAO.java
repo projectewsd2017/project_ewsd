@@ -14,7 +14,7 @@ import vn.fpt.ec.connection.DBConnection;
 
 public class FacultyDAO {
 	public List<Faculties> select() {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		Statement stmt = null;
 		List<Faculties> list = new ArrayList<Faculties>();
 		Faculties faculties = null;
@@ -22,6 +22,7 @@ public class FacultyDAO {
 		String selectString = "SELECT id,facutlyName FROM Faculties";
 
 		try {
+			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
 			while (rs.next()) {
@@ -32,7 +33,7 @@ public class FacultyDAO {
 
 				list.add(faculties);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -43,12 +44,13 @@ public class FacultyDAO {
 	
 	
 	public Faculties findById(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String findByIdString = "Select * From Faculties Where id = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Faculties faculties = new Faculties();
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(findByIdString);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
@@ -57,7 +59,7 @@ public class FacultyDAO {
 			faculties.setFacutlyName(rs.getString("facutlyName"));
 			
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

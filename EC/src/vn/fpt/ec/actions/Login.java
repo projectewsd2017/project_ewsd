@@ -1,5 +1,6 @@
 package vn.fpt.ec.actions;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import org.apache.struts2.dispatcher.SessionMap;
@@ -26,7 +27,7 @@ public class Login extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 
-	public String loginUser() {
+	public String loginUser() throws ClassNotFoundException, SQLException {
 		Login login = new Login();
 		LoginDAO loginDAO = new LoginDAO();
 

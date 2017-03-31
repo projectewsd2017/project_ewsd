@@ -18,10 +18,11 @@ import vn.fpt.ec.connection.DBConnection;
 public class ClaimsDAO {
 
 	public List<Claims> getAllClaims() {
-		Connection conn = DBConnection.open();
+		
 		List<Claims> list = new ArrayList<Claims>();
 		Claims claims = null;
 		Statement stmt = null;
+		Connection conn = null;
 		ResultSet rs = null;
 		String selectString = "SELECT C.id as claimId,C.title,C._content,C.status,C.createdDate,"
 				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
@@ -32,6 +33,7 @@ public class ClaimsDAO {
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
 				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id";
 		try {
+			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
 			while (rs.next()) {
@@ -77,7 +79,7 @@ public class ClaimsDAO {
 				list.add(claims);
 
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -88,14 +90,14 @@ public class ClaimsDAO {
 	}
 
 	public void insert(Claims c) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String insertString = "INSERT INTO Claims(studentID,title,_content,ecCoordinatorID,status,"
 				+ "createdDate,dueDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID,facutlyID) "
 				+ "values (?,?,?,?,?,?,?,?,?,?,?,?) ";
 
 		try {
-
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(insertString);
 			pstmt.setInt(1, c.getStudentId());
 			pstmt.setString(2, c.getTitle());
@@ -111,7 +113,7 @@ public class ClaimsDAO {
 			pstmt.setInt(12, c.getStudent().getFaculty().getId());
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -120,7 +122,7 @@ public class ClaimsDAO {
 	}
 
 	public void update(Claims c) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 
 		try {
@@ -128,6 +130,7 @@ public class ClaimsDAO {
 			// + "pathEvidence2 = ?,pathEvidence3 = ?,status =?,"
 			// +
 			// "createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? WHERE id =?";
+			conn = DBConnection.getMySQLConnection();
 			StringBuilder builder = new StringBuilder();
 			builder.append("UPDATE Claims set studentID =?,title = ?,_content =?,status =?,createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? ");
 			
@@ -162,7 +165,7 @@ public class ClaimsDAO {
 			pstmt.setInt(14, c.getId());
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -171,15 +174,17 @@ public class ClaimsDAO {
 	}
 
 	public void delete(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String deleteString = "DELETE FROM Claims WHERE id = ? ";
 		PreparedStatement pstmt = null;
 		try {
+			
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(deleteString);
 			pstmt.setInt(1, id);
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -189,12 +194,13 @@ public class ClaimsDAO {
 	}
 
 	public Claims findById(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String findByIdString = "Select * From Claims Where id = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Claims claim = new Claims();
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(findByIdString);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
@@ -217,7 +223,7 @@ public class ClaimsDAO {
 				claim.setClaimType(claimType);
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -226,7 +232,7 @@ public class ClaimsDAO {
 	}
 
 	public List<Claims> selectClaimByStudent(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		List<Claims> list = new ArrayList<Claims>();
 		Claims claims = null;
 		PreparedStatement pstmt = null;
@@ -241,6 +247,7 @@ public class ClaimsDAO {
 				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id"
 				+ " WHERE S.id = ?";
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(searchString);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
@@ -287,7 +294,7 @@ public class ClaimsDAO {
 				list.add(claims);
 
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

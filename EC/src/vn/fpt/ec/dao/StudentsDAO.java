@@ -16,7 +16,7 @@ import vn.fpt.ec.connection.DBConnection;
 public class StudentsDAO {
 
 	public List<Students> selectAllStudent() {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<Students> list = new ArrayList<Students>();
@@ -26,6 +26,7 @@ public class StudentsDAO {
 				+ "S.fatherProfession,S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,"
 				+ "F.id as fId,F.facutlyName FROM Students S INNER JOIN Faculties F ON S.facultyID = F.id";
 		try {
+			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
 			while (rs.next()) {
@@ -53,7 +54,7 @@ public class StudentsDAO {
 
 				list.add(students);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -62,7 +63,7 @@ public class StudentsDAO {
 	}
 
 	public void insert(Students s) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String insertString = "INSERT INTO Students(username,password,firstName,lastName,dob,"
 				+ "email,address,sex,facultyID,phonenumber,fatherName,motherName,fatherProfession,"
 				+ "motherProfession,fatherPlaceOfWork,motherPlaceOfWork) "
@@ -70,6 +71,7 @@ public class StudentsDAO {
 		PreparedStatement pstmt = null;
 
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(insertString);
 			pstmt.setString(1, s.getUsername());
 			pstmt.setString(2, s.getPassword());
@@ -89,7 +91,7 @@ public class StudentsDAO {
 			pstmt.setString(16, s.getMotherOfWork());
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -99,7 +101,7 @@ public class StudentsDAO {
 	}
 
 	public void update(Students s) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String updateString = "UPDATE Students SET username = ?,firstName = ?,lastName = ?,dob = ?,"
 				+ "email = ?,address = ?,sex = ?,facultyID = ?,phonenumber = ?,fatherName = ?,motherName = ?,fatherProfession = ?,"
 				+ "motherProfession = ?,fatherPlaceOfWork = ?,motherPlaceOfWork = ? WHERE id = ?";
@@ -107,6 +109,7 @@ public class StudentsDAO {
 		PreparedStatement pstmt = null;
 
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(updateString);
 			pstmt.setString(1, s.getUsername());
 
@@ -127,7 +130,7 @@ public class StudentsDAO {
 			pstmt.setInt(16, s.getId());
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -136,15 +139,16 @@ public class StudentsDAO {
 	}
 
 	public void delete(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String deleteString = "DELETE FROM Students WHERE id = ? ";
 		PreparedStatement pstmt = null;
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(deleteString);
 			pstmt.setInt(1, id);
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -154,12 +158,13 @@ public class StudentsDAO {
 	}
 
 	public Students findById(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String findByIdString = "Select * From Students Where id = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Students student = null;
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(findByIdString);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
@@ -186,7 +191,7 @@ public class StudentsDAO {
 				student.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
 				student.setMotherOfWork(rs.getString("motherPlaceOfWork"));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -195,12 +200,13 @@ public class StudentsDAO {
 	}
 
 	public Students findByUsername(String username) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String findByIdString = "Select * From Students Where username = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Students student = null;
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(findByIdString);
 			pstmt.setString(1, username);
 			rs = pstmt.executeQuery();
@@ -227,7 +233,7 @@ public class StudentsDAO {
 				student.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
 				student.setMotherOfWork(rs.getString("motherPlaceOfWork"));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

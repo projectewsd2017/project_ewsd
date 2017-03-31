@@ -17,7 +17,7 @@ import vn.fpt.ec.connection.DBConnection;
 
 public class StaffsDAO {
 	public List<Staffs> selectAllStaff() {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<Staffs> list = new ArrayList<Staffs>();
@@ -28,6 +28,7 @@ public class StaffsDAO {
 				+ "R.id as rId,R.roleName,F.id as fId,F.facutlyName FROM Staffs S INNER JOIN Roles R ON S.roleID = R.id "
 				+ "INNER JOIN Faculties F ON S.facultyID = F.id";
 		try {
+			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
 			while (rs.next()) {
@@ -57,7 +58,7 @@ public class StaffsDAO {
 				staff.setRole(role);
 				list.add(staff);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -66,12 +67,13 @@ public class StaffsDAO {
 	}
 
 	public Staffs findById(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String findByIdString = "Select * From Staffs Where id = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Staffs staff = new Staffs();
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(findByIdString);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
@@ -79,7 +81,7 @@ public class StaffsDAO {
 			staff.setId(rs.getInt("id"));
 			staff.setEmail(rs.getString("email"));
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -88,13 +90,14 @@ public class StaffsDAO {
 	}
 
 	public List<String> selectAllAdmin() {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String selectString = "Select * From Staffs Where RoleID = 1";
 		Statement stmt = null;
 		ResultSet rs = null;
 		List<String> list = new ArrayList<String>();
 		Staffs staff = null;
 		try {
+			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
 			while (rs.next()) {
@@ -104,7 +107,7 @@ public class StaffsDAO {
 				list.add(staff.getEmail());
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

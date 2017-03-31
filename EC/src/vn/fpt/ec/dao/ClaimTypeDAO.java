@@ -14,17 +14,18 @@ import vn.fpt.ec.connection.DBConnection;
 public class ClaimTypeDAO {
 
 	public void insert(ClaimType c) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String insertString = "INSERT INTO ClaimType(ClaimName,Description) values(?,?)";
 
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(insertString);
 			pstmt.setString(1, c.getClaimName());
 			pstmt.setString(2, c.getDescription());
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -34,18 +35,19 @@ public class ClaimTypeDAO {
 	}
 
 	public void update(ClaimType c) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String updateString = "UPDATE ClaimType SET ClaimName = ?, Description = ? WHERE id = ?";
 
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(updateString);
 			pstmt.setString(1, c.getClaimName());
 			pstmt.setString(2, c.getDescription());
 			pstmt.setInt(3, c.getId());
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -55,7 +57,7 @@ public class ClaimTypeDAO {
 	}
 
 	public List<ClaimType> select() {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		Statement stmt = null;
 		List<ClaimType> list = new ArrayList<ClaimType>();
 		ClaimType claimType = null;
@@ -63,6 +65,7 @@ public class ClaimTypeDAO {
 		String selectString = "SELECT id,ClaimName,Description FROM ClaimType";
 
 		try {
+			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
 			while (rs.next()) {
@@ -73,7 +76,7 @@ public class ClaimTypeDAO {
 
 				list.add(claimType);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -83,15 +86,16 @@ public class ClaimTypeDAO {
 	}
 
 	public void delete(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String deleteString = "DELETE FROM ClaimType WHERE id = ? ";
 		PreparedStatement pstmt = null;
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(deleteString);
 			pstmt.setInt(1, id);
 
 			pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
@@ -101,12 +105,13 @@ public class ClaimTypeDAO {
 	}
 
 	public ClaimType findById(int id) {
-		Connection conn = DBConnection.open();
+		Connection conn = null;
 		String findByIdString = "Select * From ClaimType Where id = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		ClaimType claimType = new ClaimType();
 		try {
+			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(findByIdString);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
@@ -115,7 +120,7 @@ public class ClaimTypeDAO {
 			claimType.setClaimName(rs.getString("ClaimName"));
 			claimType.setDescription(rs.getString("Description"));
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
