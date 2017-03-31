@@ -82,7 +82,7 @@ public class Login extends ActionSupport implements SessionAware {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	
 	public String getPass() {
 		return pass;
 	}

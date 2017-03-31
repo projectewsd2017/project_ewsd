@@ -30,7 +30,7 @@
 <body>
 <style>
         body{
-        	background: url(http://images.adsttc.com/media/images/55e4/31d4/e58e/ce03/1300/009d/slideshow/03_entrance_view_VTN.jpg?1441018318) no-repeat center center fixed; 
+        	background: url("resources/dist/image/Greenwich-University.jpg") no-repeat center center fixed; 
            -webkit-background-size: cover;
            -moz-background-size: cover;
            -o-background-size: cover;
@@ -75,7 +75,7 @@
 
 .login-panel{
 	border: solid orange;
-	box-shadow: 10px 10px 5px #888888;
+	box-shadow: 15px 10px 5px #888888;
 }
     </style>
 	<div class="container">
@@ -104,6 +104,7 @@
 									<button type="submit" id="btnLogin" class="btn btn-lg btn-primary btn-block">Login</button>
 
 								</div>
+							</fieldset>
 						</s:form>
 					</div>
 				</div>

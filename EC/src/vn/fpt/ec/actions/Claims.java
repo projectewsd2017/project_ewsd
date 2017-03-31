@@ -344,7 +344,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		listOfStudent = claimsDAO.selectClaimByStudent(idStudent);
 
 		return listOfStudent;
-	}
+	}//đ
 
 	public String searchMyClaim() {
 		searchClaimByStudentId();
