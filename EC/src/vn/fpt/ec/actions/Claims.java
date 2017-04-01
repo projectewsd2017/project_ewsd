@@ -33,7 +33,6 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private final String open = "OPEN";
 	private final String processing = "PROCESSING";
 	private final String processed = "PROCESSED";
-	private final String noEvidence = "NO EVIDENCE";
 	private final String overDue = "OVER DUE";
 	private int id;
 	private String title;
@@ -94,8 +93,31 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public String getAllClaims() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
-		listClaims = claimsDAO.getAllClaims();
 
+		Date today = new Date(System.currentTimeMillis());
+		Calendar c1 = Calendar.getInstance();
+		c1.setTime(today);
+		List<Claims> listClaimsProcess = new ArrayList<Claims>();
+		listClaimsProcess = claimsDAO.getClaimsProcess();
+		for (Claims claims : listClaimsProcess) {
+
+			if (claims.getStatus().equals(processing)
+					&& claims.getDueDate().before(today)) {
+				claims.setStatus(overDue);
+				claimsDAO.update(claims);
+			}
+		}
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		int managerId = (int) session.getAttribute("id");
+		
+		if (s != null && s.equals("admin")) {
+			listClaims = claimsDAO.getAllClaims();
+		}else if(s != null && s.equals("ec")){
+			listClaims = claimsDAO.selectClaimByStaffId(managerId);
+		}
 		return "SUCCESS";
 	}
 
@@ -116,15 +138,13 @@ public class Claims extends ActionSupport implements ValidationAware,
 	public String addClaim() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
 		Date today = new Date(System.currentTimeMillis());
-		// SimpleDateFormat timeFormat= new
-		// SimpleDateFormat("hh:mm:ss dd/MM/yyyy");
 		Calendar c1 = Calendar.getInstance();
 		Calendar c2 = Calendar.getInstance();
 		c1.setTime(today);
 		c2.setTime(today);
 		c2.add(Calendar.DATE, 14);
 		createDate = c1.getTime();
-		dueDate = c2.getTime();
+		// dueDate = c2.getTime();
 		this.setStatus(open);
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
@@ -167,7 +187,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 		claimsDAO.insert(this);
 		Emailer emailer = new Emailer();
 		for (String mail : emailAdmin) {// send mail to all admin
-			emailer.setBody("You Have New Claim Of Student: "+ student.getUsername()+" ,Please Check!");
+			emailer.setBody("You Have New Claim Of Student: "
+					+ student.getUsername() + " ,Please Check!");
 			emailer.setTo(mail);
 			emailer.execute();
 		}
@@ -187,19 +208,22 @@ public class Claims extends ActionSupport implements ValidationAware,
 			listType = claimTypeDAO.select();
 			checkAdmin();
 			checkEC();
-			if(pathEvidence1FileName != null && !pathEvidence1FileName.isEmpty()){
+			if (pathEvidence1FileName != null
+					&& !pathEvidence1FileName.isEmpty()) {
 				checkFile1 = true;
-			}else{
+			} else {
 				checkFile1 = false;
 			}
-			if(pathEvidence2FileName != null && !pathEvidence2FileName.isEmpty()){
+			if (pathEvidence2FileName != null
+					&& !pathEvidence2FileName.isEmpty()) {
 				checkFile2 = true;
-			}else{
+			} else {
 				checkFile2 = false;
 			}
-			if(pathEvidence3FileName != null && !pathEvidence3FileName.isEmpty()){
+			if (pathEvidence3FileName != null
+					&& !pathEvidence3FileName.isEmpty()) {
 				checkFile3 = true;
-			}else{
+			} else {
 				checkFile3 = false;
 			}
 			return "SUCCESS";
@@ -232,7 +256,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 		if (s != null && s.equals("admin")) {
 			st = dao.findById(staffs.getId());
 			emailer.setTo(st.getEmail());
-			emailer.setBody("You Have New Claim Of Student ID:"+ studentId +",Please Check!");
+			emailer.setBody("You Have New Claim Of Student ID:" + studentId
+					+ ",Please Check!");
 			this.setStatus(processing);
 		} else if (s != null && s.equals("ec")) {
 			StudentsDAO studentsDAO = new StudentsDAO();
@@ -312,19 +337,19 @@ public class Claims extends ActionSupport implements ValidationAware,
 		pathEvidence1FileName = claim.getPathEvidence1FileName();
 		pathEvidence2FileName = claim.getPathEvidence2FileName();
 		pathEvidence3FileName = claim.getPathEvidence3FileName();
-		if(pathEvidence1FileName != null && !pathEvidence1FileName.isEmpty()){
+		if (pathEvidence1FileName != null && !pathEvidence1FileName.isEmpty()) {
 			checkFile1 = true;
-		}else{
+		} else {
 			checkFile1 = false;
 		}
-		if(pathEvidence2FileName != null && !pathEvidence2FileName.isEmpty()){
+		if (pathEvidence2FileName != null && !pathEvidence2FileName.isEmpty()) {
 			checkFile2 = true;
-		}else{
+		} else {
 			checkFile2 = false;
 		}
-		if(pathEvidence3FileName != null && !pathEvidence3FileName.isEmpty()){
+		if (pathEvidence3FileName != null && !pathEvidence3FileName.isEmpty()) {
 			checkFile3 = true;
-		}else{
+		} else {
 			checkFile3 = false;
 		}
 		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
@@ -344,7 +369,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		listOfStudent = claimsDAO.selectClaimByStudent(idStudent);
 
 		return listOfStudent;
-	}//đ
+	}
 
 	public String searchMyClaim() {
 		searchClaimByStudentId();

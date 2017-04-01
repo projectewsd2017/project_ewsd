@@ -238,6 +238,12 @@
 			<result name="success">/loginsuccess.jsp</result>
 			<result name="error">/loginerror.jsp</result>
 		</action>
+		
+		<action name="test" class="vn.fpt.ec.actions.Login"
+			method="test">
+			<result name="SUCCESS">test.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
 	</package>
 
 

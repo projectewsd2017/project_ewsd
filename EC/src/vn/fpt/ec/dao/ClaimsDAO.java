@@ -12,13 +12,14 @@ import java.util.List;
 import vn.fpt.ec.actions.ClaimType;
 import vn.fpt.ec.actions.Claims;
 import vn.fpt.ec.actions.Faculties;
+import vn.fpt.ec.actions.Staffs;
 import vn.fpt.ec.actions.Students;
 import vn.fpt.ec.connection.DBConnection;
 
 public class ClaimsDAO {
 
 	public List<Claims> getAllClaims() {
-		
+
 		List<Claims> list = new ArrayList<Claims>();
 		Claims claims = null;
 		Statement stmt = null;
@@ -31,12 +32,13 @@ public class ClaimsDAO {
 				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
 				+ "CT.id as cTypeId,CT.ClaimName,CT.Description "
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
-				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id";
+				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id ";
 		try {
 			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(selectString);
 			while (rs.next()) {
+				
 				Students students = new Students();
 				students.setId(rs.getInt("sId"));
 				students.setFirstName(rs.getString("firstName"));
@@ -75,7 +77,7 @@ public class ClaimsDAO {
 				claims.setPathEvidence2FileName(rs.getString("pathEvidence2"));
 				claims.setPathEvidence3FileName(rs.getString("pathEvidence3"));
 				claims.setClaimType(claimType);
-
+				
 				list.add(claims);
 
 			}
@@ -89,6 +91,81 @@ public class ClaimsDAO {
 
 	}
 
+	public List<Claims> getClaimsProcess() {
+
+		List<Claims> list = new ArrayList<Claims>();
+		Claims claims = null;
+		Statement stmt = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		String selectString = "SELECT C.id as claimId,C.title,C._content,C.status,C.createdDate,"
+				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
+				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
+				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "CT.id as cTypeId,CT.ClaimName,CT.Description,ST.id as stID "
+				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
+				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id "
+				+ "INNER JOIN Staffs ST ON C.ecCoordinatorID = ST.id";
+		try {
+			conn = DBConnection.getMySQLConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(selectString);
+			while (rs.next()) {
+				Staffs staff = new Staffs();
+				staff.setId(rs.getInt("stId"));
+				Students students = new Students();
+				students.setId(rs.getInt("sId"));
+				students.setFirstName(rs.getString("firstName"));
+				students.setLastName(rs.getString("lastName"));
+				students.setDob(rs.getDate("dob"));
+				students.setEmail(rs.getString("email"));
+				students.setAddress(rs.getString("address"));
+				students.setSex(rs.getString("sex"));
+				students.setPhoneNumber(rs.getString("phonenumber"));
+				students.setFatherName(rs.getString("fatherName"));
+				students.setMotherName(rs.getString("motherName"));
+				students.setFatherProfession(rs.getString("fatherProfession"));
+				students.setMotherProfession(rs.getString("motherProfession"));
+				students.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
+				students.setMotherOfWork(rs.getString("motherPlaceOfWork"));
+				Faculties faculties = new Faculties();
+				faculties.setId(rs.getInt("facultyID"));
+				students.setFaculty(faculties);
+
+				ClaimType claimType = new ClaimType();
+				claimType.setId(rs.getInt("cTypeId"));
+				claimType.setClaimName(rs.getString("ClaimName"));
+				claimType.setDescription(rs.getString("Description"));
+
+				claims = new Claims();
+				claims.setId(rs.getInt("claimId"));
+				claims.setContent(rs.getString("_content"));
+				claims.setTitle(rs.getString("title"));
+
+				// claims.setFacultyId(rs.getInt(students.getFacultyId()));
+				claims.setStatus(rs.getString("status"));
+				claims.setCreateDate(rs.getDate("createdDate"));
+				claims.setDueDate(rs.getDate("dueDate"));
+				claims.setStudent(students);
+				claims.setPathEvidence1FileName(rs.getString("pathEvidence1"));
+				claims.setPathEvidence2FileName(rs.getString("pathEvidence2"));
+				claims.setPathEvidence3FileName(rs.getString("pathEvidence3"));
+				claims.setClaimType(claimType);
+				claims.setStaffs(staff);
+				list.add(claims);
+
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(conn, stmt, rs);
+		}
+		return list;
+
+	}
+	
 	public void insert(Claims c) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -126,26 +203,20 @@ public class ClaimsDAO {
 		PreparedStatement pstmt = null;
 
 		try {
-			// String insertString = ""
-			// + "pathEvidence2 = ?,pathEvidence3 = ?,status =?,"
-			// +
-			// "createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? WHERE id =?";
 			conn = DBConnection.getMySQLConnection();
 			StringBuilder builder = new StringBuilder();
 			builder.append("UPDATE Claims set studentID =?,title = ?,_content =?,status =?,createdDate = ?,dueDate = ?,claimTypeID =? ,facutlyID = ?,ecCoordinatorID = ?,comment = ? ");
-			
-				builder.append(",pathEvidence1 = ? ");
-			
-			
-				builder.append(",pathEvidence2 = ? ");
-			
-			
-				builder.append(",pathEvidence3 = ? ");
-			
+
+			builder.append(",pathEvidence1 = ? ");
+
+			builder.append(",pathEvidence2 = ? ");
+
+			builder.append(",pathEvidence3 = ? ");
+
 			builder.append("WHERE id =?");
 			String insertString = builder.toString();
 			pstmt = conn.prepareStatement(insertString);
-			pstmt.setInt(1, c.getStudentId());
+			pstmt.setInt(1, c.getStudent().getId());
 			pstmt.setString(2, c.getTitle());
 			pstmt.setString(3, c.getContent());
 			pstmt.setString(4, c.getStatus());
@@ -154,6 +225,7 @@ public class ClaimsDAO {
 			pstmt.setInt(7, c.getClaimType().getId());
 			pstmt.setInt(8, c.getStudent().getFaculty().getId());
 			pstmt.setInt(9, c.getStaffs().getId());
+
 			pstmt.setString(10, c.getComment());
 
 			pstmt.setString(11, c.getPathEvidence1FileName());
@@ -178,7 +250,7 @@ public class ClaimsDAO {
 		String deleteString = "DELETE FROM Claims WHERE id = ? ";
 		PreparedStatement pstmt = null;
 		try {
-			
+
 			conn = DBConnection.getMySQLConnection();
 			pstmt = conn.prepareStatement(deleteString);
 			pstmt.setInt(1, id);
@@ -280,8 +352,8 @@ public class ClaimsDAO {
 				claims.setId(rs.getInt("claimId"));
 				claims.setContent(rs.getString("_content"));
 				claims.setTitle(rs.getString("title"));
-
-				// claims.setFacultyId(rs.getInt(students.getFacultyId()));
+//
+//				// claims.setFacultyId(rs.getInt(students.getFacultyId()));
 				claims.setStatus(rs.getString("status"));
 				claims.setCreateDate(rs.getDate("createdDate"));
 				claims.setDueDate(rs.getDate("dueDate"));
@@ -300,5 +372,81 @@ public class ClaimsDAO {
 		}
 
 		return list;
+	}
+	public List<Claims> selectClaimByStaffId(int id) {
+
+		Connection conn = null;
+		List<Claims> list = new ArrayList<Claims>();
+		Claims claims = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String selectString = "SELECT C.id as claimId,C.title,C._content,C.status,C.createdDate,"
+				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
+				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
+				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "CT.id as cTypeId,CT.ClaimName,CT.Description,ST.id as stID "
+				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
+				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id "
+				+ "INNER JOIN Staffs ST ON C.ecCoordinatorID = ST.id "
+				+ " WHERE ST.id = ?";
+		try {
+			conn = DBConnection.getMySQLConnection();
+			pstmt = conn.prepareStatement(selectString);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Staffs staff = new Staffs();
+				staff.setId(rs.getInt("stId"));
+				Students students = new Students();
+				students.setId(rs.getInt("sId"));
+				students.setFirstName(rs.getString("firstName"));
+				students.setLastName(rs.getString("lastName"));
+				students.setDob(rs.getDate("dob"));
+				students.setEmail(rs.getString("email"));
+				students.setAddress(rs.getString("address"));
+				students.setSex(rs.getString("sex"));
+				students.setPhoneNumber(rs.getString("phonenumber"));
+				students.setFatherName(rs.getString("fatherName"));
+				students.setMotherName(rs.getString("motherName"));
+				students.setFatherProfession(rs.getString("fatherProfession"));
+				students.setMotherProfession(rs.getString("motherProfession"));
+				students.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
+				students.setMotherOfWork(rs.getString("motherPlaceOfWork"));
+				Faculties faculties = new Faculties();
+				faculties.setId(rs.getInt("facultyID"));
+				students.setFaculty(faculties);
+
+				ClaimType claimType = new ClaimType();
+				claimType.setId(rs.getInt("cTypeId"));
+				claimType.setClaimName(rs.getString("ClaimName"));
+				claimType.setDescription(rs.getString("Description"));
+
+				claims = new Claims();
+				claims.setId(rs.getInt("claimId"));
+				claims.setContent(rs.getString("_content"));
+				claims.setTitle(rs.getString("title"));
+
+				// claims.setFacultyId(rs.getInt(students.getFacultyId()));
+				claims.setStatus(rs.getString("status"));
+				claims.setCreateDate(rs.getDate("createdDate"));
+				claims.setDueDate(rs.getDate("dueDate"));
+				claims.setStudent(students);
+				claims.setPathEvidence1FileName(rs.getString("pathEvidence1"));
+				claims.setPathEvidence2FileName(rs.getString("pathEvidence2"));
+				claims.setPathEvidence3FileName(rs.getString("pathEvidence3"));
+				claims.setClaimType(claimType);
+				claims.setStaffs(staff);
+				list.add(claims);
+
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(conn, pstmt, rs);
+		}
+		return list;
+
 	}
 }

@@ -21,6 +21,8 @@ public class Login extends ActionSupport implements SessionAware {
 	private int roleId;
 	private int id;
 	private String email;
+	int a = 1;
+	String b = "bánh mỳ";
 	private SessionMap<String, Object> sessionmap;
 
 	public String login() {
@@ -47,6 +49,7 @@ public class Login extends ActionSupport implements SessionAware {
 
 				sessionmap.put("username", username);
 				sessionmap.put("role", login.getRoleId());
+				sessionmap.put("id", login.id);
 				sessionmap.put("pass", pass);
 				if (login.getRoleId() == 1) {
 					sessionmap.put("login", "admin");
@@ -65,6 +68,10 @@ public class Login extends ActionSupport implements SessionAware {
 		return "SUCCESS";
 	}
 
+	public String test() {
+		return "SUCCESS";
+	}
+
 	public Login() {
 		// TODO Auto-generated constructor stub
 	}
@@ -76,6 +83,14 @@ public class Login extends ActionSupport implements SessionAware {
 		this.roleId = roleId;
 	}
 
+	public String getB() {
+		return b;
+	}
+
+	public void setB(String b) {
+		this.b = b;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -83,7 +98,7 @@ public class Login extends ActionSupport implements SessionAware {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	public String getPass() {
 		return pass;
 	}
@@ -124,4 +139,13 @@ public class Login extends ActionSupport implements SessionAware {
 		sessionmap = (SessionMap) map;
 		sessionmap.put("login", "true");
 	}
+
+	public int getA() {
+		return a;
+	}
+
+	public void setA(int a) {
+		this.a = a;
+	}
+	
 }
