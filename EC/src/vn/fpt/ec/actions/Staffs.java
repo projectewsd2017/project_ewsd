@@ -1,8 +1,18 @@
 package vn.fpt.ec.actions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
+import vn.fpt.ec.dao.FacultyDAO;
+import vn.fpt.ec.dao.RoleDAO;
 import vn.fpt.ec.dao.StaffsDAO;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -21,26 +31,156 @@ public class Staffs extends ActionSupport {
 	private String placeOfBirth;
 	private String email;
 	private String address;
-	private boolean sex;
+	private String sex;
 	private String dateOfHiring;
 	private double salary;
 	private int ecMangerID;
-	private int roleID;
 	private String phoneNumber;
 	private String fatherName;
 	private String motherName;
 	private String fatherPlaceOfWork;
 	private String motherPlaceOfWork;
+	private String dobString;
 	private Faculties faculty;
 	private Roles role;
 	private List<Staffs> listStaffs;
+	private List<Faculties> listAllFaculty;
+	private List<Roles> listRole;
 
-	public String selectAllStaffs(){
+	public String selectAllStaffs() {
 		StaffsDAO staffsDAO = new StaffsDAO();
 		listStaffs = staffsDAO.selectAllStaff();
 		return "SUCCESS";
 	}
-	
+
+	public String add() {
+
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = new ArrayList<Faculties>();
+			listAllFaculty = facultyDAO.select();
+			RoleDAO roleDAO = new RoleDAO();
+			listRole = new ArrayList<Roles>();
+			listRole = roleDAO.selectAll();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String addStaff() throws ParseException {
+		StaffsDAO staffDAO = new StaffsDAO();
+		password = "Abc123!";
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		dob = format.parse(dobString);
+
+		staffDAO.insert(this);
+		Staffs s = new Staffs();
+		s = staffDAO.findByUsername(username);
+		s.setUsername(username + s.getId());
+		s.setEmail(s.getUsername().concat("@gmail.com"));
+		staffDAO.update(s);
+		return "SUCCESS";
+	}
+
+	public String update() {
+
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			FacultyDAO facultyDAO = new FacultyDAO();
+			listAllFaculty = new ArrayList<Faculties>();
+			listAllFaculty = facultyDAO.select();
+			RoleDAO roleDAO = new RoleDAO();
+			listRole = new ArrayList<Roles>();
+			listRole = roleDAO.selectAll();
+			Staffs st = new Staffs();
+			StaffsDAO sDao = new StaffsDAO();
+			st = sDao.findById(id);
+			this.setDob(st.getDob());
+			
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String updateStaff() {
+		StaffsDAO staffDAO = new StaffsDAO();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			dob = format.parse(dobString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		staffDAO.update(this);
+		return "SUCCESS";
+	}
+
+	public String deleteStaff() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			StaffsDAO staffDAO = new StaffsDAO();
+			staffDAO.delete(id);
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public String search() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && !s.equals("student")) {
+			searchById();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+	}
+
+	public Staffs searchById() {
+		StaffsDAO staffsDAO = new StaffsDAO();
+		Staffs staff = new Staffs();
+		staff = staffsDAO.findById(id);
+		username = staff.getUsername();
+		password = staff.getPassword();
+		firstName = staff.getFirstName();
+		lastName = staff.getLastName();
+		dob = staff.getDob();
+		email = staff.getEmail();
+		address = staff.getAddress();
+		sex = staff.getSex();
+		phoneNumber = staff.getPhoneNumber();
+		fatherName = staff.getFatherName();
+		motherName = staff.getMotherName();
+		placeOfBirth = staff.getPlaceOfBirth();
+
+		role = new Roles();
+		RoleDAO roleDAO = new RoleDAO();
+		role = roleDAO.findById(staff.getRole().getId());
+		fatherPlaceOfWork = staff.getFatherPlaceOfWork();
+		motherPlaceOfWork = staff.getMotherPlaceOfWork();
+		FacultyDAO facultyDAO = new FacultyDAO();
+		faculty = facultyDAO.findById(staff.getFaculty().getId());
+
+		return staff;
+	}
+
+	/*--------------getter & setter & constructor-----------*/
 	public Staffs() {
 		// TODO Auto-generated constructor stub
 	}
@@ -113,16 +253,16 @@ public class Staffs extends ActionSupport {
 		return address;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public boolean isSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(boolean sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getDateOfHiring() {
@@ -147,14 +287,6 @@ public class Staffs extends ActionSupport {
 
 	public void setEcMangerID(int ecMangerID) {
 		this.ecMangerID = ecMangerID;
-	}
-
-	public int getRoleID() {
-		return roleID;
-	}
-
-	public void setRoleID(int roleID) {
-		this.roleID = roleID;
 	}
 
 	public String getPhoneNumber() {
@@ -220,6 +352,29 @@ public class Staffs extends ActionSupport {
 	public void setListStaffs(List<Staffs> listStaffs) {
 		this.listStaffs = listStaffs;
 	}
-	
+
+	public String getDobString() {
+		return dobString;
+	}
+
+	public void setDobString(String dobString) {
+		this.dobString = dobString;
+	}
+
+	public List<Faculties> getListAllFaculty() {
+		return listAllFaculty;
+	}
+
+	public void setListAllFaculty(List<Faculties> listAllFaculty) {
+		this.listAllFaculty = listAllFaculty;
+	}
+
+	public List<Roles> getListRole() {
+		return listRole;
+	}
+
+	public void setListRole(List<Roles> listRole) {
+		this.listRole = listRole;
+	}
 
 }

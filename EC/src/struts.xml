@@ -204,6 +204,54 @@
 		</action>
 
 
+		
+		<action name="getAllStaff" class="vn.fpt.ec.actions.Staffs"
+			method="selectAllStaffs">
+			<result name="SUCCESS">/admin/staff/ListStaffs.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="addStaff" class="vn.fpt.ec.actions.Staffs"
+			method="add">
+			<result name="SUCCESS">/admin/staff/AddStaff.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="saveaddstaff" class="vn.fpt.ec.actions.Staffs"
+			method="addStaff">
+
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="SUCCESS" type="redirectAction">getAllStaff</result>
+			<result name="input">/admin/staff/AddStaff.jsp</result>
+		</action>
+
+		<action name="updateStaff" class="vn.fpt.ec.actions.Staffs"
+			method="update">
+			<result name="SUCCESS">/admin/staff/UpdateStaff.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
+		<action name="saveupdatestaff" class="vn.fpt.ec.actions.Staffs"
+			method="updateStaff">
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="input">/admin/staff/UpdateStudent.jsp</result>
+			<result name="SUCCESS" type="redirectAction">getAllStaff</result>
+		</action>
+
+		<action name="deleteStaff" class="vn.fpt.ec.actions.Staffs"
+			method="deleteStaff">
+			<result name="SUCCESS" type="redirectAction">getAllStaff</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
+		<action name="searchStaffById" class="vn.fpt.ec.actions.Staffs"
+			method="search">
+			<result name="SUCCESS">/admin/staff/Detail.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
 
 
 		<action name="login">
