@@ -175,10 +175,7 @@ public class Students extends ActionSupport {
 
 	public String searchStudentByUsername() {
 		StudentsDAO studentsDAO = new StudentsDAO();
-		Students students = new Students();
 		listAllStudents = studentsDAO.searchByUsername(username);
-		firstName = students.getFirstName();
-		lastName = students.getLastName();
 		return "SUCCESS";
 	}
 

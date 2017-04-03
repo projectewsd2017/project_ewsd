@@ -180,6 +180,11 @@ public class Staffs extends ActionSupport {
 		return staff;
 	}
 
+	public String searchStaffByUsername() {
+		StaffsDAO staffDAO = new StaffsDAO();
+		listStaffs = staffDAO.searchByUsername(username);
+		return "SUCCESS";
+	}
 	/*--------------getter & setter & constructor-----------*/
 	public Staffs() {
 		// TODO Auto-generated constructor stub

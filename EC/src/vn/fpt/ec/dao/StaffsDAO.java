@@ -177,8 +177,8 @@ public class StaffsDAO {
 		}
 
 	}
-	
-	public void update(Staffs s){
+
+	public void update(Staffs s) {
 		Connection conn = null;
 		String updateString = "UPDATE Staffs SET username = ?,firstName = ?,lastName = ?,dob = ?,"
 				+ "email = ?,address = ?,sex = ?,facultyID = ?,phonenumber = ?,fatherName = ?,motherName = ?,placeOfBirth = ?,"
@@ -213,7 +213,7 @@ public class StaffsDAO {
 			DBConnection.close(conn, pstmt, null);
 		}
 	}
-	
+
 	public void delete(int id) {
 		Connection conn = null;
 		String deleteString = "DELETE FROM Staffs WHERE id = ? ";
@@ -232,7 +232,7 @@ public class StaffsDAO {
 		}
 
 	}
-	
+
 	public Staffs findByUsername(String username) {
 		Connection conn = null;
 		String findByIdString = "Select * From Staffs Where username = ?";
@@ -277,4 +277,49 @@ public class StaffsDAO {
 
 	}
 
+	public List<Staffs> searchByUsername(String username) {
+		Connection conn = null;
+		String findByIdString = "Select * From Staffs Where username like ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Staffs staff = null;
+		List<Staffs> list = new ArrayList<Staffs>();
+		try {
+			conn = DBConnection.getMySQLConnection();
+			pstmt = conn.prepareStatement(findByIdString);
+			pstmt.setString(1, "%" + username + "%");
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				staff = new Staffs();
+				staff.setId(rs.getInt("id"));
+				Faculties faculties = new Faculties();
+				faculties.setId(rs.getInt("facultyID"));
+				staff.setFaculty(faculties);
+				staff.setUsername(rs.getString("username"));
+				staff.setPassword(rs.getString("password"));
+
+				staff.setFirstName(rs.getString("firstName"));
+				staff.setLastName(rs.getString("lastName"));
+				staff.setDob(rs.getDate("dob"));
+				staff.setEmail(rs.getString("email"));
+				staff.setAddress(rs.getString("address"));
+				staff.setSex(rs.getString("sex"));
+				staff.setPhoneNumber(rs.getString("phonenumber"));
+				staff.setFatherName(rs.getString("fatherName"));
+				staff.setMotherName(rs.getString("motherName"));
+				Roles role = new Roles();
+				role.setId(rs.getInt("roleID"));
+				staff.setRole(role);
+				staff.setPlaceOfBirth(rs.getString("placeOfBirth"));
+				staff.setFatherPlaceOfWork(rs.getString("fatherPlaceOfWork"));
+				staff.setMotherPlaceOfWork(rs.getString("motherPlaceOfWork"));
+				list.add(staff);
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+
+	}
 }

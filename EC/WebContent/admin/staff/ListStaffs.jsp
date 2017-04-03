@@ -22,41 +22,46 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">Staff List</div>
 						<div class="panel-body">
-							<table width="100%"
-								class="table table-striped table-bordered table-hover"
-								id="dataTables-example">
-								<tr>
-									<th>Username</th>
-									<th>First Name</th>
-									<th>Last Name</th>
-									<th>Email</th>
-									<th>Faculty</th>
-									<th>Address</th>
-
-
-									<th colspan="3" style="text-align: center;">Action</th>
-								</tr>
-								<s:iterator value="listStaffs" var="list">
+							<form action="searchStaffByUsername">
+								<input type="text" id="myInput" onkeyup="myFunction()"
+									class="form-control" name="username"
+									placeholder="Enter Username"> <br /> <br />
+								<table width="100%"
+									class="table table-striped table-bordered table-hover"
+									id="myTable">
 									<tr>
-										<td><s:property value="username" /></td>
-										<td><s:property value="firstName" /></td>
-										<td><s:property value="lastName" /></td>
+										<th>Username</th>
+										<th>First Name</th>
+										<th>Last Name</th>
+										<th>Email</th>
+										<th>Faculty</th>
+										<th>Address</th>
 
-										<td><s:property value="email" /></td>
-										<td><s:property value="faculty.facutlyName" /></td>
-										<td><s:property value="address" /></td>
 
-										
-										<s:url action="searchStaffById" var="searchById">
-											<s:param name="id">
-												<s:property value="id" />
-											</s:param>
-										</s:url>
-										<td><s:a href="%{searchById}">View</s:a></td>
-
+										<th colspan="3" style="text-align: center;">Action</th>
 									</tr>
-								</s:iterator>
-							</table>
+									<s:iterator value="listStaffs" var="list">
+										<tr>
+											<td><s:property value="username" /></td>
+											<td><s:property value="firstName" /></td>
+											<td><s:property value="lastName" /></td>
+
+											<td><s:property value="email" /></td>
+											<td><s:property value="faculty.facutlyName" /></td>
+											<td><s:property value="address" /></td>
+
+
+											<s:url action="searchStaffById" var="searchById">
+												<s:param name="id">
+													<s:property value="id" />
+												</s:param>
+											</s:url>
+											<td><s:a href="%{searchById}">View</s:a></td>
+
+										</tr>
+									</s:iterator>
+								</table>
+							</form>
 						</div>
 
 
@@ -72,6 +77,24 @@
 			</div>
 		</div>
 	</div>
-
+	<script>
+		function myFunction() {
+			var input, filter, table, tr, td, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("myTable");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) {
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
+	</script>
 </body>
 </html>

@@ -262,6 +262,11 @@
 			<result name="SUCCESS">/admin/staff/Detail.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
+		<action name="searchStaffByUsername" class="vn.fpt.ec.actions.Staffs"
+			method="searchStaffByUsername">
+			<result name="SUCCESS">/admin/staff/ListStaffs.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
 
 
 
