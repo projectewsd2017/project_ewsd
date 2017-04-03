@@ -42,6 +42,7 @@ public class Students extends ActionSupport {
 	private Faculties faculty;
 	private List<Students> listAllStudents;
 	private List<Faculties> listAllFaculty;
+	private List<Students> listStudent;
 
 	public String getAllStudent() {
 		StudentsDAO studentsDAO = new StudentsDAO();
@@ -95,7 +96,8 @@ public class Students extends ActionSupport {
 			Students st = new Students();
 			StudentsDAO sDao = new StudentsDAO();
 			st = sDao.findById(id);
-			this.setDob(st.getDob());;
+			this.setDob(st.getDob());
+			;
 			return "SUCCESS";
 		} else {
 			return "error";
@@ -165,6 +167,19 @@ public class Students extends ActionSupport {
 		faculty = facultyDAO.findById(student.getFaculty().getId());
 
 		return student;
+	}
+	
+	public String searchST(){
+		return "SUCCESS";
+	}
+
+	public String searchStudentByUsername() {
+		StudentsDAO studentsDAO = new StudentsDAO();
+		Students students = new Students();
+		listAllStudents = studentsDAO.searchByUsername(username);
+		firstName = students.getFirstName();
+		lastName = students.getLastName();
+		return "SUCCESS";
 	}
 
 	/*--------------getter & setter & constructor-----------*/
@@ -331,5 +346,14 @@ public class Students extends ActionSupport {
 	public void setDobString(String dobString) {
 		this.dobString = dobString;
 	}
+
+	public List<Students> getListStudent() {
+		return listStudent;
+	}
+
+	public void setListStudent(List<Students> listStudent) {
+		this.listStudent = listStudent;
+	}
+	
 
 }
