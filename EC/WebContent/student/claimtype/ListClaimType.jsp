@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Claim - List Claim Type</title>
+<script src="resources/vendor/jquery/jquery.min.js"></script>
 </head>
 <body>
 	<div id="wrapper">

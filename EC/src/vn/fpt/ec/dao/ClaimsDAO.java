@@ -170,8 +170,8 @@ public class ClaimsDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String insertString = "INSERT INTO Claims(studentID,title,_content,ecCoordinatorID,status,"
-				+ "createdDate,dueDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID,facutlyID) "
-				+ "values (?,?,?,?,?,?,?,?,?,?,?,?) ";
+				+ "createdDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID,facutlyID) "
+				+ "values (?,?,?,?,?,?,?,?,?,?,?) ";
 
 		try {
 			conn = DBConnection.getMySQLConnection();
@@ -182,12 +182,12 @@ public class ClaimsDAO {
 			pstmt.setInt(4, 1);
 			pstmt.setString(5, c.getStatus());
 			pstmt.setDate(6, new Date(c.getCreateDate().getTime()));
-			pstmt.setDate(7, new Date(c.getDueDate().getTime()));
-			pstmt.setString(8, c.getPathEvidence1FileName());
-			pstmt.setString(9, c.getPathEvidence2FileName());
-			pstmt.setString(10, c.getPathEvidence3FileName());
-			pstmt.setInt(11, c.getClaimType().getId());
-			pstmt.setInt(12, c.getStudent().getFaculty().getId());
+//			pstmt.setDate(7, new Date(c.getDueDate().getTime()));
+			pstmt.setString(7, c.getPathEvidence1FileName());
+			pstmt.setString(8, c.getPathEvidence2FileName());
+			pstmt.setString(9, c.getPathEvidence3FileName());
+			pstmt.setInt(10, c.getClaimType().getId());
+			pstmt.setInt(11, c.getStudent().getFaculty().getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
@@ -448,5 +448,60 @@ public class ClaimsDAO {
 		}
 		return list;
 
+	}
+	
+	public int reportByFaculty(){
+		
+		Statement stmt = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		String countString = "SELECT COUNT(*) as total FROM projectewsd.claims group by facutlyID";
+		int countFaculty = 0;
+		try {
+			conn = DBConnection.getMySQLConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(countString);
+			if(rs.next()){
+				countFaculty = rs.getInt("total");
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(conn, stmt, rs);
+		}
+		return countFaculty;
+	}
+	
+public List<Claims> reportByStatus(){
+		List<Claims> list = null;
+		Statement stmt = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		Claims claim = null;
+		String countString = "SELECT SUM(C.status='OVERDUE') as countOVERDUE,"
+				+ "SUM(C.status='PROCESSING') as countPROCESSING,"
+				+ "SUM(C.status='PROCESSED') as countPROCESSED FROM claims C";
+		
+		try {
+			conn = DBConnection.getMySQLConnection();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(countString);
+			if(rs.next()){
+				claim = new Claims();
+				list = new ArrayList<Claims>();
+				claim.setCountOVERDUE(rs.getInt("countOVERDUE"));
+				claim.setCountPROCESSING(rs.getInt("countPROCESSING"));
+				claim.setCountPROCESSED(rs.getInt("countPROCESSED"));
+				list.add(claim);
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(conn, stmt, rs);
+		}
+		
+		return list;
 	}
 }

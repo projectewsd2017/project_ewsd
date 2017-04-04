@@ -6,6 +6,7 @@
 <html>
 <head>
 <s:head />
+<script src="resources/vendor/jquery/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Claim - Edit ${id }</title>
 <style type="text/css">

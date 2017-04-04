@@ -104,7 +104,16 @@
 			<result name="SUCCESS">/student/claim/ShowMyClaim.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
-		
+		<action name="searchClaim" class="vn.fpt.ec.actions.Staffs"
+			method="searchClaim">
+			<result name="SUCCESS">/student/claim/ListClaims.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="reportByStatus" class="vn.fpt.ec.actions.Claims"
+			method="reportByStatus">
+			<result name="SUCCESS">/admin/report/Report.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
 
 
 

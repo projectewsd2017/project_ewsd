@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Student - List Student</title>
+<script src="resources/vendor/jquery/jquery.min.js"></script>
 </head>
 <body>
 	<div id="wrapper">

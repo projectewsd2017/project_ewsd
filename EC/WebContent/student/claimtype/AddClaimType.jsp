@@ -5,6 +5,7 @@
 <html>
 <head>
 <s:head />
+<script src="resources/vendor/jquery/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Claim - New Claim Type</title>
 </head>

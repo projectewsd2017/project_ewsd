@@ -59,6 +59,8 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private List<ClaimType> listType;
 	private List<Staffs> listStaffs;
 	private List<Claims> listOfStudent;
+	private List<Students> listStudent;
+	private List<String> studentName;
 	private Staffs staffs;
 	private Boolean admin;
 	private Boolean ec;
@@ -66,6 +68,10 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private Boolean checkFile2;
 	private Boolean checkFile3;
 	private SessionMap<String, Object> sessionmap;
+	private String username;
+	private int countOVERDUE = 0;
+	private int countPROCESSING = 0;
+	private int countPROCESSED = 0;
 
 	public void checkAdmin() {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -112,7 +118,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 		String s = (String) session.getAttribute("login");
 		int managerId = (int) session.getAttribute("id");
-		
+		StudentsDAO studentsDAO = new StudentsDAO();
+		listStudent = studentsDAO.selectAllStudent();
+		studentName = new ArrayList<String>();
+		for (Students st : listStudent) {
+			
+			String username = st.getUsername();
+			studentName.add("'" + username + "'");
+		}
 		if (s != null && s.equals("admin")) {
 			listClaims = claimsDAO.getAllClaims();
 		}else if(s != null && s.equals("ec")){
@@ -390,6 +403,25 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 	}
 
+	
+	public String searchClaim(){
+		StudentsDAO studentsDAO = new StudentsDAO();
+		listStudent = studentsDAO.searchByUsername(username);
+		return "SUCCESS";
+	}
+	
+	public String reportByStatus(){
+		ClaimsDAO claimsDAO = new ClaimsDAO();
+		List<Claims> list = new ArrayList<Claims>();
+		list=claimsDAO.reportByStatus();
+		
+		for (Claims claim : list) {
+			countOVERDUE = claim.getCountOVERDUE();
+			countPROCESSED = claim.getCountPROCESSED();
+			countPROCESSING = claim.getCountPROCESSING();
+		}
+		return "SUCCESS";
+	}
 	/*--------------getter & setter & constructor-----------*/
 	public Claims() {
 		// TODO Auto-generated constructor stub
@@ -650,6 +682,54 @@ public class Claims extends ActionSupport implements ValidationAware,
 	public void setSession(Map map) {
 		sessionmap = (SessionMap) map;
 
+	}
+
+	public List<Students> getListStudent() {
+		return listStudent;
+	}
+
+	public void setListStudent(List<Students> listStudent) {
+		this.listStudent = listStudent;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public List<String> getStudentName() {
+		return studentName;
+	}
+
+	public void setStudentName(List<String> studentName) {
+		this.studentName = studentName;
+	}
+
+	public int getCountOVERDUE() {
+		return countOVERDUE;
+	}
+
+	public void setCountOVERDUE(int countOVERDUE) {
+		this.countOVERDUE = countOVERDUE;
+	}
+
+	public int getCountPROCESSING() {
+		return countPROCESSING;
+	}
+
+	public void setCountPROCESSING(int countPROCESSING) {
+		this.countPROCESSING = countPROCESSING;
+	}
+
+	public int getCountPROCESSED() {
+		return countPROCESSED;
+	}
+
+	public void setCountPROCESSED(int countPROCESSED) {
+		this.countPROCESSED = countPROCESSED;
 	}
 
 }
