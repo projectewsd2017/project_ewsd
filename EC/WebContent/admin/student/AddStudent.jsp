@@ -73,7 +73,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.html"></s:include>
+		<s:include value="../../index.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">

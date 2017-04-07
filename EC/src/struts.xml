@@ -13,7 +13,7 @@
 
 	<package name="default" namespace="/" extends="struts-default">
 
-		<default-action-ref name="index" />
+		<default-action-ref name="login" />
 
 		<global-results>
 			<result name="error">/WEB-INF/jsp/error.jsp</result>
@@ -24,16 +24,12 @@
 				result="error" />
 		</global-exception-mappings>
 
-		<action name="index">
-			<result type="redirectAction">
-				<param name="actionName">HelloWorld</param>
-				<param name="namespace">/example</param>
-			</result>
-		</action>
+
 
 		<action name="getAllClaims" class="vn.fpt.ec.actions.Claims"
 			method="getAllClaims">
 			<result name="SUCCESS">/student/claim/ListClaims.jsp</result>
+			<result name="error">accessdenied.jsp</result>
 		</action>
 		<action name="addClaim" class="vn.fpt.ec.actions.Claims"
 			method="add">
@@ -114,7 +110,12 @@
 			<result name="SUCCESS">/admin/report/Report.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
-
+		<action name="searchClaimByDate" class="vn.fpt.ec.actions.Staffs"
+			method="searchClaimByDate">
+			
+			<result name="SUCCESS">/student/claim/ListClaims.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
 
 
 
@@ -224,7 +225,7 @@
 		</action>
 
 
-		
+
 		<action name="getAllStaff" class="vn.fpt.ec.actions.Staffs"
 			method="selectAllStaffs">
 			<result name="SUCCESS">/admin/staff/ListStaffs.jsp</result>
@@ -286,7 +287,7 @@
 		<action name="loginprocess" class="vn.fpt.ec.actions.Login"
 			method="loginUser">
 			<result name="ADMIN" type="redirectAction">getAllClaims</result>
-			<result name="EC" type="redirectAction">getAllClaims</result>
+			<result name="EC" type="redirectAction">getAllClaimsforCoo</result>
 			<result name="STUDENT" type="redirectAction">addClaim</result>
 			<result name="error">loginerror.jsp</result>
 			<result name="LOGINERROR">loginnull.jsp</result>
@@ -311,10 +312,57 @@
 			<result name="success">/loginsuccess.jsp</result>
 			<result name="error">/loginerror.jsp</result>
 		</action>
-		
-		<action name="test" class="vn.fpt.ec.actions.Login"
-			method="test">
+
+		<action name="test" class="vn.fpt.ec.actions.Login" method="test">
 			<result name="SUCCESS">test.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="getAllClaimsforCoo" class="vn.fpt.ec.actions.Claims"
+			method="getAllClaims">
+			<result name="SUCCESS">/student/claim/ListClaimsCoo.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="searchByIdCoo" class="vn.fpt.ec.actions.Claims"
+			method="search">
+			<result name="SUCCESS">/student/claim/showCoo.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="updateClaimCoo" class="vn.fpt.ec.actions.Claims"
+			method="update">
+			<result name="SUCCESS">/student/claim/UpdateClaimCoo.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
+		<action name="saveupdateclaimCoo" class="vn.fpt.ec.actions.Claims"
+			method="updateClaim">
+			<interceptor-ref name="fileUpload">
+				<param name="maximumSize">10485760</param>
+
+				<param name="allowedTypes">
+					image/png,image/gif,image/jpeg,image/pjpeg,application/pdf
+				</param>
+
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="params"></interceptor-ref>
+			<interceptor-ref name="validation"></interceptor-ref>
+			<interceptor-ref name="workflow"></interceptor-ref>
+			<result name="input">/student/claim/UpdateClaimCoo.jsp</result>
+			<result name="SUCCESS" type="redirectAction">getAllClaimsforCoo</result>
+		</action>
+		<action name="deleteClaimCo" class="vn.fpt.ec.actions.Claims"
+			method="deleteClaim">
+			<result name="SUCCESS" type="redirectAction">getAllClaimsforCoo</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="getAllStudentCoo" class="vn.fpt.ec.actions.Students"
+			method="getAllStudent">
+			<result name="SUCCESS">/admin/student/ListStudentsCoo.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="searchStudentByIdCoo" class="vn.fpt.ec.actions.Students"
+			method="search">
+			<result name="SUCCESS">/admin/student/DetailCoo.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
 	</package>

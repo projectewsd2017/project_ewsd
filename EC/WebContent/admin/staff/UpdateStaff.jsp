@@ -80,7 +80,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.html"></s:include>
+		<s:include value="../../index.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
@@ -95,7 +95,7 @@
 						<div class="row">
 							<div class="col-lg-10">
 								<s:form action="saveupdatestaff" id="updateStaff"
-									cssClass="form-horizontal col-xs-12"
+									cssClass="form-horizontal col-xs-12" method="POST"
 									enctype="multipart/form-data" validate="true">
 									<s:textfield name="id" type="hidden"></s:textfield>
 									<div class="form-group">

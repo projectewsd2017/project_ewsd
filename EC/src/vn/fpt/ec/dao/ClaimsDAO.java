@@ -32,7 +32,7 @@ public class ClaimsDAO {
 				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
 				+ "CT.id as cTypeId,CT.ClaimName,CT.Description "
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
-				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id ";
+				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id order by C.createdDate DESC";
 		try {
 			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
@@ -449,7 +449,84 @@ public class ClaimsDAO {
 		return list;
 
 	}
-	
+	public List<Claims> searchClaimByDate(String username,java.util.Date fromDate,java.util.Date toDate) {
+
+		Connection conn = null;
+		List<Claims> list = new ArrayList<Claims>();
+		Claims claims = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String selectString = "SELECT C.id as claimId,C.title,C._content,C.status,C.createdDate,"
+				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
+				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
+				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "CT.id as cTypeId,CT.ClaimName,CT.Description,ST.id as stID "
+				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
+				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id "
+				+ "INNER JOIN Staffs ST ON C.ecCoordinatorID = ST.id "
+				+ " WHERE S.username like ? AND createdDate > ? AND createdDate < ? ";
+		try {
+			conn = DBConnection.getMySQLConnection();
+			pstmt = conn.prepareStatement(selectString);
+			pstmt.setString(1, username);
+			pstmt.setDate(2, new Date(toDate.getTime()));
+			pstmt.setDate(3, new Date(fromDate.getTime()));
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				Staffs staff = new Staffs();
+				staff.setId(rs.getInt("stId"));
+				Students students = new Students();
+				students.setId(rs.getInt("sId"));
+				students.setFirstName(rs.getString("firstName"));
+				students.setLastName(rs.getString("lastName"));
+				students.setDob(rs.getDate("dob"));
+				students.setEmail(rs.getString("email"));
+				students.setAddress(rs.getString("address"));
+				students.setSex(rs.getString("sex"));
+				students.setPhoneNumber(rs.getString("phonenumber"));
+				students.setFatherName(rs.getString("fatherName"));
+				students.setMotherName(rs.getString("motherName"));
+				students.setFatherProfession(rs.getString("fatherProfession"));
+				students.setMotherProfession(rs.getString("motherProfession"));
+				students.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
+				students.setMotherOfWork(rs.getString("motherPlaceOfWork"));
+				Faculties faculties = new Faculties();
+				faculties.setId(rs.getInt("facultyID"));
+				students.setFaculty(faculties);
+
+				ClaimType claimType = new ClaimType();
+				claimType.setId(rs.getInt("cTypeId"));
+				claimType.setClaimName(rs.getString("ClaimName"));
+				claimType.setDescription(rs.getString("Description"));
+
+				claims = new Claims();
+				claims.setId(rs.getInt("claimId"));
+				claims.setContent(rs.getString("_content"));
+				claims.setTitle(rs.getString("title"));
+
+				// claims.setFacultyId(rs.getInt(students.getFacultyId()));
+				claims.setStatus(rs.getString("status"));
+				claims.setCreateDate(rs.getDate("createdDate"));
+				claims.setDueDate(rs.getDate("dueDate"));
+				claims.setStudent(students);
+				claims.setPathEvidence1FileName(rs.getString("pathEvidence1"));
+				claims.setPathEvidence2FileName(rs.getString("pathEvidence2"));
+				claims.setPathEvidence3FileName(rs.getString("pathEvidence3"));
+				claims.setClaimType(claimType);
+				claims.setStaffs(staff);
+				list.add(claims);
+
+			}
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBConnection.close(conn, pstmt, rs);
+		}
+		return list;
+
+	}
 	public int reportByFaculty(){
 		
 		Statement stmt = null;
@@ -479,7 +556,7 @@ public List<Claims> reportByStatus(){
 		Connection conn = null;
 		ResultSet rs = null;
 		Claims claim = null;
-		String countString = "SELECT SUM(C.status='OVERDUE') as countOVERDUE,"
+		String countString = "SELECT SUM(C.status='OVER DUE') as countOVERDUE,"
 				+ "SUM(C.status='PROCESSING') as countPROCESSING,"
 				+ "SUM(C.status='PROCESSED') as countPROCESSED FROM claims C";
 		

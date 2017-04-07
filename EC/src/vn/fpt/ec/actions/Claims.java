@@ -1,6 +1,8 @@
 package vn.fpt.ec.actions;
 
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +74,11 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private int countOVERDUE = 0;
 	private int countPROCESSING = 0;
 	private int countPROCESSED = 0;
+	private String toDateString;
+	private String fromDateString;
+	private Date toDate;
+	private Date fromDate;
+	private boolean checkOverdue = false;
 
 	public void checkAdmin() {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -98,40 +105,45 @@ public class Claims extends ActionSupport implements ValidationAware,
 	}
 
 	public String getAllClaims() {
-		ClaimsDAO claimsDAO = new ClaimsDAO();
-
-		Date today = new Date(System.currentTimeMillis());
-		Calendar c1 = Calendar.getInstance();
-		c1.setTime(today);
-		List<Claims> listClaimsProcess = new ArrayList<Claims>();
-		listClaimsProcess = claimsDAO.getClaimsProcess();
-		for (Claims claims : listClaimsProcess) {
-
-			if (claims.getStatus().equals(processing)
-					&& claims.getDueDate().before(today)) {
-				claims.setStatus(overDue);
-				claimsDAO.update(claims);
-			}
-		}
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
 
 		String s = (String) session.getAttribute("login");
-		int managerId = (int) session.getAttribute("id");
-		StudentsDAO studentsDAO = new StudentsDAO();
-		listStudent = studentsDAO.selectAllStudent();
-		studentName = new ArrayList<String>();
-		for (Students st : listStudent) {
-			
-			String username = st.getUsername();
-			studentName.add("'" + username + "'");
+		if (s != null && !s.equals("student")) {
+			ClaimsDAO claimsDAO = new ClaimsDAO();
+			Date today = new Date(System.currentTimeMillis());
+			Calendar c1 = Calendar.getInstance();
+			c1.setTime(today);
+			List<Claims> listClaimsProcess = new ArrayList<Claims>();
+			listClaimsProcess = claimsDAO.getClaimsProcess();
+			for (Claims claims : listClaimsProcess) {
+
+				if (claims.getStatus().equals(processing)
+						&& claims.getDueDate().before(today)) {
+					claims.setStatus(overDue);
+					claimsDAO.update(claims);
+				}
+			}
+
+			int managerId = (int) session.getAttribute("id");
+			StudentsDAO studentsDAO = new StudentsDAO();
+			listStudent = studentsDAO.selectAllStudent();
+			studentName = new ArrayList<String>();
+			for (Students st : listStudent) {
+
+				String username = st.getUsername();
+				studentName.add("'" + username + "'");
+			}
+			if (s != null && s.equals("admin")) {
+				listClaims = claimsDAO.getAllClaims();
+			} else if (s != null && s.equals("ec")) {
+				listClaims = claimsDAO.selectClaimByStaffId(managerId);
+			}
+			return "SUCCESS";
+		} else {
+			return "error";
 		}
-		if (s != null && s.equals("admin")) {
-			listClaims = claimsDAO.getAllClaims();
-		}else if(s != null && s.equals("ec")){
-			listClaims = claimsDAO.selectClaimByStaffId(managerId);
-		}
-		return "SUCCESS";
+
 	}
 
 	public String add() {
@@ -217,7 +229,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		if (s != null && !s.equals("student")) {
 			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
 			StaffsDAO staffsDAO = new StaffsDAO();
-			listStaffs = staffsDAO.selectAllStaff();
+			listStaffs = staffsDAO.selectCoo();
 			listType = claimTypeDAO.select();
 			checkAdmin();
 			checkEC();
@@ -279,7 +291,11 @@ public class Claims extends ActionSupport implements ValidationAware,
 			emailer.setTo(students.getEmail());
 			emailer.setBody("Your Claim  ,Please Check!");
 			this.setStatus(processed);
+			int managerId = (int) session.getAttribute("id");
+			staffs.setId(managerId);
 		}
+		
+		
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = studentsDAO.findById(studentId);
 		Claims claim = new Claims();
@@ -365,6 +381,9 @@ public class Claims extends ActionSupport implements ValidationAware,
 		} else {
 			checkFile3 = false;
 		}
+		if(status.equalsIgnoreCase(overDue)){
+			checkOverdue = true;
+		}
 		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
 		claimType = claimTypeDAO.findById(claim.getClaimType().getId());
 
@@ -403,18 +422,26 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 	}
 
-	
-	public String searchClaim(){
+	public String searchClaim() {
 		StudentsDAO studentsDAO = new StudentsDAO();
 		listStudent = studentsDAO.searchByUsername(username);
 		return "SUCCESS";
 	}
-	
-	public String reportByStatus(){
+
+	public String searchClaimByDate() throws ParseException {
+		ClaimsDAO claimsDAO = new ClaimsDAO();
+		listClaims = claimsDAO.searchClaimByDate(username, fromDate, toDate);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		fromDate = format.parse(fromDateString);
+		toDate = format.parse(toDateString);
+		return "SUCCESS";
+	}
+
+	public String reportByStatus() {
 		ClaimsDAO claimsDAO = new ClaimsDAO();
 		List<Claims> list = new ArrayList<Claims>();
-		list=claimsDAO.reportByStatus();
-		
+		list = claimsDAO.reportByStatus();
+
 		for (Claims claim : list) {
 			countOVERDUE = claim.getCountOVERDUE();
 			countPROCESSED = claim.getCountPROCESSED();
@@ -422,6 +449,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		}
 		return "SUCCESS";
 	}
+
 	/*--------------getter & setter & constructor-----------*/
 	public Claims() {
 		// TODO Auto-generated constructor stub
@@ -730,6 +758,46 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public void setCountPROCESSED(int countPROCESSED) {
 		this.countPROCESSED = countPROCESSED;
+	}
+
+	public String getToDateString() {
+		return toDateString;
+	}
+
+	public void setToDateString(String toDateString) {
+		this.toDateString = toDateString;
+	}
+
+	public String getFromDateString() {
+		return fromDateString;
+	}
+
+	public void setFromDateString(String fromDateString) {
+		this.fromDateString = fromDateString;
+	}
+
+	public Date getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(Date toDate) {
+		this.toDate = toDate;
+	}
+
+	public Date getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(Date fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public boolean isCheckOverdue() {
+		return checkOverdue;
+	}
+
+	public void setCheckOverdue(boolean checkOverdue) {
+		this.checkOverdue = checkOverdue;
 	}
 
 }

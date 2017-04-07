@@ -21,8 +21,6 @@ public class Login extends ActionSupport implements SessionAware {
 	private int roleId;
 	private int id;
 	private String email;
-	int a = 1;
-	String b = "bánh mỳ";
 	private SessionMap<String, Object> sessionmap;
 
 	public String login() {
@@ -32,7 +30,8 @@ public class Login extends ActionSupport implements SessionAware {
 	public String loginUser() throws ClassNotFoundException, SQLException {
 		Login login = new Login();
 		LoginDAO loginDAO = new LoginDAO();
-
+		Claims claims = new Claims();
+		
 		login = loginDAO.loginStudent(username, pass);
 		if (login.username != null) {
 			sessionmap.put("login", "student");
@@ -53,13 +52,19 @@ public class Login extends ActionSupport implements SessionAware {
 				sessionmap.put("pass", pass);
 				if (login.getRoleId() == 1) {
 					sessionmap.put("login", "admin");
+					claims.checkAdmin();
+					claims.checkEC();
 					return "ADMIN";
 				} else if (login.getRoleId() == 2) {
+					claims.checkAdmin();
+					claims.checkEC();
 					sessionmap.put("login", "ec");
 					return "EC";
 				}
 			}
 		}
+		claims.checkAdmin();
+		claims.checkEC();
 		return "LOGINERROR";
 	}
 
@@ -81,14 +86,6 @@ public class Login extends ActionSupport implements SessionAware {
 		this.username = username;
 		this.pass = pass;
 		this.roleId = roleId;
-	}
-
-	public String getB() {
-		return b;
-	}
-
-	public void setB(String b) {
-		this.b = b;
 	}
 
 	public String getUsername() {
@@ -140,12 +137,6 @@ public class Login extends ActionSupport implements SessionAware {
 		sessionmap.put("login", "true");
 	}
 
-	public int getA() {
-		return a;
-	}
-
-	public void setA(int a) {
-		this.a = a;
-	}
+	
 	
 }

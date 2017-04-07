@@ -97,7 +97,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.jsp"></s:include>
+		<s:include value="../../indexCoo.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
@@ -111,7 +111,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-6">
-								<s:form action="saveupdateclaim" id="updateClaim"
+								<s:form action="saveupdateclaimCoo" id="updateClaim"
 									cssClass="form-horizontal col-xs-12"
 									enctype="multipart/form-data" validate="true">
 									<s:textfield name="id" type="hidden"></s:textfield>
@@ -139,18 +139,18 @@
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Title:</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control" id="title" readonly="readonly"
+											<input type="text" class="form-control" id="title"
 												name="title" placeholder="Enter Title" value="${title }">
 										</div>
 									</div>
 
 
 
-									<div class="form-group">
+									<div class="form-group" style="">
 										<label class="control-label col-sm-2" for="claimtype">Type:</label>
 										<div class="col-sm-10">
-											<s:select class="form-control" id="claimtype" 
-												label="Claim Type" list="%{listType}" theme="simple" 
+											<s:select class="form-control" id="claimtype"
+												label="Claim Type" list="%{listType}" theme="simple"
 												listKey="%{id}" style="width:100%" listValue="%{claimName}"
 												value="%{id}" name="claimType.id" />
 										</div>
@@ -161,7 +161,7 @@
 										<label class="control-label col-sm-2" for="content">Content:</label>
 										<div class="col-sm-10">
 
-											<textarea class="form-control" id="content" rows="5" readonly="readonly"
+											<textarea class="form-control" id="content" rows="5"
 												name="content" placeholder="Enter content" maxlength="300">${content }</textarea>
 										</div>
 									</div>
