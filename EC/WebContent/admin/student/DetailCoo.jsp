@@ -6,11 +6,20 @@
 <head>
 <script src="resources/vendor/jquery/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Staff - ${id }</title>
+<title>Student - ${id }</title>
+<style>
+#hide {
+	display: none;
+}
+
+#show {
+	display: block;
+}
+</style>
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.jsp"></s:include>
+		<s:include value="../../indexCoo.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
@@ -18,7 +27,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-lg-10">
-								<s:form class="form-horizontal" enctype="multipart/form-data" method="POST">
+								<s:form class="form-horizontal" enctype="multipart/form-data">
 
 									<div class="form-group">
 										<label class="col-sm-4 text-right" for="fullname">Full
@@ -115,46 +124,46 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-4 text-right" for="role">Role
+										<label class="col-sm-4 text-right" for="fatherProfession">Father Profession
 											:</label>
 										<div class="col-sm-6">
 
-											<s:property value="role.roleName" />
+											<s:property value="fatherProfession" />
 
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-4 text-right" for="placeOfBirth">Place Of Birth
+										<label class="col-sm-4 text-right" for="motherProfession">Mother Profession
 											:</label>
 										<div class="col-sm-6">
 
-											<s:property value="placeOfBirth" />
+											<s:property value="motherProfession" />
 
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-4 text-right" for="fatherPlaceOfWork">Father Place Of Work
+										<label class="col-sm-4 text-right" for="fatherOfWork">Father Place Of Work
 											:</label>
 										<div class="col-sm-6">
 
-											<s:property value="fatherPlaceOfWork" />
+											<s:property value="fatherOfWork" />
 
 										</div>
 									</div>
 
 									<div class="form-group">
-										<label class="col-sm-4 text-right" for="motherPlaceOfWork">Mother Place OfWork
+										<label class="col-sm-4 text-right" for="motherOfWork">Mother Place OfWork
 											:</label>
 										<div class="col-sm-6">
 
-											<s:property value="motherPlaceOfWork" />
+											<s:property value="motherOfWork" />
 
 										</div>
 									</div>
 							</div>
-							<s:url action="updateStaff" var="updateid">
+							<s:url action="updateStudent" var="updateid">
 								<s:param name="id">
 									<s:property value="id" />
 								</s:param>
@@ -169,9 +178,6 @@
 								</s:param>
 								<s:param name="dob">
 									<s:property value="dob" />
-								</s:param>
-								<s:param name="placeOfBirth">
-									<s:property value="placeOfBirth" />
 								</s:param>
 								<s:param name="email">
 									<s:property value="email" />
@@ -191,34 +197,35 @@
 								<s:param name="motherName">
 									<s:property value="motherName" />
 								</s:param>
-								<s:param name="motherName">
-									<s:property value="motherName" />
+								<s:param name="fatherProfession">
+									<s:property value="fatherProfession" />
 								</s:param>
-								
-							
-								<s:param name="fatherPlaceOfWork">
-									<s:property value="fatherPlaceOfWork" />
+								<s:param name="motherProfession">
+									<s:property value="motherProfession" />
 								</s:param>
-								<s:param name="motherPlaceOfWork">
-									<s:property value="motherPlaceOfWork" />
+								<s:param name="fatherOfWork">
+									<s:property value="fatherOfWork" />
+								</s:param>
+								<s:param name="motherOfWork">
+									<s:property value="motherOfWork" />
 								</s:param>
 								<s:param name="faculty.facutlyName">
 									<s:property value="faculty.facutlyName" />
 								</s:param>
 
 							</s:url>
-							<s:url action="deleteStaff" var="deleteid">
+							<s:url action="deleteStudent" var="deleteid">
 								<s:param name="id">
 									<s:property value="id" />
 								</s:param>
 							</s:url>
-							<div style="text-align: center">
+							<div style="text-align: right" id="${ admin  ? 'show' : 'hide' }">
 								<button class="btn btn-default">
 									<s:a href="%{updateid}">Update</s:a>
 								</button>
-								&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+								&nbsp
 
-								<button class="btn btn-default">
+								<button class="btn btn-default" >
 									<s:a href="%{deleteid}">Delete</s:a>
 								</button>
 							</div>

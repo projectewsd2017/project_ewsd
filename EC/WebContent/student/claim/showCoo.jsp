@@ -19,7 +19,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.jsp"></s:include>
+		<s:include value="../../indexCoo.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-10">
@@ -76,7 +76,7 @@
 										<label class="col-sm-4 text-right" for="createDate">Created
 											Date :</label>
 										<div class="col-sm-6">
-											<s:property value="createDate"/>
+											<s:property value="createDate" />
 
 										</div>
 									</div>
@@ -97,6 +97,16 @@
 
 											<s:property value="status" />
 
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label class="col-sm-4 text-right" for="comment">Comment
+											:</label>
+										<div class="col-sm-6">
+											<textarea class="form-control" rows="5" id="content"
+												readonly="readonly" name="comment"
+												placeholder="Enter Content">${content}</textarea>
 										</div>
 									</div>
 
@@ -130,7 +140,7 @@
 
 									</div>
 							</div>
-							<s:url action="updateClaim" var="updateid">
+							<s:url action="updateClaimCoo" var="updateid">
 								<s:param name="id">
 									<s:property value="id" />
 								</s:param>
@@ -160,9 +170,19 @@
 								</s:param>
 
 							</s:url>
+							<s:url action="deleteClaimCo" var="deleteid">
+								<s:param name="id">
+									<s:property value="id" />
+								</s:param>
+							</s:url>
+							
 							<div style="text-align: center" id="${ checkOverdue  ? 'hide' : 'show' }">
 								<button class="btn btn-default">
 									<s:a href="%{updateid}">Update</s:a>
+								</button>
+								&nbsp&nbsp&nbsp&nbsp
+								<button class="btn btn-default">
+									<s:a href="%{deleteid}">Delete</s:a>
 								</button>
 							</div>
 							</s:form>

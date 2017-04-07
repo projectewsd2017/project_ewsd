@@ -50,7 +50,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.jsp"></s:include>
+		<s:include value="../../indexCoo.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-10">
@@ -95,13 +95,8 @@
 										<td><s:property value="createDate" /></td>
 										<td><s:property value="dueDate" /></td>
 
-										<s:url action="deleteClaim" var="deleteid">
-											<s:param name="id">
-												<s:property value="id" />
-											</s:param>
-										</s:url>
-										<td style="text-align: center"><s:a href="%{deleteid}">Delete</s:a></td>
-										<s:url action="searchById" var="searchById">
+										
+										<s:url action="searchByIdCoo" var="searchById">
 											<s:param name="id">
 												<s:property value="id" />
 											</s:param>

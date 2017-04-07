@@ -2,6 +2,11 @@ package vn.fpt.ec.actions;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
 import vn.fpt.ec.dao.ClaimTypeDAO;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -18,44 +23,100 @@ public class ClaimType extends ActionSupport {
 	private List<ClaimType> listType;
 
 	public String getAllType() {
-		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
-		listType = claimTypeDAO.select();
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
 
-		return "SUCCESS";
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			listType = claimTypeDAO.select();
+
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public String add() {
-		return "SUCCESS";
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public String addType() {
-		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
-		claimTypeDAO.insert(this);
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
 
-		return "SUCCESS";
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			claimTypeDAO.insert(this);
+
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public String update() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
 
-		return "SUCCESS";
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public String updateType() {
-		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
-		claimTypeDAO.update(this);
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
 
-		return "SUCCESS";
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			claimTypeDAO.update(this);
+
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public String deleteType() {
-		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
-		claimTypeDAO.delete(id);
-		return "SUCCESS";
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
+			claimTypeDAO.delete(id);
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
 	}
 
 	public String search() {
-		searchById();
-		return "SUCCESS";
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+
+		String s = (String) session.getAttribute("login");
+		if (s != null && s.equals("admin")) {
+			searchById();
+			return "SUCCESS";
+		} else {
+			return "error";
+		}
+
 	}
 
 	public ClaimType searchById() {
@@ -68,7 +129,6 @@ public class ClaimType extends ActionSupport {
 
 		return claimType;
 	}
-
 
 	/*--------------getter & setter & constructor-----------*/
 	public ClaimType() {

@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../home.html"></s:include>
+		<s:include value="../../home.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">

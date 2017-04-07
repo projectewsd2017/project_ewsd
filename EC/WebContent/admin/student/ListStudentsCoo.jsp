@@ -7,10 +7,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Student - List Student</title>
 <script src="resources/vendor/jquery/jquery.min.js"></script>
+<style>
+#hide {
+	display: none;
+}
+
+#show {
+	display: block;
+}
+</style>
 </head>
 <body>
 	<div id="wrapper">
-		<s:include value="../../index.jsp"></s:include>
+		<s:include value="../../indexCoo.jsp"></s:include>
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
@@ -58,8 +67,8 @@
 													<s:property value="id" />
 												</s:param>
 											</s:url>
-											<td style="text-align: center"><s:a href="%{deleteid}">Delete</s:a></td>
-											<s:url action="searchStudentById" var="searchById">
+											<td style="text-align: center" id="${ admin  ? 'show' : 'hide' }"><s:a href="%{deleteid}">Delete</s:a></td>
+											<s:url action="searchStudentByIdCoo" var="searchById">
 												<s:param name="id">
 													<s:property value="id" />
 												</s:param>

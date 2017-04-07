@@ -6,7 +6,7 @@
 <style>
 body {
 	background-image: url("paper.gif");
-	background-color: red;
+	background-color: #367fa9;
 }
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
