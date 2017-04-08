@@ -29,7 +29,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		SessionAware {
 
 	/**
-	 * 
+	 * k
 	 */
 	private static final long serialVersionUID = -4954629570486141056L;
 	private final String open = "OPEN";
