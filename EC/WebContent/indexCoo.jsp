@@ -60,6 +60,8 @@
 			style="margin-bottom: 0">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="getAllClaimsforCoo">DHHBT University</a>
+
+
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span> <span
