@@ -112,7 +112,7 @@
 		</action>
 		<action name="searchClaimByDate" class="vn.fpt.ec.actions.Staffs"
 			method="searchClaimByDate">
-			
+
 			<result name="SUCCESS">/student/claim/ListClaims.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
@@ -167,6 +167,12 @@
 
 
 
+
+
+
+		
+
+
 		<action name="getAllStudent" class="vn.fpt.ec.actions.Students"
 			method="getAllStudent">
 			<result name="SUCCESS">/admin/student/ListStudents.jsp</result>
@@ -189,6 +195,9 @@
 
 		<action name="updateStudent" class="vn.fpt.ec.actions.Students"
 			method="update">
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
 			<result name="SUCCESS">/admin/student/UpdateStudent.jsp</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
@@ -207,6 +216,57 @@
 			<result name="SUCCESS" type="redirectAction">getAllStudent</result>
 			<result name="error">accessdenied.jsp</result>
 		</action>
+		
+		
+		<action name="getAllAcademic" class="vn.fpt.ec.actions.Academics"
+			method="getAllAcademics">
+			<result name="SUCCESS">/admin/academics/ListAcademic.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="addAcademic" class="vn.fpt.ec.actions.Academics"
+			method="add">
+			<result name="SUCCESS">/admin/academics/AddAcademic.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="saveaddacademic" class="vn.fpt.ec.actions.Academics"
+			method="addAcademic">
+
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="SUCCESS" type="redirectAction">getAllAcademic</result>
+			<result name="input">/admin/academics/AddAcademic.jsp</result>
+		</action>
+
+		<action name="updateAcademic" class="vn.fpt.ec.actions.Academics"
+			method="update">
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="SUCCESS">/admin/academics/UpdateAcademic.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+
+		<action name="saveupdateacademic" class="vn.fpt.ec.actions.Academics"
+			method="updateAcademic">
+			<interceptor-ref name="params" />
+			<interceptor-ref name="validation" />
+			<interceptor-ref name="workflow" />
+			<result name="input">/admin/academics/UpdateAcademic.jsp</result>
+			<result name="SUCCESS" type="redirectAction">getAllAcademic</result>
+		</action>
+
+		<action name="deleteAcademic" class="vn.fpt.ec.actions.Academics"
+			method="deleteAcademic">
+			<result name="SUCCESS" type="redirectAction">getAllAcademic</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		<action name="searchByIdAcademic" class="vn.fpt.ec.actions.Academics"
+			method="search">
+			<result name="SUCCESS">/admin/academics/Detail.jsp</result>
+			<result name="error">accessdenied.jsp</result>
+		</action>
+		
 
 		<action name="searchStudentById" class="vn.fpt.ec.actions.Students"
 			method="search">

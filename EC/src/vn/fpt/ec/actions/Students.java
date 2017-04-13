@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.struts2.ServletActionContext;
 
+import vn.fpt.ec.dao.AcademicDAO;
 import vn.fpt.ec.dao.FacultyDAO;
 import vn.fpt.ec.dao.StudentsDAO;
 
@@ -43,6 +44,8 @@ public class Students extends ActionSupport {
 	private List<Students> listAllStudents;
 	private List<Faculties> listAllFaculty;
 	private List<Students> listStudent;
+	private List<Academics> listAcademics;
+	private Academics academics;
 
 	public String getAllStudent() {
 		StudentsDAO studentsDAO = new StudentsDAO();
@@ -61,6 +64,9 @@ public class Students extends ActionSupport {
 			FacultyDAO facultyDAO = new FacultyDAO();
 			listAllFaculty = new ArrayList<Faculties>();
 			listAllFaculty = facultyDAO.select();
+			AcademicDAO academicDAO = new AcademicDAO();
+			listAcademics = new ArrayList<Academics>();
+			listAcademics = academicDAO.select();
 			return "SUCCESS";
 		} else {
 			return "error";
@@ -93,6 +99,9 @@ public class Students extends ActionSupport {
 			FacultyDAO facultyDAO = new FacultyDAO();
 			listAllFaculty = new ArrayList<Faculties>();
 			listAllFaculty = facultyDAO.select();
+			AcademicDAO academicDAO = new AcademicDAO();
+			listAcademics = new ArrayList<Academics>();
+			listAcademics = academicDAO.select();
 			Students st = new Students();
 			StudentsDAO sDao = new StudentsDAO();
 			st = sDao.findById(id);
@@ -165,11 +174,13 @@ public class Students extends ActionSupport {
 		motherOfWork = student.getMotherOfWork();
 		FacultyDAO facultyDAO = new FacultyDAO();
 		faculty = facultyDAO.findById(student.getFaculty().getId());
+		AcademicDAO academicDAO = new AcademicDAO();
+		academics = academicDAO.findById(student.getAcademics().getId());
 
 		return student;
 	}
-	
-	public String searchST(){
+
+	public String searchST() {
 		return "SUCCESS";
 	}
 
@@ -351,6 +362,21 @@ public class Students extends ActionSupport {
 	public void setListStudent(List<Students> listStudent) {
 		this.listStudent = listStudent;
 	}
-	
+
+	public List<Academics> getListAcademics() {
+		return listAcademics;
+	}
+
+	public void setListAcademics(List<Academics> listAcademics) {
+		this.listAcademics = listAcademics;
+	}
+
+	public Academics getAcademics() {
+		return academics;
+	}
+
+	public void setAcademics(Academics academics) {
+		this.academics = academics;
+	}
 
 }

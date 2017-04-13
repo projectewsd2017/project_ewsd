@@ -186,6 +186,16 @@
 										</div>
 
 									</div>
+									<div class="form-group" style="">
+										<label class="control-label col-sm-4" for="academic">Academics:</label>
+										<div class="col-sm-6">
+											<s:select class="form-control" id="academic"
+												list="%{listAcademics}" theme="simple" listKey="%{id}"
+												style="width:100%" listValue="%{name}" value="%{id}"
+												name="academics.id" />
+										</div>
+
+									</div>
 
 									<div class="form-group">
 										<label class="control-label col-sm-4" for="fatherName">Father

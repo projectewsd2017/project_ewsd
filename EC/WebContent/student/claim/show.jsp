@@ -160,7 +160,7 @@
 								</s:param>
 
 							</s:url>
-							<div style="text-align: center" id="${ checkOverdue  ? 'hide' : 'show' }">
+							<div style="text-align: center">
 								<button class="btn btn-default">
 									<s:a href="%{updateid}">Update</s:a>
 								</button>

@@ -144,21 +144,21 @@
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
 											<input type="file" class="form-control" id="pathEvidence1"
-												name="pathEvidence1"> <span id="file_error"></span>
+											maxlength="100"	name="pathEvidence1"> <span id="file_error"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
 											<input type="file" class="form-control" id="pathEvidence2"
-												name="pathEvidence2"> <span id="file_error"></span>
+												maxlength="100" name="pathEvidence2"> <span id="file_error"></span>
 										</div>
 									</div>
 									<div class="form-group">
 										<label class="control-label col-sm-2" for="title">Evidence:</label>
 										<div class="col-sm-10">
 											<input type="file" class="form-control" id="pathEvidence3"
-												name="pathEvidence3"> <span id="file_error"></span>
+												maxlength="100" name="pathEvidence3"> <span id="file_error"></span>
 										</div>
 									</div>
 

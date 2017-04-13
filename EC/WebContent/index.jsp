@@ -113,7 +113,12 @@
 
 
 						</ul></li>
-
+					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>Academics<span
+							class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li><a href="getAllAcademic">Academics List</a></li>
+							<li><a href="addAcademic">Add Academic</a></li>
+						</ul></li>
 					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>Student<span
 							class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
@@ -122,19 +127,19 @@
 
 
 						</ul></li>
-						
-						<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>Staff<span
+
+					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>Staff<span
 							class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li><a href="getAllStaff">Staff List</a></li>
 							<li><a href="addStaff">Add Staff</a></li>
 						</ul></li>
-						
-						<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>Report<span
+
+					<li><a href="#"><i class="fa fa-sitemap fa-fw"></i>Report<span
 							class="fa arrow"></span></a>
 						<ul class="nav nav-second-level">
 							<li><a href="reportByStatus">Report By Status</a></li>
-							
+
 						</ul></li>
 
 
@@ -148,11 +153,11 @@
 
 	</div>
 	<!-- jQuery -->
-	
+
 	<script src="resources/vendor/jquery/jquery.validate.js"></script>
 	<script src="resources/vendor/jquery/jquery.validate.min.js"></script>
 	<script src="resources/vendor/jquery/additional-methods.js"></script>
-	
+
 	<!-- Bootstrap Core JavaScript -->
 	<script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
 

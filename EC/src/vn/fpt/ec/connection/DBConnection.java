@@ -52,7 +52,7 @@ public class DBConnection {
 		String hostName = "localhost";
 		String dbName = "ProjectEWSD";
 		String userName = "root";
-		String password = "root";
+		String password = "123456";
 		return getMySQLConnection(hostName, dbName, userName, password);
 	}
 

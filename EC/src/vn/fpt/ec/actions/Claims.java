@@ -17,6 +17,7 @@ import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.dispatcher.SessionMap;
 import org.apache.struts2.interceptor.SessionAware;
 
+import vn.fpt.ec.dao.AcademicDAO;
 import vn.fpt.ec.dao.ClaimTypeDAO;
 import vn.fpt.ec.dao.ClaimsDAO;
 import vn.fpt.ec.dao.StaffsDAO;
@@ -79,6 +80,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 	private Date toDate;
 	private Date fromDate;
 	private boolean checkOverdue = false;
+	private Academics academics;
 
 	public void checkAdmin() {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -117,9 +119,12 @@ public class Claims extends ActionSupport implements ValidationAware,
 			List<Claims> listClaimsProcess = new ArrayList<Claims>();
 			listClaimsProcess = claimsDAO.getClaimsProcess();
 			for (Claims claims : listClaimsProcess) {
-
+				AcademicDAO academicDAO = new AcademicDAO();
+				Academics academics = new Academics();
+				academics = academicDAO.findById(claims.getAcademics().getId());
 				if (claims.getStatus().equals(processing)
-						&& claims.getDueDate().before(today)) {
+						&& claims.getDueDate()
+								.after(academics.getClosureDate())) {
 					claims.setStatus(overDue);
 					claimsDAO.update(claims);
 				}
@@ -276,30 +281,38 @@ public class Claims extends ActionSupport implements ValidationAware,
 		Emailer emailer = new Emailer();
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-
+		Claims claim = new Claims();
+		claim = claimsDAO.findById(id);
 		String s = (String) session.getAttribute("login");
 		if (s != null && s.equals("admin")) {
 			st = dao.findById(staffs.getId());
 			emailer.setTo(st.getEmail());
 			emailer.setBody("You Have New Claim Of Student ID:" + studentId
 					+ ",Please Check!");
-			this.setStatus(processing);
+			if (!claim.getStatus().equals(overDue)) {
+				this.setStatus(processing);
+			}else{
+				this.setStatus(overDue);
+			}
+			
 		} else if (s != null && s.equals("ec")) {
 			StudentsDAO studentsDAO = new StudentsDAO();
 			Students students = new Students();
 			students = studentsDAO.findById(studentId);
 			emailer.setTo(students.getEmail());
 			emailer.setBody("Your Claim  ,Please Check!");
-			this.setStatus(processed);
+			if (!claim.getStatus().equals(overDue)) {
+				this.setStatus(processed);
+			}else{
+				this.setStatus(overDue);
+			}
 			int managerId = (int) session.getAttribute("id");
 			staffs.setId(managerId);
 		}
-		
-		
+
 		StudentsDAO studentsDAO = new StudentsDAO();
 		student = studentsDAO.findById(studentId);
-		Claims claim = new Claims();
-		claim = claimsDAO.findById(id);
+		
 		try {
 
 			String filePath = ServletActionContext.getServletContext()
@@ -381,7 +394,7 @@ public class Claims extends ActionSupport implements ValidationAware,
 		} else {
 			checkFile3 = false;
 		}
-		if(status.equalsIgnoreCase(overDue)){
+		if (status.equalsIgnoreCase(overDue)) {
 			checkOverdue = true;
 		}
 		ClaimTypeDAO claimTypeDAO = new ClaimTypeDAO();
@@ -798,6 +811,14 @@ public class Claims extends ActionSupport implements ValidationAware,
 
 	public void setCheckOverdue(boolean checkOverdue) {
 		this.checkOverdue = checkOverdue;
+	}
+
+	public Academics getAcademics() {
+		return academics;
+	}
+
+	public void setAcademics(Academics academics) {
+		this.academics = academics;
 	}
 
 }

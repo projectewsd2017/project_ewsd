@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.fpt.ec.actions.Academics;
 import vn.fpt.ec.actions.Faculties;
 import vn.fpt.ec.actions.Students;
 import vn.fpt.ec.connection.DBConnection;
@@ -23,8 +24,11 @@ public class StudentsDAO {
 		Students students = null;
 		String selectString = "SELECT S.id as sId,S.username,S.password,S.firstName,S.lastName,S.dob,"
 				+ "S.email,S.address,S.sex,S.facultyID,S.phonenumber,S.fatherName,S.motherName,"
-				+ "S.fatherProfession,S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,"
-				+ "F.id as fId,F.facutlyName FROM Students S INNER JOIN Faculties F ON S.facultyID = F.id";
+				+ "S.fatherProfession,S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.academicID, "
+				+ "F.id as fId,F.facutlyName ,"
+				+ "A.id as aId,A.name as academicName,A.name,A.openDate,A.closureDate "
+				+ "FROM Students S INNER JOIN Faculties F ON S.facultyID = F.id "
+				+ "INNER JOIN Academics A ON S.academicID = A.id";
 		try {
 			conn = DBConnection.getMySQLConnection();
 			stmt = conn.createStatement();
@@ -33,6 +37,12 @@ public class StudentsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("fId"));
 				faculties.setFacutlyName(rs.getString("facutlyName"));
+
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("aId"));
+				academics.setOpenDate(rs.getDate("openDate"));
+				academics.setClosureDate(rs.getDate("closureDate"));
+				academics.setName(rs.getString("name"));
 
 				students = new Students();
 				students.setId(rs.getInt("sId"));
@@ -51,6 +61,7 @@ public class StudentsDAO {
 				students.setFatherOfWork(rs.getString("fatherPlaceOfWork"));
 				students.setMotherOfWork(rs.getString("motherPlaceOfWork"));
 				students.setFaculty(faculties);
+				students.setAcademics(academics);
 
 				list.add(students);
 			}
@@ -66,8 +77,8 @@ public class StudentsDAO {
 		Connection conn = null;
 		String insertString = "INSERT INTO Students(username,password,firstName,lastName,dob,"
 				+ "email,address,sex,facultyID,phonenumber,fatherName,motherName,fatherProfession,"
-				+ "motherProfession,fatherPlaceOfWork,motherPlaceOfWork) "
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "motherProfession,fatherPlaceOfWork,motherPlaceOfWork,academicID) "
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		PreparedStatement pstmt = null;
 
 		try {
@@ -89,6 +100,7 @@ public class StudentsDAO {
 			pstmt.setString(14, s.getMotherProfession());
 			pstmt.setString(15, s.getFatherOfWork());
 			pstmt.setString(16, s.getMotherOfWork());
+			pstmt.setInt(17, s.getAcademics().getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
@@ -104,7 +116,7 @@ public class StudentsDAO {
 		Connection conn = null;
 		String updateString = "UPDATE Students SET username = ?,firstName = ?,lastName = ?,dob = ?,"
 				+ "email = ?,address = ?,sex = ?,facultyID = ?,phonenumber = ?,fatherName = ?,motherName = ?,fatherProfession = ?,"
-				+ "motherProfession = ?,fatherPlaceOfWork = ?,motherPlaceOfWork = ? WHERE id = ?";
+				+ "motherProfession = ?,fatherPlaceOfWork = ?,motherPlaceOfWork = ?,academicID = ? WHERE id = ?";
 
 		PreparedStatement pstmt = null;
 
@@ -127,7 +139,8 @@ public class StudentsDAO {
 			pstmt.setString(13, s.getMotherProfession());
 			pstmt.setString(14, s.getFatherOfWork());
 			pstmt.setString(15, s.getMotherOfWork());
-			pstmt.setInt(16, s.getId());
+			pstmt.setInt(16, s.getAcademics().getId());
+			pstmt.setInt(17, s.getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
@@ -173,6 +186,10 @@ public class StudentsDAO {
 				student.setId(rs.getInt("id"));
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
+
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
+				student.setAcademics(academics);
 				student.setFaculty(faculties);
 				student.setUsername(rs.getString("username"));
 				student.setPassword(rs.getString("password"));
@@ -215,6 +232,9 @@ public class StudentsDAO {
 				student.setId(rs.getInt("id"));
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
+				student.setAcademics(academics);
 				student.setFaculty(faculties);
 				student.setUsername(rs.getString("username"));
 				student.setPassword(rs.getString("password"));
@@ -259,9 +279,11 @@ public class StudentsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
 				student.setFaculty(faculties);
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
 				student.setUsername(rs.getString("username"));
 				student.setPassword(rs.getString("password"));
-
+				student.setAcademics(academics);
 				student.setFirstName(rs.getString("firstName"));
 				student.setLastName(rs.getString("lastName"));
 				student.setDob(rs.getDate("dob"));

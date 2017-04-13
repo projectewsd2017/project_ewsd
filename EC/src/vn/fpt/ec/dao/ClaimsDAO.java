@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import vn.fpt.ec.actions.Academics;
 import vn.fpt.ec.actions.ClaimType;
 import vn.fpt.ec.actions.Claims;
 import vn.fpt.ec.actions.Faculties;
@@ -29,7 +30,7 @@ public class ClaimsDAO {
 				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
 				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
 				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
-				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,S.academicID,"
 				+ "CT.id as cTypeId,CT.ClaimName,CT.Description "
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
 				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id order by C.createdDate DESC";
@@ -57,7 +58,10 @@ public class ClaimsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
 				students.setFaculty(faculties);
-
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
+				students.setAcademics(academics);
+				
 				ClaimType claimType = new ClaimType();
 				claimType.setId(rs.getInt("cTypeId"));
 				claimType.setClaimName(rs.getString("ClaimName"));
@@ -102,7 +106,7 @@ public class ClaimsDAO {
 				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
 				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
 				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
-				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,S.academicID,"
 				+ "CT.id as cTypeId,CT.ClaimName,CT.Description,ST.id as stID "
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
 				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id "
@@ -132,7 +136,9 @@ public class ClaimsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
 				students.setFaculty(faculties);
-
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
+				students.setAcademics(academics);
 				ClaimType claimType = new ClaimType();
 				claimType.setId(rs.getInt("cTypeId"));
 				claimType.setClaimName(rs.getString("ClaimName"));
@@ -153,6 +159,7 @@ public class ClaimsDAO {
 				claims.setPathEvidence3FileName(rs.getString("pathEvidence3"));
 				claims.setClaimType(claimType);
 				claims.setStaffs(staff);
+				claims.setAcademics(academics);
 				list.add(claims);
 
 			}
@@ -170,8 +177,8 @@ public class ClaimsDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String insertString = "INSERT INTO Claims(studentID,title,_content,ecCoordinatorID,status,"
-				+ "createdDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID,facutlyID) "
-				+ "values (?,?,?,?,?,?,?,?,?,?,?) ";
+				+ "createdDate,pathEvidence1,pathEvidence2,pathEvidence3,claimTypeID,facutlyID,academicID) "
+				+ "values (?,?,?,?,?,?,?,?,?,?,?,?) ";
 
 		try {
 			conn = DBConnection.getMySQLConnection();
@@ -188,6 +195,7 @@ public class ClaimsDAO {
 			pstmt.setString(9, c.getPathEvidence3FileName());
 			pstmt.setInt(10, c.getClaimType().getId());
 			pstmt.setInt(11, c.getStudent().getFaculty().getId());
+			pstmt.setInt(12, c.getStudent().getAcademics().getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
@@ -211,7 +219,7 @@ public class ClaimsDAO {
 
 			builder.append(",pathEvidence2 = ? ");
 
-			builder.append(",pathEvidence3 = ? ");
+			builder.append(",pathEvidence3 = ? ,academicID = ? ");
 
 			builder.append("WHERE id =?");
 			String insertString = builder.toString();
@@ -233,8 +241,8 @@ public class ClaimsDAO {
 			pstmt.setString(12, c.getPathEvidence2FileName());
 
 			pstmt.setString(13, c.getPathEvidence3FileName());
-
-			pstmt.setInt(14, c.getId());
+			pstmt.setInt(14, c.getStudent().getAcademics().getId());
+			pstmt.setInt(15, c.getId());
 
 			pstmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
@@ -313,7 +321,7 @@ public class ClaimsDAO {
 				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
 				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
 				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
-				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,S.academicID,"
 				+ "CT.id as cTypeId,CT.ClaimName,CT.Description "
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
 				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id"
@@ -342,6 +350,9 @@ public class ClaimsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
 				students.setFaculty(faculties);
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
+				students.setAcademics(academics);
 
 				ClaimType claimType = new ClaimType();
 				claimType.setId(rs.getInt("cTypeId"));
@@ -384,7 +395,7 @@ public class ClaimsDAO {
 				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
 				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
 				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
-				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,S.academicID,"
 				+ "CT.id as cTypeId,CT.ClaimName,CT.Description,ST.id as stID "
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
 				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id "
@@ -416,6 +427,9 @@ public class ClaimsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
 				students.setFaculty(faculties);
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
+				students.setAcademics(academics);
 
 				ClaimType claimType = new ClaimType();
 				claimType.setId(rs.getInt("cTypeId"));
@@ -460,7 +474,7 @@ public class ClaimsDAO {
 				+ "C.dueDate,C.ecCoordinatorID,C.pathEvidence1,C.pathEvidence2,C.pathEvidence3, "
 				+ "S.id as sId,S.firstName,S.lastName,S.dob,S.email,S.address,S.sex,"
 				+ "S.phonenumber,S.fatherName,S.motherName,S.fatherProfession,"
-				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,"
+				+ "S.motherProfession,S.fatherPlaceOfWork,S.motherPlaceOfWork,S.facultyID,S.academicID,"
 				+ "CT.id as cTypeId,CT.ClaimName,CT.Description,ST.id as stID "
 				+ "FROM Claims C INNER JOIN Students S ON C.studentID = S.id "
 				+ "INNER JOIN ClaimType CT on C.claimTypeID = CT.id "
@@ -494,6 +508,9 @@ public class ClaimsDAO {
 				Faculties faculties = new Faculties();
 				faculties.setId(rs.getInt("facultyID"));
 				students.setFaculty(faculties);
+				Academics academics = new Academics();
+				academics.setId(rs.getInt("academicID"));
+				students.setAcademics(academics);
 
 				ClaimType claimType = new ClaimType();
 				claimType.setId(rs.getInt("cTypeId"));

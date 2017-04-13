@@ -48,6 +48,15 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label class="col-sm-4 text-right" for="academic">Academic
+											:</label>
+										<div class="col-sm-6">
+
+											<s:property value="academics.name" />
+
+										</div>
+									</div>
+									<div class="form-group">
 										<label class="col-sm-4 text-right" for="dob">Date
 											Of Birth :</label>
 										<div class="col-sm-6">
